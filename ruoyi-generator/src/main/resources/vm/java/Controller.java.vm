@@ -1,6 +1,7 @@
 package ${basePackage}.web.controller.${moduleName};
 
 import java.util.List;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,107 +22,98 @@ import com.ruoyi.common.utils.ExcelUtil;
 
 /**
  * ${tableComment} 信息操作处理
- * 
+ *
  * @author ${author}
  * @date ${datetime}
  */
 @Controller
 @RequestMapping("/${moduleName}/${classname}")
-public class ${className}Controller extends BaseController
-{
-    private String prefix = "${moduleName}/${classname}";
-	
-	@Autowired
-	private I${className}Service ${classname}Service;
-	
-	@RequiresPermissions("${moduleName}:${classname}:view")
-	@GetMapping()
-	public String ${classname}()
-	{
-	    return prefix + "/${classname}";
-	}
-	
-	/**
-	 * 查询${tableComment}列表
-	 */
-	@RequiresPermissions("${moduleName}:${classname}:list")
-	@PostMapping("/list")
-	@ResponseBody
-	public TableDataInfo list(${className} ${classname})
-	{
-		startPage();
+public class ${className}Controller extends BaseController {
+    private String prefix = "${moduleName}/${classname}" ;
+
+    @Autowired
+    private I${className}Service ${classname}Service;
+
+    @RequiresPermissions("${moduleName}:${classname}:view")
+    @GetMapping()
+    public String ${classname}() {
+        return prefix + "/${classname}" ;
+    }
+
+    /**
+     * 查询${tableComment}列表
+     */
+    @RequiresPermissions("${moduleName}:${classname}:list")
+    @PostMapping("/list")
+    @ResponseBody
+    public TableDataInfo list(${className} ${classname}) {
+        startPage();
         List<${className}> list = ${classname}Service.select${className}List(${classname});
-		return getDataTable(list);
-	}
-	
-	
-	/**
-	 * 导出${tableComment}列表
-	 */
-	@RequiresPermissions("${moduleName}:${classname}:export")
+        return getDataTable(list);
+    }
+
+
+    /**
+     * 导出${tableComment}列表
+     */
+    @RequiresPermissions("${moduleName}:${classname}:export")
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(${className} ${classname})
-    {
-    	List<${className}> list = ${classname}Service.select${className}List(${classname});
-        ExcelUtil<${className}> util = new ExcelUtil<${className}>(${className}.class);
+    public AjaxResult export(${className} ${classname}) {
+        List<${className}> list = ${classname}Service.select${className}List(${classname});
+        ExcelUtil<${className}> util = new ExcelUtil<${className}>(${className}. class);
         return util.exportExcel(list, "${classname}");
     }
-	
-	/**
-	 * 新增${tableComment}
-	 */
-	@GetMapping("/add")
-	public String add()
-	{
-	    return prefix + "/add";
-	}
-	
-	/**
-	 * 新增保存${tableComment}
-	 */
-	@RequiresPermissions("${moduleName}:${classname}:add")
-	@Log(title = "${tableComment}", businessType = BusinessType.INSERT)
-	@PostMapping("/add")
-	@ResponseBody
-	public AjaxResult addSave(${className} ${classname})
-	{		
-		return toAjax(${classname}Service.insert${className}(${classname}));
-	}
 
-	/**
-	 * 修改${tableComment}
-	 */
-	@GetMapping("/edit/{${primaryKey.attrname}}")
-	public String edit(@PathVariable("${primaryKey.attrname}") ${primaryKey.attrType} ${primaryKey.attrname}, ModelMap mmap)
-	{
-		${className} ${classname} = ${classname}Service.select${className}ById(${primaryKey.attrname});
-		mmap.put("${classname}", ${classname});
-	    return prefix + "/edit";
-	}
-	
-	/**
-	 * 修改保存${tableComment}
-	 */
-	@RequiresPermissions("${moduleName}:${classname}:edit")
-	@Log(title = "${tableComment}", businessType = BusinessType.UPDATE)
-	@PostMapping("/edit")
-	@ResponseBody
-	public AjaxResult editSave(${className} ${classname})
-	{		
-		return toAjax(${classname}Service.update${className}(${classname}));
-	}
-	
-	/**
-	 * 删除${tableComment}
-	 */
-	@RequiresPermissions("${moduleName}:${classname}:remove")
-	@Log(title = "${tableComment}", businessType = BusinessType.DELETE)
-	@PostMapping( "/remove")
-	@ResponseBody
-	public AjaxResult remove(String ids)
-	{		
-		return toAjax(${classname}Service.delete${className}ByIds(ids));
-	}
-	
+    /**
+     * 新增${tableComment}
+     */
+    @GetMapping("/add")
+    public String add() {
+        return prefix + "/add" ;
+    }
+
+    /**
+     * 新增保存${tableComment}
+     */
+    @RequiresPermissions("${moduleName}:${classname}:add")
+    @Log(title = "${tableComment}" , businessType = BusinessType.INSERT)
+    @PostMapping("/add")
+    @ResponseBody
+    public AjaxResult addSave(${className} ${classname}) {
+        return toAjax(${classname}Service.insert${className}(${classname}));
+    }
+
+    /**
+     * 修改${tableComment}
+     */
+    @GetMapping("/edit/{${primaryKey.attrname}}")
+    public String edit(@PathVariable("${primaryKey.attrname}") ${primaryKey.attrType} ${primaryKey.attrname}, ModelMap mmap) {
+        ${className} ${classname} =${classname}Service.select${className}ById(${primaryKey.attrname});
+        mmap.put("${classname}" , ${classname});
+        return prefix + "/edit" ;
+    }
+
+    /**
+     * 修改保存${tableComment}
+     */
+    @RequiresPermissions("${moduleName}:${classname}:edit")
+    @Log(title = "${tableComment}" , businessType = BusinessType.UPDATE)
+    @PostMapping("/edit")
+    @ResponseBody
+    public AjaxResult editSave(${className} ${classname}) {
+        return toAjax(${classname}Service.update${className}(${classname}));
+    }
+
+    /**
+     * 删除${tableComment}
+     */
+    @RequiresPermissions("${moduleName}:${classname}:remove")
+    @Log(title = "${tableComment}" , businessType = BusinessType.DELETE)
+    @PostMapping("/remove")
+    @ResponseBody
+    public AjaxResult remove(String ids) {
+        return toAjax(${classname}Service.delete${className}ByIds(ids));
+    }
+
 }

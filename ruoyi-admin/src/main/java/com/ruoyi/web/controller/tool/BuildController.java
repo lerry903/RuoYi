@@ -8,19 +8,17 @@ import com.ruoyi.framework.web.base.BaseController;
 
 /**
  * build 表单构建
- * 
+ *
  * @author ruoyi
  */
 @Controller
 @RequestMapping("/tool/build")
-public class BuildController extends BaseController
-{
-    private String prefix = "tool/build";
+public class BuildController extends BaseController {
+    private String prefix = "tool/build" ;
 
     @RequiresPermissions("tool:build:view")
     @GetMapping()
-    public String build()
-    {
-        return prefix + "/build";
+    public String build() {
+        return prefix + "/build" ;
     }
 }

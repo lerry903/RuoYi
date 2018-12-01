@@ -14,40 +14,33 @@ import com.ruoyi.system.domain.SysUser;
 
 /**
  * shiro 工具类
- * 
+ *
  * @author ruoyi
  */
-public class ShiroUtils
-{
-    public static Subject getSubjct()
-    {
+public class ShiroUtils {
+    public static Subject getSubjct() {
         return SecurityUtils.getSubject();
     }
 
-    public static Session getSession()
-    {
+    public static Session getSession() {
         return SecurityUtils.getSubject().getSession();
     }
 
-    public static void logout()
-    {
+    public static void logout() {
         getSubjct().logout();
     }
 
-    public static SysUser getSysUser()
-    {
+    public static SysUser getSysUser() {
         SysUser user = null;
         Object obj = getSubjct().getPrincipal();
-        if (StringUtils.isNotNull(obj))
-        {
+        if (StringUtils.isNotNull(obj)) {
             user = new SysUser();
             BeanUtils.copyBeanProp(user, obj);
         }
         return user;
     }
 
-    public static void setSysUser(SysUser user)
-    {
+    public static void setSysUser(SysUser user) {
         Subject subject = getSubjct();
         PrincipalCollection principalCollection = subject.getPrincipals();
         String realmName = principalCollection.getRealmNames().iterator().next();
@@ -56,38 +49,32 @@ public class ShiroUtils
         subject.runAs(newPrincipalCollection);
     }
 
-    public static void clearCachedAuthorizationInfo()
-    {
+    public static void clearCachedAuthorizationInfo() {
         RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
         UserRealm realm = (UserRealm) rsm.getRealms().iterator().next();
         realm.clearCachedAuthorizationInfo();
     }
 
-    public static Long getUserId()
-    {
+    public static Long getUserId() {
         return getSysUser().getUserId().longValue();
     }
 
-    public static String getLoginName()
-    {
+    public static String getLoginName() {
         return getSysUser().getLoginName();
     }
 
-    public static String getIp()
-    {
+    public static String getIp() {
         return getSubjct().getSession().getHost();
     }
 
-    public static String getSessionId()
-    {
+    public static String getSessionId() {
         return String.valueOf(getSubjct().getSession().getId());
     }
 
     /**
      * 生成随机盐
      */
-    public static String randomSalt()
-    {
+    public static String randomSalt() {
         // 一个Byte占两个字节，此处生成的3字节，字符串长度为6
         SecureRandomNumberGenerator secureRandom = new SecureRandomNumberGenerator();
         String hex = secureRandom.nextBytes(3).toHex();

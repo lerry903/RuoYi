@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,14 +13,14 @@
 </head>
 
 <body class="gray-bg">
-    <div class="wrapper wrapper-content">
-        <div class="row animated fadeInRight">
-            <div class="col-sm-6">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>个人信息</h5>
+<div class="wrapper wrapper-content">
+    <div class="row animated fadeInRight">
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>个人信息</h5>
                     <div class="ibox-tools">
-                        
+
                         <a class="dropdown-toggle" data-toggle="dropdown" href="profile.html#">
                             <i class="fa fa-edit"></i>
                         </a>
@@ -29,51 +29,58 @@
                             <li><a href="javascript:resetPwd()">修改密码</a></li>
                             <li><a href="javascript:avatar()">修改头像</a></li>
                         </ul>
-                       
+
                     </div>
+                </div>
+                <div class="contact-box">
+                    <div class="col-sm-4">
+                        <div class="text-center">
+                            <img alt="image" class="img-circle m-t-xs img-responsive"
+                                 th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{/profile/avatar/} + ${user.avatar}">
+                            <div class="m-t-xs font-bold">[[${user.loginIp}]]</div>
+                        </div>
                     </div>
-                    <div class="contact-box">
-	                        <div class="col-sm-4">
-	                            <div class="text-center">
-	                                <img alt="image" class="img-circle m-t-xs img-responsive" th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{/profile/avatar/} + ${user.avatar}">
-	                                <div class="m-t-xs font-bold">[[${user.loginIp}]]</div>
-	                            </div>
-	                        </div>
-	                        <div class="col-sm-8">
-	                            <h3><strong>[[${user.loginName}]]</strong></h3>
-	                            <p><i class="fa fa-user"></i> [[${user.userName}]] / [[${#strings.defaultString(roleGroup,'无角色')}]]
-	                            <p><i class="fa fa-phone"></i> [[${user.phonenumber}]]</p>
-	                            <p><i class="fa fa-group"></i> [[${user.dept?.deptName}]] / [[${#strings.defaultString(postGroup,'无岗位')}]]</p>
-	                            <p><i class="fa fa-transgender"></i> 性别：[[${user.sex}]]</p>
-	                            <p><i class="fa fa-envelope-o"></i> [[${user.email}]]</p>
-	                            <p><i class="fa fa-calendar"></i> [[${#dates.format(user.createTime, 'yyyy-MM-dd HH:mm:ss')}]]</p>
-	                        </div>
-	                        <div class="clearfix"></div>
-	                    </a>
+                    <div class="col-sm-8">
+                        <h3><strong>[[${user.loginName}]]</strong></h3>
+                        <p><i class="fa fa-user"></i> [[${user.userName}]] /
+                            [[${#strings.defaultString(roleGroup,'无角色')}]]
+                        <p><i class="fa fa-phone"></i> [[${user.phonenumber}]]</p>
+                        <p><i class="fa fa-group"></i> [[${user.dept?.deptName}]] /
+                            [[${#strings.defaultString(postGroup,'无岗位')}]]</p>
+                        <p><i class="fa fa-transgender"></i> 性别：[[${user.sex}]]</p>
+                        <p><i class="fa fa-envelope-o"></i> [[${user.email}]]</p>
+                        <p><i class="fa fa-calendar"></i> [[${#dates.format(user.createTime, 'yyyy-MM-dd HH:mm:ss')}]]
+                        </p>
                     </div>
+                    <div class="clearfix"></div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div th:include="include::footer"></div>
-    <script>
-        var userId = [[${user.userId}]];
-	    /*用户信息-修改*/
-	    function edit() {
-	        var url = ctx + "system/user/profile/edit/" + userId;
-	        $.modal.open("修改用户", url);
-	    }
-	    /*用户管理-重置密码*/
-	    function resetPwd() {
-	        var url = ctx + 'system/user/profile/resetPwd/' + userId;
-	        $.modal.open("重置密码", url, '800', '500');
-	    }
-	    /*用户管理-头像*/
-	    function avatar() {
-	        var url = ctx + 'system/user/profile/avatar/' + userId;
-	        $.modal.open("修改头像", url);
-	    }
-	</script>
+</div>
+
+<div th:include="include::footer"></div>
+<script>
+    var userId = [[${user.userId}]];
+
+    /*用户信息-修改*/
+    function edit() {
+        var url = ctx + "system/user/profile/edit/" + userId;
+        $.modal.open("修改用户", url);
+    }
+
+    /*用户管理-重置密码*/
+    function resetPwd() {
+        var url = ctx + 'system/user/profile/resetPwd/' + userId;
+        $.modal.open("重置密码", url, '800', '500');
+    }
+
+    /*用户管理-头像*/
+    function avatar() {
+        var url = ctx + 'system/user/profile/avatar/' + userId;
+        $.modal.open("修改头像", url);
+    }
+</script>
 </body>
 </html>

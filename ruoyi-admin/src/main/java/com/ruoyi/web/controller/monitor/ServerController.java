@@ -10,22 +10,20 @@ import com.ruoyi.framework.web.domain.Server;
 
 /**
  * 服务器监控
- * 
+ *
  * @author ruoyi
  */
 @Controller
 @RequestMapping("/monitor/server")
-public class ServerController extends BaseController
-{
-    private String prefix = "monitor/server";
+public class ServerController extends BaseController {
+    private String prefix = "monitor/server" ;
 
     @RequiresPermissions("monitor:server:view")
     @GetMapping()
-    public String server(ModelMap mmap) throws Exception
-    {
+    public String server(ModelMap mmap) throws Exception {
         Server server = new Server();
         server.copyTo();
-        mmap.put("server", server);
-        return prefix + "/server";
+        mmap.put("server" , server);
+        return prefix + "/server" ;
     }
 }

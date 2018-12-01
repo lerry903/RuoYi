@@ -9,7 +9,7 @@
     'use strict';
 
     var showHideColumns = function (that, checked) {
-        if (that.options.columnsHidden.length > 0 ) {
+        if (that.options.columnsHidden.length > 0) {
             $.each(that.columns, function (i, column) {
                 if (that.options.columnsHidden.indexOf(column.field) !== -1) {
                     if (column.visible !== checked) {
@@ -22,7 +22,7 @@
 
     var resetView = function (that) {
         if (that.options.height || that.options.showFooter) {
-            setTimeout(function(){
+            setTimeout(function () {
                 that.resetView.call(that);
             }, 1);
         }
@@ -61,14 +61,14 @@
         that.toggleView();
     };
 
-    var debounce = function(func,wait) {
+    var debounce = function (func, wait) {
         var timeout;
-        return function() {
+        return function () {
             var context = this,
                 args = arguments;
-            var later = function() {
+            var later = function () {
                 timeout = null;
-                func.apply(context,args);
+                func.apply(context, args);
             };
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
@@ -109,7 +109,7 @@
                 height: $(window).height()
             };
 
-        $(window).on('resize orientationchange',debounce(function (evt) {
+        $(window).on('resize orientationchange', debounce(function (evt) {
             // reset view if height has only changed by at least the threshold.
             var height = $(this).height(),
                 width = $(this).width();
@@ -121,7 +121,7 @@
                     height: height
                 };
             }
-        },200));
+        }, 200));
 
         if (this.options.checkOnInit) {
             var height = $(window).height(),

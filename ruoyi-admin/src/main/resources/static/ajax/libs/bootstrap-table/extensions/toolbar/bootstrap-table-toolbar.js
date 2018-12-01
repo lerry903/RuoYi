@@ -5,14 +5,14 @@
  * @update Dennis Hernández <http://djhvscf.github.io/Blog>
  */
 
-!function($) {
+!function ($) {
     'use strict';
 
     var firstLoad = false;
 
     var sprintf = $.fn.bootstrapTable.utils.sprintf;
 
-    var showAvdSearch = function(pColumns, searchTitle, searchText, that) {
+    var showAvdSearch = function (pColumns, searchTitle, searchText, that) {
         if (!$("#avdSearchModal" + "_" + that.options.idTable).hasClass("modal")) {
             var vModal = sprintf("<div id=\"avdSearchModal%s\"  class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"mySmallModalLabel\" aria-hidden=\"true\">", "_" + that.options.idTable);
             vModal += "<div class=\"modal-dialog modal-xs\">";
@@ -32,7 +32,8 @@
             $("body").append($(vModal));
 
             var vFormAvd = createFormAvd(pColumns, searchText, that),
-                timeoutId = 0;;
+                timeoutId = 0;
+            ;
 
             $('#avdSearchModalContent' + "_" + that.options.idTable).append(vFormAvd.join(''));
 
@@ -43,7 +44,7 @@
                 }, that.options.searchTimeOut);
             });
 
-            $("#btnCloseAvd" + "_" + that.options.idTable).click(function() {
+            $("#btnCloseAvd" + "_" + that.options.idTable).click(function () {
                 $("#avdSearchModal" + "_" + that.options.idTable).modal('hide');
             });
 
@@ -53,7 +54,7 @@
         }
     };
 
-    var createFormAvd = function(pColumns, searchText, that) {
+    var createFormAvd = function (pColumns, searchText, that) {
         var htmlForm = [];
         htmlForm.push(sprintf('<form class="form-horizontal" id="%s" action="%s" >', that.options.idForm, that.options.actionForm));
         for (var i in pColumns) {
@@ -97,10 +98,10 @@
     });
 
     $.extend($.fn.bootstrapTable.locales, {
-        formatAdvancedSearch: function() {
+        formatAdvancedSearch: function () {
             return 'Advanced search';
         },
-        formatAdvancedCloseButton: function() {
+        formatAdvancedCloseButton: function () {
             return "Close";
         }
     });
@@ -108,11 +109,11 @@
     $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales);
 
     var BootstrapTable = $.fn.bootstrapTable.Constructor,
-        _initToolbar = BootstrapTable.prototype.initToolbar,        
+        _initToolbar = BootstrapTable.prototype.initToolbar,
         _load = BootstrapTable.prototype.load,
         _initSearch = BootstrapTable.prototype.initSearch;
 
-    BootstrapTable.prototype.initToolbar = function() {
+    BootstrapTable.prototype.initToolbar = function () {
         _initToolbar.apply(this, Array.prototype.slice.apply(arguments));
 
         if (!this.options.search) {
@@ -138,12 +139,12 @@
         that.$toolbar.prepend(html.join(''));
 
         that.$toolbar.find('button[name="advancedSearch"]')
-            .off('click').on('click', function() {
-                showAvdSearch(that.columns, that.options.formatAdvancedSearch(), that.options.formatAdvancedCloseButton(), that);
-            });
+            .off('click').on('click', function () {
+            showAvdSearch(that.columns, that.options.formatAdvancedSearch(), that.options.formatAdvancedCloseButton(), that);
+        });
     };
 
-    BootstrapTable.prototype.load = function(data) {
+    BootstrapTable.prototype.load = function (data) {
         _load.apply(this, Array.prototype.slice.apply(arguments));
 
         if (!this.options.advancedSearch) {

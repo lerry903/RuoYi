@@ -19,7 +19,7 @@
         exportDataType: 'all', // basic, all, selected
         exportTypes: ['csv', 'txt', 'doc', 'excel'],
         exportOptions: {
-        	ignoreColumn: [0]  //忽略列索引
+            ignoreColumn: [0]  //忽略列索引
         }
     });
 
@@ -50,17 +50,17 @@
             if (!$export.length) {
                 $export = $([
                     '<div class="export btn-group">',
-                        '<button class="btn' +
-                            sprintf(' btn-%s', this.options.buttonsClass) +
-                            sprintf(' btn-%s', this.options.iconSize) +
-                            ' dropdown-toggle" ' +
-                            'title="' + this.options.formatExport() + '" ' +
-                            'data-toggle="dropdown" type="button">',
-                            sprintf('<i class="%s %s"></i> ', this.options.iconsPrefix, this.options.icons.export),
-                            '<span class="caret"></span>',
-                        '</button>',
-                        '<ul class="dropdown-menu" role="menu">',
-                        '</ul>',
+                    '<button class="btn' +
+                    sprintf(' btn-%s', this.options.buttonsClass) +
+                    sprintf(' btn-%s', this.options.iconSize) +
+                    ' dropdown-toggle" ' +
+                    'title="' + this.options.formatExport() + '" ' +
+                    'data-toggle="dropdown" type="button">',
+                    sprintf('<i class="%s %s"></i> ', this.options.iconsPrefix, this.options.icons.export),
+                    '<span class="caret"></span>',
+                    '</button>',
+                    '<ul class="dropdown-menu" role="menu">',
+                    '</ul>',
                     '</div>'].join('')).appendTo($btnGroup);
 
                 var $menu = $export.find('.dropdown-menu'),
@@ -77,9 +77,9 @@
                 $.each(exportTypes, function (i, type) {
                     if (TYPE_NAME.hasOwnProperty(type)) {
                         $menu.append(['<li data-type="' + type + '">',
-                                '<a href="javascript:void(0)">',
-                                    TYPE_NAME[type],
-                                '</a>',
+                            '<a href="javascript:void(0)">',
+                            TYPE_NAME[type],
+                            '</a>',
                             '</li>'].join(''));
                     }
                 });
@@ -101,14 +101,15 @@
                         that.togglePagination();
                     } else if (that.options.exportDataType === 'selected') {
                         //修改sidePagination属性为server无法导出选中数据
-                    	var trs = that.$body.children(); 
-                    	for (var i = 0; i < trs.length; i++) {
-                    	    var $this = $(trs[i]);
-                    	    if(!$this.find(sprintf('[name="%s"]',that.options.selectItemName)).prop('checked')){
-                    	      $this['hide']();
-                    	 }}
-                    	doExport();
-                    	that.getRowsHidden(true);
+                        var trs = that.$body.children();
+                        for (var i = 0; i < trs.length; i++) {
+                            var $this = $(trs[i]);
+                            if (!$this.find(sprintf('[name="%s"]', that.options.selectItemName)).prop('checked')) {
+                                $this['hide']();
+                            }
+                        }
+                        doExport();
+                        that.getRowsHidden(true);
                     } else {
                         doExport();
                     }

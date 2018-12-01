@@ -1,6 +1,7 @@
 package ${package}.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ${package}.mapper.${className}Mapper;
@@ -10,74 +11,68 @@ import com.ruoyi.common.support.Convert;
 
 /**
  * ${tableComment} 服务层实现
- * 
+ *
  * @author ${author}
  * @date ${datetime}
  */
 @Service
-public class ${className}ServiceImpl implements I${className}Service 
-{
-	@Autowired
-	private ${className}Mapper ${classname}Mapper;
+public class ${className}ServiceImpl implements I${className}Service {
+    @Autowired
+    private ${className}Mapper ${classname}Mapper;
 
-	/**
+    /**
      * 查询${tableComment}信息
-     * 
+     *
      * @param ${primaryKey.attrname} ${tableComment}ID
      * @return ${tableComment}信息
      */
     @Override
-	public ${className} select${className}ById(${primaryKey.attrType} ${primaryKey.attrname})
-	{
-	    return ${classname}Mapper.select${className}ById(${primaryKey.attrname});
-	}
-	
-	/**
+    public ${className} select${className}ById(${primaryKey.attrType} ${primaryKey.attrname}) {
+        return ${classname}Mapper.select${className}ById(${primaryKey.attrname});
+    }
+
+    /**
      * 查询${tableComment}列表
-     * 
+     *
      * @param ${classname} ${tableComment}信息
      * @return ${tableComment}集合
      */
-	@Override
-	public List<${className}> select${className}List(${className} ${classname})
-	{
-	    return ${classname}Mapper.select${className}List(${classname});
-	}
-	
+    @Override
+    public List<${className}> select${className}List(${className} ${classname}) {
+        return ${classname}Mapper.select${className}List(${classname});
+    }
+
     /**
      * 新增${tableComment}
-     * 
+     *
      * @param ${classname} ${tableComment}信息
      * @return 结果
      */
-	@Override
-	public int insert${className}(${className} ${classname})
-	{
-	    return ${classname}Mapper.insert${className}(${classname});
-	}
-	
-	/**
-     * 修改${tableComment}
-     * 
-     * @param ${classname} ${tableComment}信息
-     * @return 结果
-     */
-	@Override
-	public int update${className}(${className} ${classname})
-	{
-	    return ${classname}Mapper.update${className}(${classname});
-	}
+    @Override
+    public int insert${className}(${className} ${classname}) {
+        return ${classname}Mapper.insert${className}(${classname});
+    }
 
-	/**
+    /**
+     * 修改${tableComment}
+     *
+     * @param ${classname} ${tableComment}信息
+     * @return 结果
+     */
+    @Override
+    public int update${className}(${className} ${classname}) {
+        return ${classname}Mapper.update${className}(${classname});
+    }
+
+    /**
      * 删除${tableComment}对象
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-	@Override
-	public int delete${className}ByIds(String ids)
-	{
-		return ${classname}Mapper.delete${className}ByIds(Convert.toStrArray(ids));
-	}
-	
+    @Override
+    public int delete${className}ByIds(String ids) {
+        return ${classname}Mapper.delete${className}ByIds(Convert.toStrArray(ids));
+    }
+
 }

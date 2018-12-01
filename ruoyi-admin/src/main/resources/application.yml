@@ -25,7 +25,7 @@ server:
     max-threads: 800
     # Tomcat启动初始化的线程数，默认值25
     min-spare-threads: 30
- 
+
 # 日志配置
 logging:
   level:
@@ -54,13 +54,13 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
-  profiles: 
+  profiles:
     active: druid
   # 文件上传
   servlet:
-     multipart:
-       max-file-size:  30MB
-       max-request-size:  30MB
+    multipart:
+      max-file-size:  30MB
+      max-request-size:  30MB
   # 服务模块
   devtools:
     restart:
@@ -69,19 +69,19 @@ spring:
 
 # MyBatis
 mybatis:
-    # 搜索指定包别名
-    typeAliasesPackage: com.ruoyi
-    # 配置mapper的扫描，找到所有的mapper.xml映射文件
-    mapperLocations: classpath*:mapper/**/*Mapper.xml
-    # 加载全局的配置文件
-    configLocation: classpath:mapper/mybatis-config.xml
+  # 搜索指定包别名
+  typeAliasesPackage: com.ruoyi
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mapper/mybatis-config.xml
 
 # PageHelper分页插件
-pagehelper: 
+pagehelper:
   helperDialect: mysql
   reasonable: true
   supportMethodsArguments: true
-  params: count=countSql 
+  params: count=countSql
 
 # Shiro
 shiro:
@@ -98,7 +98,7 @@ shiro:
     captchaType: math
   cookie:
     # 设置Cookie的域名 默认空，即当前访问的域名
-    domain: 
+    domain:
     # 设置cookie的有效访问路径
     path: /
     # 设置HttpOnly属性
@@ -114,7 +114,7 @@ shiro:
     validationInterval: 10
 
 # 防止XSS攻击
-xss: 
+xss:
   # 过滤开关
   enabled: true
   # 排除链接（多个用逗号分隔）
@@ -123,7 +123,7 @@ xss:
   urlPatterns: /system/*,/monitor/*,/tool/*
 
 # 代码生成
-gen: 
+gen:
   # 作者
   author: ruoyi
   # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool

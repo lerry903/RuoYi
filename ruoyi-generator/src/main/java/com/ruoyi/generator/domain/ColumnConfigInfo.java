@@ -5,13 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * 字段类型配置 由数据库字段的注释解析而来
  * 注释结构示例:{"title": "状态", "type": "dict", "value": "sys_common_status"} {"title": "登录时间", "type": "date"}
- * 
- * @author ruoyi
  *
+ * @author ruoyi
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ColumnConfigInfo
-{
+public class ColumnConfigInfo {
     /**
      * 属性标题
      */
@@ -27,46 +25,38 @@ public class ColumnConfigInfo
      */
     private String value;
 
-    public ColumnConfigInfo()
-    {
+    public ColumnConfigInfo() {
         super();
     }
 
-    public ColumnConfigInfo(String title, String type, String value)
-    {
+    public ColumnConfigInfo(String title, String type, String value) {
         super();
         this.title = title;
         this.type = type;
         this.value = value;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public void setType(String type)
-    {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(String value)
-    {
+    public void setValue(String value) {
         this.value = value;
     }
 }

@@ -1,72 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${package}.mapper.${className}Mapper">
-    
+
     <resultMap type="${className}" id="${className}Result">
-#foreach ($column in $columns)
-        <result property="${column.attrname}"    column="${column.columnName}"    />
-#end
+        #foreach ($column in $columns)
+            <result property="${column.attrname}" column="${column.columnName}"/>
+        #end
     </resultMap>
-	
-	<sql id="select${className}Vo">
+
+    <sql id="select${className}Vo">
         select#foreach($column in $columns) $column.columnName#if($velocityCount != $columns.size()),#end#end from ${tableName}
     </sql>
-	
+
     <select id="select${className}List" parameterType="${className}" resultMap="${className}Result">
         <include refid="select${className}Vo"/>
-        <where>  
-#foreach($column in $columns)
-            <if test="$column.attrname != null #if($column.attrType == 'String' ) and $column.attrname.trim() != '' #end"> and $column.columnName = #{$column.attrname}</if>
- #end
+        <where>
+            #foreach($column in $columns)
+                <if test="$column.attrname != null #if($column.attrType ==
+                    'String' ) and $column.attrname.trim() != '' #end">and $column.columnName = #{$column.attrname}
+                </if>
+            #end
         </where>
     </select>
-    
+
     <select id="select${className}ById" parameterType="${primaryKey.attrType}" resultMap="${className}Result">
         <include refid="select${className}Vo"/>
         where ${primaryKey.columnName} = #{${primaryKey.attrname}}
     </select>
-        
-    <insert id="insert${className}" parameterType="${className}"#if($primaryKey.extra == 'auto_increment') useGeneratedKeys="true" keyProperty="$primaryKey.attrname"#end>
+
+    <insert id="insert${className}" parameterType="${className}"#if($primaryKey.extra == 'auto_increment')
+            useGeneratedKeys="true" keyProperty="$primaryKey.attrname"#end>
         insert into ${tableName}
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-#foreach($column in $columns)
-#if($column.columnName != $primaryKey.columnName || $primaryKey.extra != 'auto_increment')
-			<if test="$column.attrname != null #if($column.attrType == 'String' ) and $column.attrname != '' #end ">$column.columnName,</if>
-#end
-#end
-         </trim>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #foreach($column in $columns)
+                #if($column.columnName != $primaryKey.columnName || $primaryKey.extra != 'auto_increment')
+                    <if test="$column.attrname != null #if($column.attrType ==
+                        'String' ) and $column.attrname != '' #end ">$column.columnName,
+                    </if>
+                #end
+            #end
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-#foreach($column in $columns)
-#if($column.columnName != $primaryKey.columnName || $primaryKey.extra != 'auto_increment')
-			<if test="$column.attrname != null #if($column.attrType == 'String' ) and $column.attrname != '' #end ">#{$column.attrname},</if>
-#end			
-#end
-         </trim>
+            #foreach($column in $columns)
+                #if($column.columnName != $primaryKey.columnName || $primaryKey.extra != 'auto_increment')
+                    <if test="$column.attrname != null #if($column.attrType ==
+                        'String' ) and $column.attrname != '' #end ">#{$column.attrname},
+                    </if>
+                #end
+            #end
+        </trim>
     </insert>
-	 
+
     <update id="update${className}" parameterType="${className}">
         update ${tableName}
         <trim prefix="SET" suffixOverrides=",">
-#foreach($column in $columns)
-#if($column.columnName != $primaryKey.columnName)
-            <if test="$column.attrname != null #if($column.attrType == 'String' ) and $column.attrname != '' #end ">$column.columnName = #{$column.attrname},</if>
-#end
-#end
+            #foreach($column in $columns)
+                #if($column.columnName != $primaryKey.columnName)
+                    <if test="$column.attrname != null #if($column.attrType ==
+                        'String' ) and $column.attrname != '' #end ">$column.columnName = #{$column.attrname},
+                    </if>
+                #end
+            #end
         </trim>
         where ${primaryKey.columnName} = #{${primaryKey.attrname}}
     </update>
 
-	<delete id="delete${className}ById" parameterType="${primaryKey.attrType}">
+    <delete id="delete${className}ById" parameterType="${primaryKey.attrType}">
         delete from ${tableName} where ${primaryKey.columnName} = #{${primaryKey.attrname}}
     </delete>
-	
+
     <delete id="delete${className}ByIds" parameterType="String">
-        delete from ${tableName} where ${primaryKey.columnName} in 
+        delete from ${tableName} where ${primaryKey.columnName} in
         <foreach item="${primaryKey.attrname}" collection="array" open="(" separator="," close=")">
             #{${primaryKey.attrname}}
         </foreach>
     </delete>
-    
+
 </mapper>
