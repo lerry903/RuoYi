@@ -28,15 +28,19 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/system/notice")
 public class SysNoticeController extends BaseController {
-    private String prefix = "system/notice" ;
+    private String prefix = "system/notice";
+
+    private final ISysNoticeService noticeService;
 
     @Autowired
-    private ISysNoticeService noticeService;
+    public SysNoticeController(ISysNoticeService noticeService) {
+        this.noticeService = noticeService;
+    }
 
     @RequiresPermissions("system:notice:view")
     @GetMapping()
     public String notice() {
-        return prefix + "/notice" ;
+        return prefix + "/notice";
     }
 
     /**
@@ -56,14 +60,14 @@ public class SysNoticeController extends BaseController {
      */
     @GetMapping("/add")
     public String add() {
-        return prefix + "/add" ;
+        return prefix + "/add";
     }
 
     /**
      * 新增保存公告
      */
     @RequiresPermissions("system:notice:add")
-    @Log(title = "通知公告" , businessType = BusinessType.INSERT)
+    @Log(title = "通知公告", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(SysNotice notice) {
@@ -76,15 +80,15 @@ public class SysNoticeController extends BaseController {
      */
     @GetMapping("/edit/{noticeId}")
     public String edit(@PathVariable("noticeId") Long noticeId, ModelMap mmap) {
-        mmap.put("notice" , noticeService.selectNoticeById(noticeId));
-        return prefix + "/edit" ;
+        mmap.put("notice", noticeService.selectNoticeById(noticeId));
+        return prefix + "/edit";
     }
 
     /**
      * 修改保存公告
      */
     @RequiresPermissions("system:notice:edit")
-    @Log(title = "通知公告" , businessType = BusinessType.UPDATE)
+    @Log(title = "通知公告", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(SysNotice notice) {
@@ -96,7 +100,7 @@ public class SysNoticeController extends BaseController {
      * 删除公告
      */
     @RequiresPermissions("system:notice:remove")
-    @Log(title = "通知公告" , businessType = BusinessType.DELETE)
+    @Log(title = "通知公告", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {

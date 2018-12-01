@@ -28,15 +28,19 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/monitor/operlog")
 public class SysOperlogController extends BaseController {
-    private String prefix = "monitor/operlog" ;
+    private String prefix = "monitor/operlog";
+
+    private final ISysOperLogService operLogService;
 
     @Autowired
-    private ISysOperLogService operLogService;
+    public SysOperlogController(ISysOperLogService operLogService) {
+        this.operLogService = operLogService;
+    }
 
     @RequiresPermissions("monitor:operlog:view")
     @GetMapping()
     public String operlog() {
-        return prefix + "/operlog" ;
+        return prefix + "/operlog";
     }
 
     @RequiresPermissions("monitor:operlog:list")
@@ -48,13 +52,13 @@ public class SysOperlogController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "操作日志" , businessType = BusinessType.EXPORT)
+    @Log(title = "操作日志", businessType = BusinessType.EXPORT)
     @RequiresPermissions("monitor:operlog:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(SysOperLog operLog) {
         List<SysOperLog> list = operLogService.selectOperLogList(operLog);
-        ExcelUtil<SysOperLog> util = new ExcelUtil<SysOperLog>(SysOperLog.class);
+        ExcelUtil<SysOperLog> util = new ExcelUtil<>(SysOperLog.class);
         return util.exportExcel(list, "operLog");
     }
 
@@ -68,11 +72,11 @@ public class SysOperlogController extends BaseController {
     @RequiresPermissions("monitor:operlog:detail")
     @GetMapping("/detail/{operId}")
     public String detail(@PathVariable("operId") Long operId, ModelMap mmap) {
-        mmap.put("operLog" , operLogService.selectOperLogById(operId));
-        return prefix + "/detail" ;
+        mmap.put("operLog", operLogService.selectOperLogById(operId));
+        return prefix + "/detail";
     }
 
-    @Log(title = "操作日志" , businessType = BusinessType.CLEAN)
+    @Log(title = "操作日志", businessType = BusinessType.CLEAN)
     @RequiresPermissions("monitor:operlog:remove")
     @PostMapping("/clean")
     @ResponseBody

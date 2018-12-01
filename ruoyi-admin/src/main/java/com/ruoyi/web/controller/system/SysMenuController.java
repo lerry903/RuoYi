@@ -29,29 +29,33 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/system/menu")
 public class SysMenuController extends BaseController {
-    private String prefix = "system/menu" ;
+
+    private String prefix = "system/menu";
+
+    private final ISysMenuService menuService;
 
     @Autowired
-    private ISysMenuService menuService;
+    public SysMenuController(ISysMenuService menuService) {
+        this.menuService = menuService;
+    }
 
     @RequiresPermissions("system:menu:view")
     @GetMapping()
     public String menu() {
-        return prefix + "/menu" ;
+        return prefix + "/menu";
     }
 
     @RequiresPermissions("system:menu:list")
     @GetMapping("/list")
     @ResponseBody
     public List<SysMenu> list(SysMenu menu) {
-        List<SysMenu> menuList = menuService.selectMenuList(menu);
-        return menuList;
+        return menuService.selectMenuList(menu);
     }
 
     /**
      * 删除菜单
      */
-    @Log(title = "菜单管理" , businessType = BusinessType.DELETE)
+    @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @RequiresPermissions("system:menu:remove")
     @PostMapping("/remove/{menuId}")
     @ResponseBody
@@ -71,7 +75,7 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping("/add/{parentId}")
     public String add(@PathVariable("parentId") Long parentId, ModelMap mmap) {
-        SysMenu menu = null;
+        SysMenu menu;
         if (0L != parentId) {
             menu = menuService.selectMenuById(parentId);
         } else {
@@ -79,14 +83,14 @@ public class SysMenuController extends BaseController {
             menu.setMenuId(0L);
             menu.setMenuName("主目录");
         }
-        mmap.put("menu" , menu);
-        return prefix + "/add" ;
+        mmap.put("menu", menu);
+        return prefix + "/add";
     }
 
     /**
      * 新增保存菜单
      */
-    @Log(title = "菜单管理" , businessType = BusinessType.INSERT)
+    @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @RequiresPermissions("system:menu:add")
     @PostMapping("/add")
     @ResponseBody
@@ -101,14 +105,14 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping("/edit/{menuId}")
     public String edit(@PathVariable("menuId") Long menuId, ModelMap mmap) {
-        mmap.put("menu" , menuService.selectMenuById(menuId));
-        return prefix + "/edit" ;
+        mmap.put("menu", menuService.selectMenuById(menuId));
+        return prefix + "/edit";
     }
 
     /**
      * 修改保存菜单
      */
-    @Log(title = "菜单管理" , businessType = BusinessType.UPDATE)
+    @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @RequiresPermissions("system:menu:edit")
     @PostMapping("/edit")
     @ResponseBody
@@ -123,7 +127,7 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping("/icon")
     public String icon() {
-        return prefix + "/icon" ;
+        return prefix + "/icon";
     }
 
     /**
@@ -141,8 +145,7 @@ public class SysMenuController extends BaseController {
     @GetMapping("/roleMenuTreeData")
     @ResponseBody
     public List<Map<String, Object>> roleMenuTreeData(SysRole role) {
-        List<Map<String, Object>> tree = menuService.roleMenuTreeData(role);
-        return tree;
+        return menuService.roleMenuTreeData(role);
     }
 
     /**
@@ -151,8 +154,7 @@ public class SysMenuController extends BaseController {
     @GetMapping("/menuTreeData")
     @ResponseBody
     public List<Map<String, Object>> menuTreeData(SysRole role) {
-        List<Map<String, Object>> tree = menuService.menuTreeData();
-        return tree;
+        return menuService.menuTreeData();
     }
 
     /**
@@ -160,7 +162,7 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping("/selectMenuTree/{menuId}")
     public String selectMenuTree(@PathVariable("menuId") Long menuId, ModelMap mmap) {
-        mmap.put("menu" , menuService.selectMenuById(menuId));
-        return prefix + "/tree" ;
+        mmap.put("menu", menuService.selectMenuById(menuId));
+        return prefix + "/tree";
     }
 }

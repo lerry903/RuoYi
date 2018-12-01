@@ -14,11 +14,11 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/tool/build")
 public class BuildController extends BaseController {
-    private String prefix = "tool/build" ;
 
     @RequiresPermissions("tool:build:view")
     @GetMapping()
     public String build() {
-        return prefix + "/build" ;
+        String prefix = "tool/build";
+        return prefix + "/build";
     }
 }

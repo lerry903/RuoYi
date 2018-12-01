@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,9 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/captcha")
 public class SysCaptchaController extends BaseController {
+
+    private static final Logger log = LoggerFactory.getLogger(SysCaptchaController.class);
+
     @Resource(name = "captchaProducer")
     private Producer captchaProducer;
 
@@ -39,20 +44,20 @@ public class SysCaptchaController extends BaseController {
         ServletOutputStream out = null;
         try {
             HttpSession session = request.getSession();
-            response.setDateHeader("Expires" , 0);
-            response.setHeader("Cache-Control" , "no-store, no-cache, must-revalidate");
-            response.addHeader("Cache-Control" , "post-check=0, pre-check=0");
-            response.setHeader("Pragma" , "no-cache");
+            response.setDateHeader("Expires", 0);
+            response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+            response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+            response.setHeader("Pragma", "no-cache");
             response.setContentType("image/jpeg");
 
             String type = request.getParameter("type");
-            String capStr = null;
+            String capStr;
             String code = null;
             BufferedImage bi = null;
             if ("math".equals(type)) {
                 String capText = captchaProducerMath.createText();
-                capStr = capText.substring(0, capText.lastIndexOf("@"));
-                code = capText.substring(capText.lastIndexOf("@") + 1);
+                capStr = capText.substring(0, capText.lastIndexOf('@'));
+                code = capText.substring(capText.lastIndexOf('@') + 1);
                 bi = captchaProducerMath.createImage(capStr);
             } else if ("char".equals(type)) {
                 capStr = code = captchaProducer.createText();
@@ -60,18 +65,18 @@ public class SysCaptchaController extends BaseController {
             }
             session.setAttribute(Constants.KAPTCHA_SESSION_KEY, code);
             out = response.getOutputStream();
-            ImageIO.write(bi, "jpg" , out);
+            ImageIO.write(bi, "jpg", out);
             out.flush();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("验证码生成异常!", e);
         } finally {
             try {
                 if (out != null) {
                     out.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("验证码生成异常!", e);
             }
         }
         return null;

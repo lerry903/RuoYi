@@ -30,15 +30,19 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/system/role")
 public class SysRoleController extends BaseController {
-    private String prefix = "system/role" ;
+    private String prefix = "system/role";
+
+    private final ISysRoleService roleService;
 
     @Autowired
-    private ISysRoleService roleService;
+    public SysRoleController(ISysRoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @RequiresPermissions("system:role:view")
     @GetMapping()
     public String role() {
-        return prefix + "/role" ;
+        return prefix + "/role";
     }
 
     @RequiresPermissions("system:role:list")
@@ -50,13 +54,13 @@ public class SysRoleController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "角色管理" , businessType = BusinessType.EXPORT)
+    @Log(title = "角色管理", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:role:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(SysRole role) {
         List<SysRole> list = roleService.selectRoleList(role);
-        ExcelUtil<SysRole> util = new ExcelUtil<SysRole>(SysRole.class);
+        ExcelUtil<SysRole> util = new ExcelUtil<>(SysRole.class);
         return util.exportExcel(list, "role");
     }
 
@@ -65,14 +69,14 @@ public class SysRoleController extends BaseController {
      */
     @GetMapping("/add")
     public String add() {
-        return prefix + "/add" ;
+        return prefix + "/add";
     }
 
     /**
      * 新增保存角色
      */
     @RequiresPermissions("system:role:add")
-    @Log(title = "角色管理" , businessType = BusinessType.INSERT)
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
@@ -88,15 +92,15 @@ public class SysRoleController extends BaseController {
      */
     @GetMapping("/edit/{roleId}")
     public String edit(@PathVariable("roleId") Long roleId, ModelMap mmap) {
-        mmap.put("role" , roleService.selectRoleById(roleId));
-        return prefix + "/edit" ;
+        mmap.put("role", roleService.selectRoleById(roleId));
+        return prefix + "/edit";
     }
 
     /**
      * 修改保存角色
      */
     @RequiresPermissions("system:role:edit")
-    @Log(title = "角色管理" , businessType = BusinessType.UPDATE)
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
@@ -111,15 +115,15 @@ public class SysRoleController extends BaseController {
      */
     @GetMapping("/rule/{roleId}")
     public String rule(@PathVariable("roleId") Long roleId, ModelMap mmap) {
-        mmap.put("role" , roleService.selectRoleById(roleId));
-        return prefix + "/rule" ;
+        mmap.put("role", roleService.selectRoleById(roleId));
+        return prefix + "/rule";
     }
 
     /**
      * 修改保存数据权限
      */
     @RequiresPermissions("system:role:edit")
-    @Log(title = "角色管理" , businessType = BusinessType.UPDATE)
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     @PostMapping("/rule")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
@@ -129,7 +133,7 @@ public class SysRoleController extends BaseController {
     }
 
     @RequiresPermissions("system:role:remove")
-    @Log(title = "角色管理" , businessType = BusinessType.DELETE)
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
@@ -163,6 +167,6 @@ public class SysRoleController extends BaseController {
      */
     @GetMapping("/selectMenuTree")
     public String selectMenuTree() {
-        return prefix + "/tree" ;
+        return prefix + "/tree";
     }
 }

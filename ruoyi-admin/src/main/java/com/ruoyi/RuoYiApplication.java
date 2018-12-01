@@ -1,9 +1,14 @@
 package com.ruoyi;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+
+import java.time.Duration;
+import java.time.Instant;
 
 /**
  * 启动程序
@@ -13,18 +18,13 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @MapperScan("com.ruoyi.*.mapper")
 public class RuoYiApplication {
+
+    private static final Logger log = LoggerFactory.getLogger(RuoYiApplication.class);
+
     public static void main(String[] args) {
-        // System.setProperty("spring.devtools.restart.enabled", "false");
+        Instant inst1 = Instant.now();
         SpringApplication.run(RuoYiApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  若依启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
-                " .-------.       ____     __        \n" +
-                " |  _ _   \\      \\   \\   /  /    \n" +
-                " | ( ' )  |       \\  _. /  '       \n" +
-                " |(_ o _) /        _( )_ .'         \n" +
-                " | (_,_).' __  ___(_ o _)'          \n" +
-                " |  |\\ \\  |  ||   |(_,_)'         \n" +
-                " |  | \\ `'   /|   `-'  /           \n" +
-                " |  |  \\    /  \\      /           \n" +
-                " ''-'   `'-'    `-..-'              ");
+        log.info("启动成功!耗时:{}秒", Duration.between(inst1, Instant.now()).getSeconds());
     }
+
 }

@@ -30,23 +30,26 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/system/dept")
 public class SysDeptController extends BaseController {
-    private String prefix = "system/dept" ;
+    private String prefix = "system/dept";
+
+    private final ISysDeptService deptService;
 
     @Autowired
-    private ISysDeptService deptService;
+    public SysDeptController(ISysDeptService deptService) {
+        this.deptService = deptService;
+    }
 
     @RequiresPermissions("system:dept:view")
     @GetMapping()
     public String dept() {
-        return prefix + "/dept" ;
+        return prefix + "/dept";
     }
 
     @RequiresPermissions("system:dept:list")
     @GetMapping("/list")
     @ResponseBody
     public List<SysDept> list(SysDept dept) {
-        List<SysDept> deptList = deptService.selectDeptList(dept);
-        return deptList;
+        return deptService.selectDeptList(dept);
     }
 
     /**
@@ -54,14 +57,14 @@ public class SysDeptController extends BaseController {
      */
     @GetMapping("/add/{parentId}")
     public String add(@PathVariable("parentId") Long parentId, ModelMap mmap) {
-        mmap.put("dept" , deptService.selectDeptById(parentId));
-        return prefix + "/add" ;
+        mmap.put("dept", deptService.selectDeptById(parentId));
+        return prefix + "/add";
     }
 
     /**
      * 新增保存部门
      */
-    @Log(title = "部门管理" , businessType = BusinessType.INSERT)
+    @Log(title = "部门管理", businessType = BusinessType.INSERT)
     @RequiresPermissions("system:dept:add")
     @PostMapping("/add")
     @ResponseBody
@@ -79,14 +82,14 @@ public class SysDeptController extends BaseController {
         if (StringUtils.isNotNull(dept) && 100L == deptId) {
             dept.setParentName("无");
         }
-        mmap.put("dept" , dept);
-        return prefix + "/edit" ;
+        mmap.put("dept", dept);
+        return prefix + "/edit";
     }
 
     /**
      * 保存
      */
-    @Log(title = "部门管理" , businessType = BusinessType.UPDATE)
+    @Log(title = "部门管理", businessType = BusinessType.UPDATE)
     @RequiresPermissions("system:dept:edit")
     @PostMapping("/edit")
     @ResponseBody
@@ -98,7 +101,7 @@ public class SysDeptController extends BaseController {
     /**
      * 删除
      */
-    @Log(title = "部门管理" , businessType = BusinessType.DELETE)
+    @Log(title = "部门管理", businessType = BusinessType.DELETE)
     @RequiresPermissions("system:dept:remove")
     @PostMapping("/remove/{deptId}")
     @ResponseBody
@@ -126,8 +129,8 @@ public class SysDeptController extends BaseController {
      */
     @GetMapping("/selectDeptTree/{deptId}")
     public String selectDeptTree(@PathVariable("deptId") Long deptId, ModelMap mmap) {
-        mmap.put("dept" , deptService.selectDeptById(deptId));
-        return prefix + "/tree" ;
+        mmap.put("dept", deptService.selectDeptById(deptId));
+        return prefix + "/tree";
     }
 
     /**
@@ -136,8 +139,7 @@ public class SysDeptController extends BaseController {
     @GetMapping("/treeData")
     @ResponseBody
     public List<Map<String, Object>> treeData() {
-        List<Map<String, Object>> tree = deptService.selectDeptTree();
-        return tree;
+        return deptService.selectDeptTree();
     }
 
     /**
@@ -146,7 +148,6 @@ public class SysDeptController extends BaseController {
     @GetMapping("/roleDeptTreeData")
     @ResponseBody
     public List<Map<String, Object>> deptTreeData(SysRole role) {
-        List<Map<String, Object>> tree = deptService.roleDeptTreeData(role);
-        return tree;
+        return deptService.roleDeptTreeData(role);
     }
 }

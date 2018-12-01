@@ -26,15 +26,19 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/monitor/logininfor")
 public class SysLogininforController extends BaseController {
-    private String prefix = "monitor/logininfor" ;
+
+    private final ISysLogininforService logininforService;
 
     @Autowired
-    private ISysLogininforService logininforService;
+    public SysLogininforController(ISysLogininforService logininforService) {
+        this.logininforService = logininforService;
+    }
 
     @RequiresPermissions("monitor:logininfor:view")
     @GetMapping()
     public String logininfor() {
-        return prefix + "/logininfor" ;
+        String prefix = "monitor/logininfor";
+        return prefix + "/logininfor";
     }
 
     @RequiresPermissions("monitor:logininfor:list")
@@ -46,18 +50,18 @@ public class SysLogininforController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "登陆日志" , businessType = BusinessType.EXPORT)
+    @Log(title = "登陆日志", businessType = BusinessType.EXPORT)
     @RequiresPermissions("monitor:logininfor:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(SysLogininfor logininfor) {
         List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
-        ExcelUtil<SysLogininfor> util = new ExcelUtil<SysLogininfor>(SysLogininfor.class);
+        ExcelUtil<SysLogininfor> util = new ExcelUtil<>(SysLogininfor.class);
         return util.exportExcel(list, "logininfor");
     }
 
     @RequiresPermissions("monitor:logininfor:remove")
-    @Log(title = "登陆日志" , businessType = BusinessType.DELETE)
+    @Log(title = "登陆日志", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
@@ -65,7 +69,7 @@ public class SysLogininforController extends BaseController {
     }
 
     @RequiresPermissions("monitor:logininfor:remove")
-    @Log(title = "登陆日志" , businessType = BusinessType.CLEAN)
+    @Log(title = "登陆日志", businessType = BusinessType.CLEAN)
     @PostMapping("/clean")
     @ResponseBody
     public AjaxResult clean() {

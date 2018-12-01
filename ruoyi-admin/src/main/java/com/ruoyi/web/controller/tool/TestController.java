@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.tool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,37 +27,40 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/test/*")
 public class TestController extends BaseController {
-    private final static List<Test> testList = new ArrayList<>();
+    private static final List<Test> TEST_LIST = new ArrayList<>();
 
-    {
-        testList.add(new Test("1" , "admin" , "admin123"));
-        testList.add(new Test("2" , "ry" , "admin123"));
+    static {
+        TEST_LIST.add(new Test("1", "admin", "admin123"));
+        TEST_LIST.add(new Test("2", "ry", "admin123"));
     }
 
     @ApiOperation("获取列表")
     @GetMapping("list")
     public List<Test> testList() {
-        return testList;
+        return TEST_LIST;
     }
 
     @ApiOperation("新增用户")
     @PostMapping("save")
     public AjaxResult save(Test test) {
-        return testList.add(test) ? success() : error();
+        TEST_LIST.add(test);
+        return success();
     }
 
     @ApiOperation("更新用户")
-    @ApiImplicitParam(name = "Test" , value = "单个用户信息" , dataType = "Test")
+    @ApiImplicitParam(name = "Test", value = "单个用户信息", dataType = "Test")
     @PutMapping("update")
     public AjaxResult update(Test test) {
-        return testList.remove(test) && testList.add(test) ? success() : error();
+        boolean flag = TEST_LIST.remove(test);
+        TEST_LIST.add(test);
+        return flag ? success() : error();
     }
 
     @ApiOperation("删除用户")
-    @ApiImplicitParam(name = "Tests" , value = "单个用户信息" , dataType = "Test")
+    @ApiImplicitParam(name = "Tests", value = "单个用户信息", dataType = "Test")
     @DeleteMapping("delete")
     public AjaxResult delete(Test test) {
-        return testList.remove(test) ? success() : error();
+        return TEST_LIST.remove(test) ? success() : error();
     }
 }
 
@@ -69,7 +73,7 @@ class Test {
 
     }
 
-    public Test(String userId, String username, String password) {
+    Test(String userId, String username, String password) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -86,7 +90,7 @@ class Test {
 
         Test test = (Test) o;
 
-        return userId != null ? userId.equals(test.userId) : test.userId == null;
+        return Objects.equals(userId, test.userId);
     }
 
     @Override

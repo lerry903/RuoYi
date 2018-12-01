@@ -34,24 +34,28 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/system/user")
 public class SysUserController extends BaseController {
-    private String prefix = "system/user" ;
+    private String prefix = "system/user";
+
+    private final ISysUserService userService;
+
+    private final ISysRoleService roleService;
+
+    private final ISysPostService postService;
+
+    private final SysPasswordService passwordService;
 
     @Autowired
-    private ISysUserService userService;
-
-    @Autowired
-    private ISysRoleService roleService;
-
-    @Autowired
-    private ISysPostService postService;
-
-    @Autowired
-    private SysPasswordService passwordService;
+    public SysUserController(ISysUserService userService, ISysRoleService roleService, ISysPostService postService, SysPasswordService passwordService) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.postService = postService;
+        this.passwordService = passwordService;
+    }
 
     @RequiresPermissions("system:user:view")
     @GetMapping()
     public String user() {
-        return prefix + "/user" ;
+        return prefix + "/user";
     }
 
     @RequiresPermissions("system:user:list")
@@ -63,13 +67,13 @@ public class SysUserController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "用户管理" , businessType = BusinessType.EXPORT)
+    @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:user:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(SysUser user) {
         List<SysUser> list = userService.selectUserList(user);
-        ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
+        ExcelUtil<SysUser> util = new ExcelUtil<>(SysUser.class);
         return util.exportExcel(list, "user");
     }
 
@@ -78,16 +82,16 @@ public class SysUserController extends BaseController {
      */
     @GetMapping("/add")
     public String add(ModelMap mmap) {
-        mmap.put("roles" , roleService.selectRoleAll());
-        mmap.put("posts" , postService.selectPostAll());
-        return prefix + "/add" ;
+        mmap.put("roles", roleService.selectRoleAll());
+        mmap.put("posts", postService.selectPostAll());
+        return prefix + "/add";
     }
 
     /**
      * 新增保存用户
      */
     @RequiresPermissions("system:user:add")
-    @Log(title = "用户管理" , businessType = BusinessType.INSERT)
+    @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
@@ -106,17 +110,17 @@ public class SysUserController extends BaseController {
      */
     @GetMapping("/edit/{userId}")
     public String edit(@PathVariable("userId") Long userId, ModelMap mmap) {
-        mmap.put("user" , userService.selectUserById(userId));
-        mmap.put("roles" , roleService.selectRolesByUserId(userId));
-        mmap.put("posts" , postService.selectPostsByUserId(userId));
-        return prefix + "/edit" ;
+        mmap.put("user", userService.selectUserById(userId));
+        mmap.put("roles", roleService.selectRolesByUserId(userId));
+        mmap.put("posts", postService.selectPostsByUserId(userId));
+        return prefix + "/edit";
     }
 
     /**
      * 修改保存用户
      */
     @RequiresPermissions("system:user:edit")
-    @Log(title = "用户管理" , businessType = BusinessType.UPDATE)
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
@@ -129,15 +133,15 @@ public class SysUserController extends BaseController {
     }
 
     @RequiresPermissions("system:user:resetPwd")
-    @Log(title = "重置密码" , businessType = BusinessType.UPDATE)
+    @Log(title = "重置密码", businessType = BusinessType.UPDATE)
     @GetMapping("/resetPwd/{userId}")
     public String resetPwd(@PathVariable("userId") Long userId, ModelMap mmap) {
-        mmap.put("user" , userService.selectUserById(userId));
-        return prefix + "/resetPwd" ;
+        mmap.put("user", userService.selectUserById(userId));
+        return prefix + "/resetPwd";
     }
 
     @RequiresPermissions("system:user:resetPwd")
-    @Log(title = "重置密码" , businessType = BusinessType.UPDATE)
+    @Log(title = "重置密码", businessType = BusinessType.UPDATE)
     @PostMapping("/resetPwd")
     @ResponseBody
     public AjaxResult resetPwdSave(SysUser user) {
@@ -147,7 +151,7 @@ public class SysUserController extends BaseController {
     }
 
     @RequiresPermissions("system:user:remove")
-    @Log(title = "用户管理" , businessType = BusinessType.DELETE)
+    @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {

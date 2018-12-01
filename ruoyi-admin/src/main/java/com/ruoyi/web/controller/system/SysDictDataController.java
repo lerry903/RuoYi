@@ -29,15 +29,19 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/system/dict/data")
 public class SysDictDataController extends BaseController {
-    private String prefix = "system/dict/data" ;
+    private String prefix = "system/dict/data";
+
+    private final ISysDictDataService dictDataService;
 
     @Autowired
-    private ISysDictDataService dictDataService;
+    public SysDictDataController(ISysDictDataService dictDataService) {
+        this.dictDataService = dictDataService;
+    }
 
     @RequiresPermissions("system:dict:view")
     @GetMapping()
     public String dictData() {
-        return prefix + "/data" ;
+        return prefix + "/data";
     }
 
     @PostMapping("/list")
@@ -49,13 +53,13 @@ public class SysDictDataController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "字典数据" , businessType = BusinessType.EXPORT)
+    @Log(title = "字典数据", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:dict:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(SysDictData dictData) {
         List<SysDictData> list = dictDataService.selectDictDataList(dictData);
-        ExcelUtil<SysDictData> util = new ExcelUtil<SysDictData>(SysDictData.class);
+        ExcelUtil<SysDictData> util = new ExcelUtil<>(SysDictData.class);
         return util.exportExcel(list, "dictData");
     }
 
@@ -64,14 +68,14 @@ public class SysDictDataController extends BaseController {
      */
     @GetMapping("/add/{dictType}")
     public String add(@PathVariable("dictType") String dictType, ModelMap mmap) {
-        mmap.put("dictType" , dictType);
-        return prefix + "/add" ;
+        mmap.put("dictType", dictType);
+        return prefix + "/add";
     }
 
     /**
      * 新增保存字典类型
      */
-    @Log(title = "字典数据" , businessType = BusinessType.INSERT)
+    @Log(title = "字典数据", businessType = BusinessType.INSERT)
     @RequiresPermissions("system:dict:add")
     @PostMapping("/add")
     @ResponseBody
@@ -85,14 +89,14 @@ public class SysDictDataController extends BaseController {
      */
     @GetMapping("/edit/{dictCode}")
     public String edit(@PathVariable("dictCode") Long dictCode, ModelMap mmap) {
-        mmap.put("dict" , dictDataService.selectDictDataById(dictCode));
-        return prefix + "/edit" ;
+        mmap.put("dict", dictDataService.selectDictDataById(dictCode));
+        return prefix + "/edit";
     }
 
     /**
      * 修改保存字典类型
      */
-    @Log(title = "字典数据" , businessType = BusinessType.UPDATE)
+    @Log(title = "字典数据", businessType = BusinessType.UPDATE)
     @RequiresPermissions("system:dict:edit")
     @PostMapping("/edit")
     @ResponseBody
@@ -101,7 +105,7 @@ public class SysDictDataController extends BaseController {
         return toAjax(dictDataService.updateDictData(dict));
     }
 
-    @Log(title = "字典数据" , businessType = BusinessType.DELETE)
+    @Log(title = "字典数据", businessType = BusinessType.DELETE)
     @RequiresPermissions("system:dict:remove")
     @PostMapping("/remove")
     @ResponseBody

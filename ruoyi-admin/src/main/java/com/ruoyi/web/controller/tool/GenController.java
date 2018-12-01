@@ -29,15 +29,19 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/tool/gen")
 public class GenController extends BaseController {
-    private String prefix = "tool/gen" ;
+
+    private final IGenService genService;
 
     @Autowired
-    private IGenService genService;
+    public GenController(IGenService genService) {
+        this.genService = genService;
+    }
 
     @RequiresPermissions("tool:gen:view")
     @GetMapping()
     public String gen() {
-        return prefix + "/gen" ;
+        String prefix = "tool/gen";
+        return prefix + "/gen";
     }
 
     @RequiresPermissions("tool:gen:list")
@@ -53,33 +57,31 @@ public class GenController extends BaseController {
      * 生成代码
      */
     @RequiresPermissions("tool:gen:code")
-    @Log(title = "代码生成" , businessType = BusinessType.GENCODE)
+    @Log(title = "代码生成", businessType = BusinessType.GENCODE)
     @GetMapping("/genCode/{tableName}")
     public void genCode(HttpServletResponse response, @PathVariable("tableName") String tableName) throws IOException {
         byte[] data = genService.generatorCode(tableName);
-        response.reset();
-        response.setHeader("Content-Disposition" , "attachment; filename=\"ruoyi.zip\"");
-        response.addHeader("Content-Length" , "" + data.length);
-        response.setContentType("application/octet-stream; charset=UTF-8");
-
-        IOUtils.write(data, response.getOutputStream());
+        this.genCode(response, data);
     }
 
     /**
      * 批量生成代码
      */
     @RequiresPermissions("tool:gen:code")
-    @Log(title = "代码生成" , businessType = BusinessType.GENCODE)
+    @Log(title = "代码生成", businessType = BusinessType.GENCODE)
     @GetMapping("/batchGenCode")
     @ResponseBody
     public void batchGenCode(HttpServletResponse response, String tables) throws IOException {
         String[] tableNames = Convert.toStrArray(tables);
         byte[] data = genService.generatorCode(tableNames);
-        response.reset();
-        response.setHeader("Content-Disposition" , "attachment; filename=\"ruoyi.zip\"");
-        response.addHeader("Content-Length" , "" + data.length);
-        response.setContentType("application/octet-stream; charset=UTF-8");
+        this.genCode(response, data);
+    }
 
+    private void genCode(HttpServletResponse response, byte[] data) throws IOException {
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"ruoyi.zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
         IOUtils.write(data, response.getOutputStream());
     }
 }

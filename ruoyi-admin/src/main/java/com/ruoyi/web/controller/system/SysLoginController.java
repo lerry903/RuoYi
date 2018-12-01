@@ -23,6 +23,7 @@ import com.ruoyi.framework.web.base.BaseController;
  */
 @Controller
 public class SysLoginController extends BaseController {
+
     @GetMapping("/login")
     public String login(HttpServletRequest request, HttpServletResponse response) {
         // 如果是Ajax请求，返回Json字符串。
@@ -30,7 +31,7 @@ public class SysLoginController extends BaseController {
             return ServletUtils.renderString(response, "{\"code\":\"1\",\"msg\":\"未登录或登录超时。请重新登录\"}");
         }
 
-        return "login" ;
+        return "login";
     }
 
     @PostMapping("/login")
@@ -42,7 +43,7 @@ public class SysLoginController extends BaseController {
             subject.login(token);
             return success();
         } catch (AuthenticationException e) {
-            String msg = "用户或密码错误" ;
+            String msg = "用户或密码错误";
             if (StringUtils.isNotEmpty(e.getMessage())) {
                 msg = e.getMessage();
             }
@@ -52,6 +53,6 @@ public class SysLoginController extends BaseController {
 
     @GetMapping("/unauth")
     public String unauth() {
-        return "/error/unauth" ;
+        return "/error/unauth";
     }
 }

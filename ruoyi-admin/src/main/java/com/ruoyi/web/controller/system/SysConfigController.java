@@ -29,15 +29,19 @@ import com.ruoyi.framework.web.base.BaseController;
 @Controller
 @RequestMapping("/system/config")
 public class SysConfigController extends BaseController {
-    private String prefix = "system/config" ;
+    private String prefix = "system/config";
+
+    private final ISysConfigService configService;
 
     @Autowired
-    private ISysConfigService configService;
+    public SysConfigController(ISysConfigService configService) {
+        this.configService = configService;
+    }
 
     @RequiresPermissions("system:config:view")
     @GetMapping()
     public String config() {
-        return prefix + "/config" ;
+        return prefix + "/config";
     }
 
     /**
@@ -52,13 +56,13 @@ public class SysConfigController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "参数管理" , businessType = BusinessType.EXPORT)
+    @Log(title = "参数管理", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:config:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(SysConfig config) {
         List<SysConfig> list = configService.selectConfigList(config);
-        ExcelUtil<SysConfig> util = new ExcelUtil<SysConfig>(SysConfig.class);
+        ExcelUtil<SysConfig> util = new ExcelUtil<>(SysConfig.class);
         return util.exportExcel(list, "config");
     }
 
@@ -67,14 +71,14 @@ public class SysConfigController extends BaseController {
      */
     @GetMapping("/add")
     public String add() {
-        return prefix + "/add" ;
+        return prefix + "/add";
     }
 
     /**
      * 新增保存参数配置
      */
     @RequiresPermissions("system:config:add")
-    @Log(title = "参数管理" , businessType = BusinessType.INSERT)
+    @Log(title = "参数管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(SysConfig config) {
@@ -87,15 +91,15 @@ public class SysConfigController extends BaseController {
      */
     @GetMapping("/edit/{configId}")
     public String edit(@PathVariable("configId") Long configId, ModelMap mmap) {
-        mmap.put("config" , configService.selectConfigById(configId));
-        return prefix + "/edit" ;
+        mmap.put("config", configService.selectConfigById(configId));
+        return prefix + "/edit";
     }
 
     /**
      * 修改保存参数配置
      */
     @RequiresPermissions("system:config:edit")
-    @Log(title = "参数管理" , businessType = BusinessType.UPDATE)
+    @Log(title = "参数管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(SysConfig config) {
@@ -107,7 +111,7 @@ public class SysConfigController extends BaseController {
      * 删除参数配置
      */
     @RequiresPermissions("system:config:remove")
-    @Log(title = "参数管理" , businessType = BusinessType.DELETE)
+    @Log(title = "参数管理", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
