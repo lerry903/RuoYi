@@ -6,6 +6,11 @@ package com.ruoyi.common.constant;
  * @author ruoyi
  */
 public class UserConstants {
+
+    private UserConstants(){
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * 正常状态
      */

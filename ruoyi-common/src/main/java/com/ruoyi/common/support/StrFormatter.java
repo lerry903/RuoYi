@@ -8,6 +8,10 @@ import com.ruoyi.common.utils.StringUtils;
  * @author ruoyi
  */
 public class StrFormatter {
+
+    private StrFormatter(){
+        throw new IllegalStateException("Utility class");
+    }
     public static final String EMPTY_JSON = "{}" ;
     public static final char C_BACKSLASH = '\\';
     public static final char C_DELIM_START = '{';

@@ -6,6 +6,11 @@ package com.ruoyi.common.constant;
  * @author ruoyi
  */
 public class PermissionConstants {
+
+    private PermissionConstants(){
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * 新增权限
      */

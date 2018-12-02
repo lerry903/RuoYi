@@ -9,9 +9,9 @@ import org.apache.commons.fileupload.FileUploadException;
  */
 public class FileNameLengthLimitExceededException extends FileUploadException {
     private static final long serialVersionUID = 1L;
-    private int length;
-    private int maxLength;
-    private String filename;
+    private final int length;
+    private final int maxLength;
+    private final String filename;
 
     public FileNameLengthLimitExceededException(String filename, int length, int maxLength) {
         super("file name : [" + filename + "], length : [" + length + "], max length : [" + maxLength + "]");

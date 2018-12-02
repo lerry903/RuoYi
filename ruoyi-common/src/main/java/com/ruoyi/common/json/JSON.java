@@ -17,6 +17,11 @@ import com.fasterxml.jackson.databind.ObjectWriter;
  * @author ruoyi
  */
 public class JSON {
+
+    private JSON(){
+        throw new IllegalStateException("Utility class");
+    }
+
     public static final String DEFAULT_FAIL = "\"Parse failed\"" ;
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();

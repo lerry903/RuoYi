@@ -50,7 +50,7 @@ public class BaseEntity implements Serializable {
     /**
      * 请求参数
      */
-    private Map<String, Object> params;
+    private transient Map<String, Object> params;
 
     public String getSearchValue() {
         return searchValue;
@@ -102,7 +102,7 @@ public class BaseEntity implements Serializable {
 
     public Map<String, Object> getParams() {
         if (params == null) {
-            params = new HashMap<>();
+            params = new HashMap<>(16);
         }
         return params;
     }

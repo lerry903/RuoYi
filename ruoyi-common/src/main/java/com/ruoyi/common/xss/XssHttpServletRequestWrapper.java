@@ -13,9 +13,9 @@ import org.jsoup.safety.Whitelist;
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     /**
-     * @param request
+     * @param request 请求
      */
-    public XssHttpServletRequestWrapper(HttpServletRequest request) {
+    XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
     }
 

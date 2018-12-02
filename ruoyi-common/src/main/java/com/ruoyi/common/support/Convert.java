@@ -15,6 +15,11 @@ import com.ruoyi.common.utils.StringUtils;
  * @author ruoyi
  */
 public class Convert {
+
+    private Convert(){
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * 转换为字符串<br>
      * 如果给定的值为null，或者转换失败，返回默认值<br>
@@ -247,7 +252,7 @@ public class Convert {
     /**
      * 转换为Integer数组<br>
      *
-     * @param split 被转换的值
+     * @param str 被转换的值
      * @return 结果
      */
     public static Integer[] toIntArray(String str) {
@@ -257,7 +262,7 @@ public class Convert {
     /**
      * 转换为Long数组<br>
      *
-     * @param split 被转换的值
+     * @param str 被转换的值
      * @return 结果
      */
     public static Long[] toLongArray(String str) {
@@ -287,8 +292,8 @@ public class Convert {
     /**
      * 转换为Long数组<br>
      *
-     * @param isIgnoreConvertError 是否忽略转换错误，忽略则给值null
-     * @param values               被转换的值
+     * @param split 分隔符
+     * @param str 被转换的值
      * @return 结果
      */
     public static Long[] toLongArray(String split, String str) {
@@ -307,7 +312,7 @@ public class Convert {
     /**
      * 转换为String数组<br>
      *
-     * @param split 被转换的值
+     * @param str 被转换的值
      * @return 结果
      */
     public static String[] toStrArray(String str) {
@@ -606,13 +611,13 @@ public class Convert {
             return (BigDecimal) value;
         }
         if (value instanceof Long) {
-            return new BigDecimal((Long) value);
+            return BigDecimal.valueOf((Long)value);
         }
         if (value instanceof Double) {
-            return new BigDecimal((Double) value);
+            return BigDecimal.valueOf((Double) value);
         }
         if (value instanceof Integer) {
-            return new BigDecimal((Integer) value);
+            return BigDecimal.valueOf((Integer) value);
         }
         final String valueStr = toStr(value, null);
         if (StringUtils.isEmpty(valueStr)) {
@@ -761,7 +766,7 @@ public class Convert {
      * @return 全角字符串.
      */
     public static String toSBC(String input, Set<Character> notConvertSet) {
-        char c[] = input.toCharArray();
+        char[] c = input.toCharArray();
         for (int i = 0; i < c.length; i++) {
             if (null != notConvertSet && notConvertSet.contains(c[i])) {
                 // 跳过不替换的字符
@@ -796,7 +801,7 @@ public class Convert {
      * @return 替换后的字符
      */
     public static String toDBC(String text, Set<Character> notConvertSet) {
-        char c[] = text.toCharArray();
+        char[] c = text.toCharArray();
         for (int i = 0; i < c.length; i++) {
             if (null != notConvertSet && notConvertSet.contains(c[i])) {
                 // 跳过不替换的字符
@@ -809,42 +814,6 @@ public class Convert {
                 c[i] = (char) (c[i] - 65248);
             }
         }
-        String returnString = new String(c);
-
-        return returnString;
-    }
-
-    /**
-     * 数字金额大写转换 先写个完整的然后将如零拾替换成零
-     *
-     * @param n 数字
-     * @return 中文大写数字
-     */
-    public static String digitUppercase(double n) {
-        String[] fraction = {"角" , "分"};
-        String[] digit = {"零" , "壹" , "贰" , "叁" , "肆" , "伍" , "陆" , "柒" , "捌" , "玖"};
-        String[][] unit = {{"元" , "万" , "亿"}, {"" , "拾" , "佰" , "仟"}};
-
-        String head = n < 0 ? "负" : "" ;
-        n = Math.abs(n);
-
-        String s = "" ;
-        for (int i = 0; i < fraction.length; i++) {
-            s += (digit[(int) (Math.floor(n * 10 * Math.pow(10, i)) % 10)] + fraction[i]).replaceAll("(零.)+" , "");
-        }
-        if (s.length() < 1) {
-            s = "整" ;
-        }
-        int integerPart = (int) Math.floor(n);
-
-        for (int i = 0; i < unit[0].length && integerPart > 0; i++) {
-            String p = "" ;
-            for (int j = 0; j < unit[1].length && n > 0; j++) {
-                p = digit[integerPart % 10] + unit[1][j] + p;
-                integerPart = integerPart / 10;
-            }
-            s = p.replaceAll("(零.)*零$" , "").replaceAll("^$" , "零") + unit[0][i] + s;
-        }
-        return head + s.replaceAll("(零.)*零元" , "元").replaceFirst("(零.)+" , "").replaceAll("(零.)+" , "零").replaceAll("^整$" , "零元整");
+        return new String(c);
     }
 }

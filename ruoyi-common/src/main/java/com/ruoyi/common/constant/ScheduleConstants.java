@@ -5,7 +5,8 @@ package com.ruoyi.common.constant;
  *
  * @author ruoyi
  */
-public interface ScheduleConstants {
+public final class ScheduleConstants {
+
     public static final String TASK_CLASS_NAME = "__TASK_CLASS_NAME__" ;
 
     public static final String TASK_PROPERTIES = "__TASK_PROPERTIES__" ;
@@ -42,7 +43,7 @@ public interface ScheduleConstants {
 
         private String value;
 
-        private Status(String value) {
+        Status(String value) {
             this.value = value;
         }
 

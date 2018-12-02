@@ -17,7 +17,9 @@ import com.ruoyi.common.utils.YamlUtil;
 public class Global {
     private static final Logger log = LoggerFactory.getLogger(Global.class);
 
-    private static String NAME = "application.yml" ;
+    private static final String NAME = "application.yml" ;
+
+    private static final String CONFIG_KEY= "ruoyi.profile";
 
     /**
      * 当前对象实例
@@ -27,7 +29,7 @@ public class Global {
     /**
      * 保存全局属性值
      */
-    private static Map<String, String> map = new HashMap<String, String>();
+    private static Map<String, String> map = new HashMap<>();
 
     private Global() {
     }
@@ -39,8 +41,9 @@ public class Global {
     public static synchronized Global getInstance() {
         if (global == null) {
             synchronized (Global.class) {
-                if (global == null)
+                if (global == null) {
                     global = new Global();
+                }
             }
         }
         return global;
@@ -49,15 +52,15 @@ public class Global {
     /**
      * 获取配置
      */
-    public static String getConfig(String key) {
+    private static String getConfig(String key) {
         String value = map.get(key);
         if (value == null) {
-            Map<?, ?> yamlMap = null;
+            Map<?, ?> yamlMap;
             try {
                 yamlMap = YamlUtil.loadYaml(NAME);
                 value = String.valueOf(YamlUtil.getProperty(yamlMap, key));
                 map.put(key, value != null ? value : StringUtils.EMPTY);
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 log.error("获取全局配置异常 {}" , key);
             }
         }
@@ -75,7 +78,7 @@ public class Global {
      * 获取项目版本
      */
     public static String getVersion() {
-        return StringUtils.nvl(getConfig("ruoyi.version"), "3.0.0");
+        return StringUtils.nvl(getConfig("ruoyi.version"), "3.1.0");
     }
 
     /**
@@ -96,21 +99,21 @@ public class Global {
      * 获取文件上传路径
      */
     public static String getProfile() {
-        return getConfig("ruoyi.profile");
+        return getConfig(CONFIG_KEY);
     }
 
     /**
      * 获取头像上传路径
      */
     public static String getAvatarPath() {
-        return getConfig("ruoyi.profile") + "avatar/" ;
+        return getConfig(CONFIG_KEY) + "avatar/" ;
     }
 
     /**
      * 获取下载上传路径
      */
     public static String getDownloadPath() {
-        return getConfig("ruoyi.profile") + "download/" ;
+        return getConfig(CONFIG_KEY) + "download/" ;
     }
 
     /**

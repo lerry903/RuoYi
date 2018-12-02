@@ -3,6 +3,7 @@ package com.ruoyi.common.support;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.StringUtils;
 
 /**
@@ -11,14 +12,21 @@ import com.ruoyi.common.utils.StringUtils;
  * @author ruoyi
  */
 public class CharsetKit {
+
+    private CharsetKit(){
+        throw new IllegalStateException("Utility class");
+    }
+
+    /**
+     * UTF-8 字符集
+     */
+    public static final String UTF8 = "UTF-8" ;
+
     /**
      * ISO-8859-1
      */
     public static final String ISO_8859_1 = "ISO-8859-1" ;
-    /**
-     * UTF-8
-     */
-    public static final String UTF_8 = "UTF-8" ;
+
     /**
      * GBK
      */
@@ -31,7 +39,7 @@ public class CharsetKit {
     /**
      * UTF-8
      */
-    public static final Charset CHARSET_UTF_8 = Charset.forName(UTF_8);
+    public static final Charset CHARSET_UTF_8 = Charset.forName(UTF8);
     /**
      * GBK
      */

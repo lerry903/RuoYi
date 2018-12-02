@@ -188,11 +188,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
         } else {
             final Matcher matcher = arrayNamePattern.matcher(name);
             if (matcher.find()) {
-                return endArray(matcher.group(1), matcher.group(2), new EndArrayCallback<Object>() {
-                    public Object callback(JSONArray arr, int index) {
-                        return elementAt(arr, index);
-                    }
-                });
+                return endArray(matcher.group(1), matcher.group(2), JSONObject::elementAt);
             } else {
                 return get(name);
             }
@@ -214,6 +210,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
             final Matcher matcher = arrayNamePattern.matcher(name);
             if (matcher.find()) {
                 endArray(matcher.group(1), matcher.group(2), new EndArrayCallback<Void>() {
+                    @Override
                     public Void callback(JSONArray arr, int index) {
                         elementAt(arr, index, value);
                         return null;
@@ -235,11 +232,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
     public JSONObject obj(final String name) {
         final Matcher matcher = arrayNamePattern.matcher(name);
         if (matcher.find()) {
-            return endArray(matcher.group(1), matcher.group(2), new EndArrayCallback<JSONObject>() {
-                public JSONObject callback(JSONArray arr, int index) {
-                    return objAt(arr, index);
-                }
-            });
+            return endArray(matcher.group(1), matcher.group(2), JSONObject::objAt);
         } else {
             JSONObject obj = getObj(name);
             if (obj == null) {
@@ -451,7 +444,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
         } else if (value instanceof String) {
             return Boolean.valueOf((String) value);
         } else {
-            return null;
+            return false;
         }
     }
 
@@ -592,11 +585,11 @@ public class JSONObject extends LinkedHashMap<String, Object> {
 
     private static int[] parseIndexes(final String s) {
         int[] indexes = null;
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
 
         final StringTokenizer st = new StringTokenizer(s, "[]");
         while (st.hasMoreTokens()) {
-            final int index = Integer.valueOf(st.nextToken());
+            final int index = Integer.parseInt(st.nextToken());
             if (index < 0) {
                 throw new RuntimeException(String.format("Illegal index %1$d in \"%2$s\"" , index, s));
             }
