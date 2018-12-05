@@ -16,8 +16,13 @@ import com.ruoyi.quartz.service.ISysJobLogService;
  */
 @Service
 public class SysJobLogServiceImpl implements ISysJobLogService {
+
+    private final SysJobLogMapper jobLogMapper;
+
     @Autowired
-    private SysJobLogMapper jobLogMapper;
+    public SysJobLogServiceImpl(SysJobLogMapper jobLogMapper) {
+        this.jobLogMapper = jobLogMapper;
+    }
 
     /**
      * 获取quartz调度器日志的计划任务
@@ -33,7 +38,7 @@ public class SysJobLogServiceImpl implements ISysJobLogService {
     /**
      * 通过调度任务日志ID查询调度信息
      *
-     * @param jobId 调度任务日志ID
+     * @param jobLogId 调度任务日志ID
      * @return 调度任务日志对象信息
      */
     @Override

@@ -22,11 +22,16 @@ import com.ruoyi.quartz.util.ScheduleUtils;
  */
 @Service
 public class SysJobServiceImpl implements ISysJobService {
-    @Autowired
-    private Scheduler scheduler;
+
+    private final Scheduler scheduler;
+
+    private final SysJobMapper jobMapper;
 
     @Autowired
-    private SysJobMapper jobMapper;
+    public SysJobServiceImpl(Scheduler scheduler, SysJobMapper jobMapper) {
+        this.scheduler = scheduler;
+        this.jobMapper = jobMapper;
+    }
 
     /**
      * 项目启动时，初始化定时器
@@ -49,7 +54,7 @@ public class SysJobServiceImpl implements ISysJobService {
      * 获取quartz调度器的计划任务列表
      *
      * @param job 调度信息
-     * @return
+     * @return 计划任务列表
      */
     @Override
     public List<SysJob> selectJobList(SysJob job) {
@@ -115,7 +120,6 @@ public class SysJobServiceImpl implements ISysJobService {
      * 批量删除调度信息
      *
      * @param ids 需要删除的数据ID
-     * @return 结果
      */
     @Override
     public void deleteJobByIds(String ids) {

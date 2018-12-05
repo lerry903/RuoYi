@@ -12,13 +12,16 @@ import org.springframework.stereotype.Service;
  */
 @Service("springContextUtil")
 public class SpringContextUtil implements ApplicationContextAware {
-    // Spring应用上下文环境
+
+    /**
+     * Spring应用上下文环境
+     */
     private static ApplicationContext applicationContext;
 
     /**
      * 实现ApplicationContextAware接口的回调方法，设置上下文环境
      *
-     * @param applicationContext
+     * @param applicationContext 上下文
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -39,7 +42,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @return Object
      * @throws BeansException
      */
-    public static Object getBean(String name) throws BeansException {
+    public static Object getBean(String name){
         return applicationContext.getBean(name);
     }
 }

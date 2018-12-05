@@ -1,26 +1,24 @@
 package com.ruoyi.quartz.util;
 
-import java.lang.reflect.Method;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.ReflectionUtils;
 import com.ruoyi.common.utils.StringUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Method;
 
 /**
  * 执行定时任务
  *
  * @author ruoyi
  */
+@Slf4j
 public class ScheduleRunnable implements Runnable {
-    private static final Logger log = LoggerFactory.getLogger(ScheduleRunnable.class);
 
     private Object target;
     private Method method;
     private String params;
 
-    public ScheduleRunnable(String beanName, String methodName, String params)
-            throws NoSuchMethodException, SecurityException {
+    public ScheduleRunnable(String beanName, String methodName, String params)throws NoSuchMethodException{
         this.target = SpringContextUtil.getBean(beanName);
         this.params = params;
 

@@ -16,14 +16,14 @@ public interface SysJobMapper {
      * @param job 调度信息
      * @return 操作日志集合
      */
-    public List<SysJob> selectJobList(SysJob job);
+    List<SysJob> selectJobList(SysJob job);
 
     /**
      * 查询所有调度任务
      *
      * @return 调度任务列表
      */
-    public List<SysJob> selectJobAll();
+    List<SysJob> selectJobAll();
 
     /**
      * 通过调度ID查询调度任务信息
@@ -31,15 +31,15 @@ public interface SysJobMapper {
      * @param jobId 调度ID
      * @return 角色对象信息
      */
-    public SysJob selectJobById(Long jobId);
+    SysJob selectJobById(Long jobId);
 
     /**
      * 通过调度ID删除调度任务信息
      *
-     * @param jobId 调度ID
+     * @param job 调度ID
      * @return 结果
      */
-    public int deleteJobById(SysJob job);
+    int deleteJobById(SysJob job);
 
     /**
      * 批量删除调度任务信息
@@ -47,7 +47,7 @@ public interface SysJobMapper {
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteJobLogByIds(Long[] ids);
+    int deleteJobByIds(Long[] ids);
 
     /**
      * 修改调度任务信息
@@ -55,7 +55,7 @@ public interface SysJobMapper {
      * @param job 调度任务信息
      * @return 结果
      */
-    public int updateJob(SysJob job);
+    int updateJob(SysJob job);
 
     /**
      * 新增调度任务信息
@@ -63,5 +63,5 @@ public interface SysJobMapper {
      * @param job 调度任务信息
      * @return 结果
      */
-    public int insertJob(SysJob job);
+    int insertJob(SysJob job);
 }

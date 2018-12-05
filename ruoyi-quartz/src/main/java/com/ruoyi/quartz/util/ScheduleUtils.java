@@ -1,29 +1,25 @@
 package com.ruoyi.quartz.util;
 
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.TriggerBuilder;
-import org.quartz.TriggerKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.ruoyi.common.constant.ScheduleConstants;
 import com.ruoyi.common.exception.job.TaskException;
 import com.ruoyi.common.exception.job.TaskException.Code;
 import com.ruoyi.quartz.domain.SysJob;
+import lombok.extern.slf4j.Slf4j;
+import org.quartz.*;
+
+import java.util.Objects;
 
 /**
  * 定时任务工具类
  *
  * @author ruoyi
  */
+@Slf4j
 public class ScheduleUtils {
-    private static final Logger log = LoggerFactory.getLogger(ScheduleUtils.class);
+
+    private ScheduleUtils(){
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * 获取触发器key
@@ -76,9 +72,7 @@ public class ScheduleUtils {
             if (job.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue())) {
                 pauseJob(scheduler, job.getJobId());
             }
-        } catch (SchedulerException e) {
-            log.error("createScheduleJob 异常：" , e);
-        } catch (TaskException e) {
+        } catch (SchedulerException | TaskException e) {
             log.error("createScheduleJob 异常：" , e);
         }
     }
@@ -92,12 +86,13 @@ public class ScheduleUtils {
 
             // 表达式调度构建器
             CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(job.getCronExpression());
-            cronScheduleBuilder = handleCronScheduleMisfirePolicy(job, cronScheduleBuilder);
+                cronScheduleBuilder = handleCronScheduleMisfirePolicy(job, cronScheduleBuilder);
+
 
             CronTrigger trigger = getCronTrigger(scheduler, job.getJobId());
 
             // 按新的cronExpression表达式重新构建trigger
-            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(cronScheduleBuilder).build();
+            trigger = Objects.requireNonNull(trigger).getTriggerBuilder().withIdentity(triggerKey).withSchedule(cronScheduleBuilder).build();
 
             // 参数
             trigger.getJobDataMap().put(ScheduleConstants.TASK_PROPERTIES, job);
@@ -109,9 +104,7 @@ public class ScheduleUtils {
                 pauseJob(scheduler, job.getJobId());
             }
 
-        } catch (SchedulerException e) {
-            log.error("SchedulerException 异常：" , e);
-        } catch (TaskException e) {
+        } catch (SchedulerException | TaskException e) {
             log.error("SchedulerException 异常：" , e);
         }
     }
@@ -167,7 +160,7 @@ public class ScheduleUtils {
         }
     }
 
-    public static CronScheduleBuilder handleCronScheduleMisfirePolicy(SysJob job, CronScheduleBuilder cb)
+    private static CronScheduleBuilder handleCronScheduleMisfirePolicy(SysJob job, CronScheduleBuilder cb)
             throws TaskException {
         switch (job.getMisfirePolicy()) {
             case ScheduleConstants.MISFIRE_DEFAULT:
