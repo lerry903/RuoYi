@@ -26,12 +26,12 @@ public class TableInfo extends BaseEntity {
     /**
      * 表的主键列信息
      */
-    private ColumnInfo primaryKey;
+    private transient ColumnInfo primaryKey;
 
     /**
      * 表的列名(不包含主键)
      */
-    private List<ColumnInfo> columns;
+    private transient List<ColumnInfo> columns;
 
     /**
      * 类名(第一个字母大写)
@@ -65,7 +65,7 @@ public class TableInfo extends BaseEntity {
 
     public ColumnInfo getColumnsLast() {
         ColumnInfo columnInfo = null;
-        if (StringUtils.isNotNull(columns) && columns.size() > 0) {
+        if (StringUtils.isNotNull(columns) && !columns.isEmpty()) {
             columnInfo = columns.get(0);
         }
         return columnInfo;

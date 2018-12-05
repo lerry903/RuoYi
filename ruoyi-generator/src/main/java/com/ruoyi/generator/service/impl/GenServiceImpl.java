@@ -1,12 +1,14 @@
 package com.ruoyi.generator.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
+import com.ruoyi.common.config.Global;
+import com.ruoyi.common.support.CharsetKit;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.generator.domain.ColumnInfo;
+import com.ruoyi.generator.domain.TableInfo;
+import com.ruoyi.generator.mapper.GenMapper;
+import com.ruoyi.generator.service.IGenService;
+import com.ruoyi.generator.util.GenUtils;
+import com.ruoyi.generator.util.VelocityInitializer;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -15,15 +17,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.common.config.Global;
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.generator.domain.ColumnInfo;
-import com.ruoyi.generator.domain.TableInfo;
-import com.ruoyi.generator.mapper.GenMapper;
-import com.ruoyi.generator.service.IGenService;
-import com.ruoyi.generator.util.GenUtils;
-import com.ruoyi.generator.util.VelocityInitializer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.List;
+import java.util.Objects;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * 代码生成 服务层处理
@@ -34,8 +35,12 @@ import com.ruoyi.generator.util.VelocityInitializer;
 public class GenServiceImpl implements IGenService {
     private static final Logger log = LoggerFactory.getLogger(GenServiceImpl.class);
 
+    private final GenMapper genMapper;
+
     @Autowired
-    private GenMapper genMapper;
+    public GenServiceImpl(GenMapper genMapper) {
+        this.genMapper = genMapper;
+    }
 
     /**
      * 查询ry数据库表信息
@@ -93,7 +98,7 @@ public class GenServiceImpl implements IGenService {
     /**
      * 生成代码
      */
-    public void generatorCode(TableInfo table, List<ColumnInfo> columns, ZipOutputStream zip) {
+    private void generatorCode(TableInfo table, List<ColumnInfo> columns, ZipOutputStream zip) {
         // 表名转换成Java属性名
         String className = GenUtils.tableToJava(table.getTableName());
         table.setClassName(className);
@@ -115,12 +120,12 @@ public class GenServiceImpl implements IGenService {
         for (String template : templates) {
             // 渲染模板
             StringWriter sw = new StringWriter();
-            Template tpl = Velocity.getTemplate(template, Constants.UTF8);
+            Template tpl = Velocity.getTemplate(template, CharsetKit.UTF8);
             tpl.merge(context, sw);
             try {
                 // 添加到zip
-                zip.putNextEntry(new ZipEntry(GenUtils.getFileName(template, table, moduleName)));
-                IOUtils.write(sw.toString(), zip, Constants.UTF8);
+                zip.putNextEntry(new ZipEntry(Objects.requireNonNull(GenUtils.getFileName(template, table, moduleName))));
+                IOUtils.write(sw.toString(), zip, CharsetKit.UTF8);
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();
             } catch (IOException e) {

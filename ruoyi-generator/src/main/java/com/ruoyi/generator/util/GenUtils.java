@@ -1,17 +1,17 @@
 package com.ruoyi.generator.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.velocity.VelocityContext;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.generator.domain.ColumnInfo;
 import com.ruoyi.generator.domain.TableInfo;
+import org.apache.velocity.VelocityContext;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 代码生成器 工具类
@@ -19,6 +19,10 @@ import com.ruoyi.generator.domain.TableInfo;
  * @author ruoyi
  */
 public class GenUtils {
+
+    private GenUtils(){
+        throw new IllegalStateException("Utility class");
+    }
     /**
      * 项目空间路径
      */
@@ -37,7 +41,7 @@ public class GenUtils {
     /**
      * 类型转换
      */
-    public static Map<String, String> javaTypeMap = new HashMap<String, String>();
+    private static Map<String, String> javaTypeMap = new HashMap<>();
 
     /**
      * 设置列信息
@@ -89,7 +93,7 @@ public class GenUtils {
      * @return 模板列表
      */
     public static List<String> getTemplates() {
-        List<String> templates = new ArrayList<String>();
+        List<String> templates = new ArrayList<>();
         templates.add("vm/java/domain.java.vm");
         templates.add("vm/java/Mapper.java.vm");
         templates.add("vm/java/Service.java.vm");
@@ -176,19 +180,17 @@ public class GenUtils {
     public static String getModuleName(String packageName) {
         int lastIndex = packageName.lastIndexOf(".");
         int nameLength = packageName.length();
-        String moduleName = StringUtils.substring(packageName, lastIndex + 1, nameLength);
-        return moduleName;
+        return StringUtils.substring(packageName, lastIndex + 1, nameLength);
     }
 
     public static String getBasePackage(String packageName) {
         int lastIndex = packageName.lastIndexOf(".");
-        String basePackage = StringUtils.substring(packageName, 0, lastIndex);
-        return basePackage;
+        return StringUtils.substring(packageName, 0, lastIndex);
     }
 
     public static String getProjectPath() {
         String packageName = Global.getPackageName();
-        StringBuffer projectPath = new StringBuffer();
+        StringBuilder projectPath = new StringBuilder();
         projectPath.append("main/java/");
         projectPath.append(packageName.replace("." , "/"));
         projectPath.append("/");
@@ -196,8 +198,7 @@ public class GenUtils {
     }
 
     public static String replaceKeyword(String keyword) {
-        String keyName = keyword.replaceAll("(?:表|信息)" , "");
-        return keyName;
+        return keyword.replaceAll("(?:表|信息)" , "");
     }
 
     static {
