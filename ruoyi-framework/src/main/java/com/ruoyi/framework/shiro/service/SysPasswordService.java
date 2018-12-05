@@ -24,13 +24,18 @@ import com.ruoyi.system.domain.SysUser;
  */
 @Component
 public class SysPasswordService {
-    @Autowired
-    private CacheManager cacheManager;
+
+    private final CacheManager cacheManager;
 
     private Cache<String, AtomicInteger> loginRecordCache;
 
     @Value(value = "${user.password.maxRetryCount}")
     private String maxRetryCount;
+
+    @Autowired
+    public SysPasswordService(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
 
     @PostConstruct
     public void init() {
@@ -46,9 +51,9 @@ public class SysPasswordService {
             retryCount = new AtomicInteger(0);
             loginRecordCache.put(loginName, retryCount);
         }
-        if (retryCount.incrementAndGet() > Integer.valueOf(maxRetryCount).intValue()) {
+        if (retryCount.incrementAndGet() > Integer.parseInt(maxRetryCount)) {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(loginName, Constants.LOGIN_FAIL, MessageUtils.message("user.password.retry.limit.exceed" , maxRetryCount)));
-            throw new UserPasswordRetryLimitExceedException(Integer.valueOf(maxRetryCount).intValue());
+            throw new UserPasswordRetryLimitExceedException(Integer.parseInt(maxRetryCount));
         }
 
         if (!matches(user, password)) {
@@ -64,12 +69,12 @@ public class SysPasswordService {
         return user.getPassword().equals(encryptPassword(user.getLoginName(), newPassword, user.getSalt()));
     }
 
-    public void clearLoginRecordCache(String username) {
+    private void clearLoginRecordCache(String username) {
         loginRecordCache.remove(username);
     }
 
     public String encryptPassword(String username, String password, String salt) {
-        return new Md5Hash(username + password + salt).toHex().toString();
+        return new Md5Hash(username + password + salt).toHex();
     }
 
 }

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -16,7 +17,13 @@ import com.ruoyi.common.utils.StringUtils;
  *
  * @author ruoyi
  */
+@Slf4j
 public class ServletUtils {
+
+    private ServletUtils(){
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * 获取String参数
      */
@@ -84,7 +91,7 @@ public class ServletUtils {
             response.setCharacterEncoding("utf-8");
             response.getWriter().print(string);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(),e);
         }
         return null;
     }
@@ -97,12 +104,12 @@ public class ServletUtils {
     public static boolean isAjaxRequest(HttpServletRequest request) {
 
         String accept = request.getHeader("accept");
-        if (accept != null && accept.indexOf("application/json") != -1) {
+        if (accept != null && accept.contains("application/json")) {
             return true;
         }
 
         String xRequestedWith = request.getHeader("X-Requested-With");
-        if (xRequestedWith != null && xRequestedWith.indexOf("XMLHttpRequest") != -1) {
+        if (xRequestedWith != null && xRequestedWith.contains("XMLHttpRequest")) {
             return true;
         }
 
@@ -112,10 +119,7 @@ public class ServletUtils {
         }
 
         String ajax = request.getParameter("__ajax");
-        if (StringUtils.inStringIgnoreCase(ajax, "json" , "xml")) {
-            return true;
-        }
+        return StringUtils.inStringIgnoreCase(ajax, "json", "xml");
 
-        return false;
     }
 }

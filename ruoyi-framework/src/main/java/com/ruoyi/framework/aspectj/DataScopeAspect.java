@@ -15,6 +15,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysUser;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 数据过滤处理
@@ -27,29 +28,31 @@ public class DataScopeAspect {
     /**
      * 全部数据权限
      */
-    public static final String DATA_SCOPE_ALL = "1" ;
+    private static final String DATA_SCOPE_ALL = "1" ;
 
     /**
      * 自定数据权限
      */
-    public static final String DATA_SCOPE_CUSTOM = "2" ;
+    private static final String DATA_SCOPE_CUSTOM = "2" ;
 
     /**
      * 数据权限过滤关键字
      */
-    public static final String DATA_SCOPE = "dataScope" ;
+    private static final String DATA_SCOPE = "dataScope" ;
 
-    // 配置织入点
+    /**
+     * 配置织入点
+     */
     @Pointcut("@annotation(com.ruoyi.common.annotation.DataScope)")
     public void dataScopePointCut() {
     }
 
     @Before("dataScopePointCut()")
-    public void doBefore(JoinPoint point) throws Throwable {
+    public void doBefore(JoinPoint point) {
         handleDataScope(point);
     }
 
-    protected void handleDataScope(final JoinPoint joinPoint) {
+    private void handleDataScope(final JoinPoint joinPoint) {
         // 获得注解
         DataScope controllerDataScope = getAnnotationLog(joinPoint);
         if (controllerDataScope == null) {
@@ -57,21 +60,16 @@ public class DataScopeAspect {
         }
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null) {
+        if (!ObjectUtils.isEmpty(currentUser) && !currentUser.isAdmin()) {
             // 如果是超级管理员，则不过滤数据
-            if (!currentUser.isAdmin()) {
-                dataScopeFilter(joinPoint, currentUser, controllerDataScope.tableAlias());
-            }
+            dataScopeFilter(joinPoint, currentUser, controllerDataScope.tableAlias());
         }
     }
 
     /**
      * 数据范围过滤
-     *
-     * @param da 部门表别名
-     * @return 标准连接条件对象
      */
-    public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String alias) {
+    private static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String alias) {
         StringBuilder sqlString = new StringBuilder();
 
         for (SysRole role : user.getRoles()) {

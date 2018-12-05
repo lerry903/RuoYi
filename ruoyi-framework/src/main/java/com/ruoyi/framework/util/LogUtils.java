@@ -35,16 +35,15 @@ public class LogUtils {
         String url = request.getRequestURI();
         String params = getParams(request);
 
-        StringBuilder s = new StringBuilder();
-        s.append(getBlock(username));
-        s.append(getBlock(jsessionId));
-        s.append(getBlock(ip));
-        s.append(getBlock(accept));
-        s.append(getBlock(userAgent));
-        s.append(getBlock(url));
-        s.append(getBlock(params));
-        s.append(getBlock(request.getHeader("Referer")));
-        getAccessLog().info(s.toString());
+        String s = getBlock(username) +
+                getBlock(jsessionId) +
+                getBlock(ip) +
+                getBlock(accept) +
+                getBlock(userAgent) +
+                getBlock(url) +
+                getBlock(params) +
+                getBlock(request.getHeader("Referer"));
+        getAccessLog().info(s);
     }
 
     /**
@@ -55,11 +54,10 @@ public class LogUtils {
      */
     public static void logError(String message, Throwable e) {
         String username = getUsername();
-        StringBuilder s = new StringBuilder();
-        s.append(getBlock("exception"));
-        s.append(getBlock(username));
-        s.append(getBlock(message));
-        ERROR_LOG.error(s.toString(), e);
+        String s = getBlock("exception") +
+                getBlock(username) +
+                getBlock(message);
+        ERROR_LOG.error(s, e);
     }
 
     /**

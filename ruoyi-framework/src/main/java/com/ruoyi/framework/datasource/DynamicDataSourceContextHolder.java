@@ -1,15 +1,18 @@
 package com.ruoyi.framework.datasource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 数据源切换处理
  *
  * @author ruoyi
  */
+@Slf4j
 public class DynamicDataSourceContextHolder {
-    public static final Logger log = LoggerFactory.getLogger(DynamicDataSourceContextHolder.class);
+
+    private DynamicDataSourceContextHolder(){
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * 使用ThreadLocal维护变量，ThreadLocal为每个使用该变量的线程提供独立的变量副本，
@@ -28,7 +31,7 @@ public class DynamicDataSourceContextHolder {
     /**
      * 获得数据源的变量
      */
-    public static String getDateSoureType() {
+    static String getDateSoureType() {
         return CONTEXT_HOLDER.get();
     }
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
  */
 @Service("permission")
 public class PermissionService {
+
     public String hasPermi(String permission) {
         return isPermittedOperator(permission) ? "" : "hidden" ;
     }

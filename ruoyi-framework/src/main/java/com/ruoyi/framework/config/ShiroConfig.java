@@ -37,43 +37,63 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 public class ShiroConfig {
     public static final String PREMISSION_STRING = "perms[\"{0}\"]" ;
 
-    // Session超时时间，单位为毫秒（默认30分钟）
+    /**
+     * Session超时时间，单位为毫秒（默认30分钟）
+     */
     @Value("${shiro.session.expireTime}")
     private int expireTime;
 
-    // 相隔多久检查一次session的有效性，单位毫秒，默认就是10分钟
+    /**
+     * 相隔多久检查一次session的有效性，单位毫秒，默认就是10分钟
+      */
     @Value("${shiro.session.validationInterval}")
     private int validationInterval;
 
-    // 验证码开关
+    /**
+     * 验证码开关
+     */
     @Value("${shiro.user.captchaEnabled}")
     private boolean captchaEnabled;
 
-    // 验证码类型
+    /**
+     * 验证码类型
+     */
     @Value("${shiro.user.captchaType}")
     private String captchaType;
 
-    // 设置Cookie的域名
+    /**
+     * 设置Cookie的域名
+     */
     @Value("${shiro.cookie.domain}")
     private String domain;
 
-    // 设置cookie的有效访问路径
+    /**
+     * 设置cookie的有效访问路径
+     */
     @Value("${shiro.cookie.path}")
     private String path;
 
-    // 设置HttpOnly属性
+    /**
+     * 设置HttpOnly属性
+     */
     @Value("${shiro.cookie.httpOnly}")
     private boolean httpOnly;
 
-    // 设置Cookie的过期时间，秒为单位
+    /**
+     * 设置Cookie的过期时间，秒为单位
+     */
     @Value("${shiro.cookie.maxAge}")
     private int maxAge;
 
-    // 登录地址
+    /**
+     * 登录地址
+     */
     @Value("${shiro.user.loginUrl}")
     private String loginUrl;
 
-    // 权限认证失败地址
+    /**
+     * 权限认证失败地址
+     */
     @Value("${shiro.user.unauthorizedUrl}")
     private String unauthorizedUrl;
 
@@ -108,8 +128,7 @@ public class ShiroConfig {
      */
     @Bean
     public OnlineSessionDAO sessionDAO() {
-        OnlineSessionDAO sessionDAO = new OnlineSessionDAO();
-        return sessionDAO;
+        return new OnlineSessionDAO();
     }
 
     /**
@@ -117,8 +136,7 @@ public class ShiroConfig {
      */
     @Bean
     public OnlineSessionFactory sessionFactory() {
-        OnlineSessionFactory sessionFactory = new OnlineSessionFactory();
-        return sessionFactory;
+        return new OnlineSessionFactory();
     }
 
     /**
@@ -128,7 +146,7 @@ public class ShiroConfig {
     public SpringSessionValidationScheduler sessionValidationScheduler() {
         SpringSessionValidationScheduler sessionValidationScheduler = new SpringSessionValidationScheduler();
         // 相隔多久检查一次session的有效性，单位毫秒，默认就是10分钟
-        sessionValidationScheduler.setSessionValidationInterval(validationInterval * 60 * 1000);
+        sessionValidationScheduler.setSessionValidationInterval((long)validationInterval * 60 * 1000);
         // 设置会话验证调度器进行会话验证时的会话管理器
         sessionValidationScheduler.setSessionManager(sessionValidationManager());
         return sessionValidationScheduler;
@@ -139,15 +157,7 @@ public class ShiroConfig {
      */
     @Bean
     public OnlineWebSessionManager sessionValidationManager() {
-        OnlineWebSessionManager manager = new OnlineWebSessionManager();
-        // 加入缓存管理器
-        manager.setCacheManager(getEhCacheManager());
-        // 删除过期的session
-        manager.setDeleteInvalidSessions(true);
-        // 设置全局session超时时间
-        manager.setGlobalSessionTimeout(expireTime * 60 * 1000);
-        // 去掉 JSESSIONID
-        manager.setSessionIdUrlRewritingEnabled(false);
+        OnlineWebSessionManager manager = getOnlineWebSessionManager();
         // 是否定时检查session
         manager.setSessionValidationSchedulerEnabled(true);
         // 自定义SessionDao
@@ -157,20 +167,25 @@ public class ShiroConfig {
         return manager;
     }
 
-    /**
-     * 会话管理器
-     */
-    @Bean
-    public OnlineWebSessionManager sessionManager() {
+    private OnlineWebSessionManager getOnlineWebSessionManager() {
         OnlineWebSessionManager manager = new OnlineWebSessionManager();
         // 加入缓存管理器
         manager.setCacheManager(getEhCacheManager());
         // 删除过期的session
         manager.setDeleteInvalidSessions(true);
         // 设置全局session超时时间
-        manager.setGlobalSessionTimeout(expireTime * 60 * 1000);
+        manager.setGlobalSessionTimeout((long) expireTime * 60 * 1000);
         // 去掉 JSESSIONID
         manager.setSessionIdUrlRewritingEnabled(false);
+        return manager;
+    }
+
+    /**
+     * 会话管理器
+     */
+    @Bean
+    public OnlineWebSessionManager sessionManager() {
+        OnlineWebSessionManager manager = getOnlineWebSessionManager();
         // 定义要使用的无效的Session定时调度器
         manager.setSessionValidationScheduler(sessionValidationScheduler());
         // 是否定时检查session
@@ -192,7 +207,6 @@ public class ShiroConfig {
         securityManager.setRealm(userRealm);
         // 记住我
         securityManager.setRememberMeManager(rememberMeManager());
-        // 注入缓存管理器;
         securityManager.setCacheManager(getEhCacheManager());
         // session管理器
         securityManager.setSessionManager(sessionManager());
@@ -202,7 +216,7 @@ public class ShiroConfig {
     /**
      * 退出过滤器
      */
-    public LogoutFilter logoutFilter() {
+    private LogoutFilter logoutFilter() {
         LogoutFilter logoutFilter = new LogoutFilter();
         logoutFilter.setLoginUrl(loginUrl);
         return logoutFilter;
@@ -238,8 +252,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/logout" , "logout");
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login" , "anon,captchaValidate");
-        // 系统权限列表
-        // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
 
         Map<String, Filter> filters = new LinkedHashMap<>();
         filters.put("onlineSession" , onlineSessionFilter());
@@ -271,8 +283,7 @@ public class ShiroConfig {
      */
     @Bean
     public SyncOnlineSessionFilter syncOnlineSessionFilter() {
-        SyncOnlineSessionFilter syncOnlineSessionFilter = new SyncOnlineSessionFilter();
-        return syncOnlineSessionFilter;
+        return new SyncOnlineSessionFilter();
     }
 
     /**
@@ -289,7 +300,7 @@ public class ShiroConfig {
     /**
      * cookie 属性设置
      */
-    public SimpleCookie rememberMeCookie() {
+    private SimpleCookie rememberMeCookie() {
         SimpleCookie cookie = new SimpleCookie("rememberMe");
         cookie.setDomain(domain);
         cookie.setPath(path);
@@ -301,7 +312,7 @@ public class ShiroConfig {
     /**
      * 记住我
      */
-    public CookieRememberMeManager rememberMeManager() {
+    private CookieRememberMeManager rememberMeManager() {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
         cookieRememberMeManager.setCipherKey(Base64.decode("fCq+/xW488hMTCD+cmJ3aQ=="));

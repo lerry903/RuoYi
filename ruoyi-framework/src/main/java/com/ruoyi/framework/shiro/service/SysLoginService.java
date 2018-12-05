@@ -28,11 +28,16 @@ import com.ruoyi.system.service.ISysUserService;
  */
 @Component
 public class SysLoginService {
-    @Autowired
-    private SysPasswordService passwordService;
+
+    private final SysPasswordService passwordService;
+
+    private final ISysUserService userService;
 
     @Autowired
-    private ISysUserService userService;
+    public SysLoginService(SysPasswordService passwordService, ISysUserService userService) {
+        this.passwordService = passwordService;
+        this.userService = userService;
+    }
 
     /**
      * 登录
@@ -96,23 +101,17 @@ public class SysLoginService {
     }
 
     private boolean maybeEmail(String username) {
-        if (!username.matches(UserConstants.EMAIL_PATTERN)) {
-            return false;
-        }
-        return true;
+        return username.matches(UserConstants.EMAIL_PATTERN);
     }
 
     private boolean maybeMobilePhoneNumber(String username) {
-        if (!username.matches(UserConstants.MOBILE_PHONE_NUMBER_PATTERN)) {
-            return false;
-        }
-        return true;
+        return username.matches(UserConstants.MOBILE_PHONE_NUMBER_PATTERN);
     }
 
     /**
      * 记录登录信息
      */
-    public void recordLoginInfo(SysUser user) {
+    private void recordLoginInfo(SysUser user) {
         user.setLoginIp(ShiroUtils.getIp());
         user.setLoginDate(DateUtils.getNowDate());
         userService.updateUserInfo(user);

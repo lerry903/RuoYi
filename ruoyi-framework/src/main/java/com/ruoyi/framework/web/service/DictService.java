@@ -14,8 +14,13 @@ import com.ruoyi.system.service.ISysDictDataService;
  */
 @Service("dict")
 public class DictService {
+
+    private final ISysDictDataService dictDataService;
+
     @Autowired
-    private ISysDictDataService dictDataService;
+    public DictService(ISysDictDataService dictDataService) {
+        this.dictDataService = dictDataService;
+    }
 
     /**
      * 根据字典类型查询字典数据信息

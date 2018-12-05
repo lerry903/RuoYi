@@ -36,19 +36,18 @@ public class OnlineSessionFilter extends AccessControlFilter {
      * 表示是否允许访问；mappedValue就是[urls]配置中拦截器参数部分，如果允许访问返回true，否则false；
      */
     @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
-            throws Exception {
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue){
         Subject subject = getSubject(request, response);
         if (subject == null || subject.getSession() == null) {
             return true;
         }
         Session session = onlineSessionDAO.readSession(subject.getSession().getId());
-        if (session != null && session instanceof OnlineSession) {
+        if (session instanceof OnlineSession) {
             OnlineSession onlineSession = (OnlineSession) session;
             request.setAttribute(ShiroConstants.ONLINE_SESSION, onlineSession);
             // 把user对象设置进去
             boolean isGuest = onlineSession.getUserId() == null || onlineSession.getUserId() == 0L;
-            if (isGuest == true) {
+            if (isGuest) {
                 SysUser user = ShiroUtils.getSysUser();
                 if (user != null) {
                     onlineSession.setUserId(user.getUserId());
@@ -58,9 +57,7 @@ public class OnlineSessionFilter extends AccessControlFilter {
                 }
             }
 
-            if (onlineSession.getStatus() == OnlineStatus.off_line) {
-                return false;
-            }
+            return onlineSession.getStatus() != OnlineStatus.off_line;
         }
         return true;
     }
@@ -78,7 +75,12 @@ public class OnlineSessionFilter extends AccessControlFilter {
         return true;
     }
 
-    // 跳转到登录页
+    /**
+     * 跳转到登录页
+     * @param request 请求
+     * @param response 响应
+     * @throws IOException 异常
+     */
     @Override
     protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
         WebUtils.issueRedirect(request, response, loginUrl);

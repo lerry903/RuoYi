@@ -1,22 +1,21 @@
 package com.ruoyi.framework.shiro.web.session;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionValidationScheduler;
 import org.apache.shiro.session.mgt.ValidatingSessionManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 自定义任务调度器完成
  *
  * @author ruoyi
  */
+@Slf4j
 public class SpringSessionValidationScheduler implements SessionValidationScheduler {
-    private static final Logger log = LoggerFactory.getLogger(SpringSessionValidationScheduler.class);
 
     public static final long DEFAULT_SESSION_VALIDATION_INTERVAL = DefaultSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL;
 
@@ -69,7 +68,7 @@ public class SpringSessionValidationScheduler implements SessionValidationSchedu
      * <p>
      * Unless this method is called, the default value is {@link #DEFAULT_SESSION_VALIDATION_INTERVAL}.
      *
-     * @param sessionValidationInterval
+     * @param sessionValidationInterval sessionValidationInterval
      */
     public void setSessionValidationInterval(long sessionValidationInterval) {
         this.sessionValidationInterval = sessionValidationInterval;

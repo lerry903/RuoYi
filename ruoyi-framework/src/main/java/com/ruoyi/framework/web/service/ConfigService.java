@@ -11,13 +11,18 @@ import com.ruoyi.system.service.ISysConfigService;
  */
 @Service("config")
 public class ConfigService {
+
+    private final ISysConfigService configService;
+
     @Autowired
-    private ISysConfigService configService;
+    public ConfigService(ISysConfigService configService) {
+        this.configService = configService;
+    }
 
     /**
      * 根据键名查询参数配置信息
      *
-     * @param configName 参数名称
+     * @param configKey 参数名称
      * @return 参数键值
      */
     public String getKey(String configKey) {

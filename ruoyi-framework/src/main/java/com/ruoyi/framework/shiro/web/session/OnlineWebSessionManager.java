@@ -1,10 +1,11 @@
 package com.ruoyi.framework.shiro.web.session;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
+import com.ruoyi.common.constant.ShiroConstants;
+import com.ruoyi.framework.shiro.session.OnlineSession;
+import com.ruoyi.framework.util.SpringUtils;
+import com.ruoyi.system.domain.SysUserOnline;
+import com.ruoyi.system.service.ISysUserOnlineService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.shiro.session.ExpiredSessionException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -12,24 +13,22 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.ruoyi.common.constant.ShiroConstants;
-import com.ruoyi.framework.shiro.session.OnlineSession;
-import com.ruoyi.framework.util.SpringUtils;
-import com.ruoyi.system.domain.SysUserOnline;
-import com.ruoyi.system.service.ISysUserOnlineService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 主要是在此如果会话的属性修改了 就标识下其修改了 然后方便 OnlineSessionDao同步
  *
  * @author ruoyi
  */
+@Slf4j
 public class OnlineWebSessionManager extends DefaultWebSessionManager {
-    private static final Logger log = LoggerFactory.getLogger(OnlineWebSessionManager.class);
 
     @Override
-    public void setAttribute(SessionKey sessionKey, Object attributeKey, Object value) throws InvalidSessionException {
+    public void setAttribute(SessionKey sessionKey, Object attributeKey, Object value){
         super.setAttribute(sessionKey, attributeKey, value);
         if (value != null && needMarkAttributeChanged(attributeKey)) {
             OnlineSession s = (OnlineSession) doGetSession(sessionKey);
@@ -49,14 +48,11 @@ public class OnlineWebSessionManager extends DefaultWebSessionManager {
         if (attributeKeyStr.startsWith("javax.servlet")) {
             return false;
         }
-        if (attributeKeyStr.equals(ShiroConstants.CURRENT_USERNAME)) {
-            return false;
-        }
-        return true;
+        return !attributeKeyStr.equals(ShiroConstants.CURRENT_USERNAME);
     }
 
     @Override
-    public Object removeAttribute(SessionKey sessionKey, Object attributeKey) throws InvalidSessionException {
+    public Object removeAttribute(SessionKey sessionKey, Object attributeKey){
         Object removed = super.removeAttribute(sessionKey, attributeKey);
         if (removed != null) {
             OnlineSession s = (OnlineSession) doGetSession(sessionKey);
@@ -82,7 +78,7 @@ public class OnlineWebSessionManager extends DefaultWebSessionManager {
         ISysUserOnlineService userOnlineService = SpringUtils.getBean(ISysUserOnlineService.class);
         List<SysUserOnline> userOnlineList = userOnlineService.selectOnlineByExpired(expiredDate);
         // 批量过期删除
-        List<String> needOfflineIdList = new ArrayList<String>();
+        List<String> needOfflineIdList = new ArrayList<>();
         for (SysUserOnline userOnline : userOnlineList) {
             try {
                 SessionKey key = new DefaultSessionKey(userOnline.getSessionId());
@@ -102,7 +98,7 @@ public class OnlineWebSessionManager extends DefaultWebSessionManager {
             }
 
         }
-        if (needOfflineIdList.size() > 0) {
+        if (!needOfflineIdList.isEmpty()) {
             try {
                 userOnlineService.batchDeleteOnline(needOfflineIdList);
             } catch (Exception e) {

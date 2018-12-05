@@ -34,7 +34,9 @@ import com.ruoyi.system.domain.SysUser;
 public class LogAspect {
     private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
 
-    // 配置织入点
+    /**
+     * 配置织入点
+     */
     @Pointcut("@annotation(com.ruoyi.common.annotation.Log)")
     public void logPointCut() {
     }
@@ -52,15 +54,15 @@ public class LogAspect {
     /**
      * 拦截异常操作
      *
-     * @param joinPoint
-     * @param e
+     * @param joinPoint 切点
+     * @param e 异常
      */
     @AfterThrowing(value = "logPointCut()" , throwing = "e")
     public void doAfter(JoinPoint joinPoint, Exception e) {
         handleLog(joinPoint, e);
     }
 
-    protected void handleLog(final JoinPoint joinPoint, final Exception e) {
+    private void handleLog(final JoinPoint joinPoint, final Exception e) {
         try {
             // 获得注解
             Log controllerLog = getAnnotationLog(joinPoint);
@@ -101,20 +103,17 @@ public class LogAspect {
             AsyncManager.me().execute(AsyncFactory.recordOper(operLog));
         } catch (Exception exp) {
             // 记录本地异常日志
-            log.error("==前置通知异常==");
+            log.error("==前置通知异常==",exp);
             log.error("异常信息:{}" , exp.getMessage());
-            exp.printStackTrace();
         }
     }
 
     /**
      * 获取注解中对方法的描述信息 用于Controller层注解
      *
-     * @param joinPoint 切点
-     * @return 方法描述
-     * @throws Exception
+     * @param operLog 切点
      */
-    public void getControllerMethodDescription(Log log, SysOperLog operLog) throws Exception {
+    private void getControllerMethodDescription(Log log, SysOperLog operLog) throws Exception {
         // 设置action动作
         operLog.setBusinessType(log.businessType().ordinal());
         // 设置标题
@@ -143,7 +142,7 @@ public class LogAspect {
     /**
      * 是否存在注解，如果存在就获取
      */
-    private Log getAnnotationLog(JoinPoint joinPoint) throws Exception {
+    private Log getAnnotationLog(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();

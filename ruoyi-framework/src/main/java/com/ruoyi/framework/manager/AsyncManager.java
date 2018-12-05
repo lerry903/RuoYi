@@ -13,7 +13,7 @@ public class AsyncManager {
     /**
      * 操作延迟10毫秒
      */
-    private final int OPERATE_DELAY_TIME = 10;
+    private static final int OPERATE_DELAY_TIME = 10;
 
     /**
      * 异步操作任务调度线程池
@@ -32,7 +32,7 @@ public class AsyncManager {
     /**
      * 执行任务
      *
-     * @param 任务task
+     * @param task 任务
      */
     public void execute(TimerTask task) {
         executor.schedule(task, OPERATE_DELAY_TIME, TimeUnit.MILLISECONDS);
