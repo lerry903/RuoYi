@@ -199,8 +199,8 @@ public class ExcelUtil<T> {
             workbook.write(out);
             return AjaxResult.success(filename);
         } catch (Exception e) {
-            log.error("导出Excel异常{}", e.getMessage());
-            return AjaxResult.error("导出Excel失败，请联系网站管理员！");
+            log.error("导出Excel异常{}", e);
+            throw new RuntimeException("导出Excel失败，请联系网站管理员！");
         } finally {
             if (out != null) {
                 try {
