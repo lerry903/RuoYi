@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
@@ -24,7 +25,8 @@ public class RuoYiApplication {
     public static void main(String[] args) {
         Instant inst1 = Instant.now();
         SpringApplication.run(RuoYiApplication.class, args);
-        log.info("启动成功!耗时:{}秒", Duration.between(inst1, Instant.now()).getSeconds());
+        log.info(":: 若依管理系统Java开发平台  :: 基于 Spring Boot {} ::", SpringBootVersion.getVersion());
+        log.info(":: 启动成功!耗时:{}秒 ::", Duration.between(inst1, Instant.now()).getSeconds());
     }
 
 }
