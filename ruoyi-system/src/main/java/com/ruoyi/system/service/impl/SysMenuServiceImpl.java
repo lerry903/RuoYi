@@ -1,19 +1,5 @@
 package com.ruoyi.system.service.impl;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.SysMenu;
@@ -22,6 +8,13 @@ import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.mapper.SysMenuMapper;
 import com.ruoyi.system.mapper.SysRoleMenuMapper;
 import com.ruoyi.system.service.ISysMenuService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.text.MessageFormat;
+import java.util.*;
 
 /**
  * 菜单 业务层处理
@@ -30,13 +23,18 @@ import com.ruoyi.system.service.ISysMenuService;
  */
 @Service
 public class SysMenuServiceImpl implements ISysMenuService {
-    public static final String PREMISSION_STRING = "perms[\"{0}\"]" ;
+
+    private static final String PREMISSION_STRING = "perms[\"{0}\"]" ;
+
+    private final SysMenuMapper menuMapper;
+
+    private final SysRoleMenuMapper roleMenuMapper;
 
     @Autowired
-    private SysMenuMapper menuMapper;
-
-    @Autowired
-    private SysRoleMenuMapper roleMenuMapper;
+    public SysMenuServiceImpl(SysMenuMapper menuMapper, SysRoleMenuMapper roleMenuMapper) {
+        this.menuMapper = menuMapper;
+        this.roleMenuMapper = roleMenuMapper;
+    }
 
     /**
      * 根据用户查询菜单
@@ -46,7 +44,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public List<SysMenu> selectMenusByUser(SysUser user) {
-        List<SysMenu> menus = new LinkedList<SysMenu>();
+        List<SysMenu> menus;
         // 管理员显示所有菜单信息
         if (user.isAdmin()) {
             menus = menuMapper.selectMenuNormalAll();
@@ -86,11 +84,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public Set<String> selectPermsByUserId(Long userId) {
         List<String> perms = menuMapper.selectPermsByUserId(userId);
         Set<String> permsSet = new HashSet<>();
-        for (String perm : perms) {
-            if (StringUtils.isNotEmpty(perm)) {
-                permsSet.addAll(Arrays.asList(perm.trim().split(",")));
-            }
-        }
+        perms.stream().filter(StringUtils::isNotEmpty).forEach(perm -> permsSet.addAll(Arrays.asList(perm.trim().split(","))));
         return permsSet;
     }
 
@@ -103,9 +97,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public List<Map<String, Object>> roleMenuTreeData(SysRole role) {
         Long roleId = role.getRoleId();
-        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> trees;
         List<SysMenu> menuList = menuMapper.selectMenuAll();
-        if (StringUtils.isNotNull(roleId)) {
+        if (ObjectUtils.allNotNull(roleId)) {
             List<String> roleMenuList = menuMapper.selectMenuTree(roleId);
             trees = getTrees(menuList, true, roleMenuList, true);
         } else {
@@ -121,10 +115,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public List<Map<String, Object>> menuTreeData() {
-        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
         List<SysMenu> menuList = menuMapper.selectMenuAll();
-        trees = getTrees(menuList, false, null, false);
-        return trees;
+        return getTrees(menuList, false, null, false);
     }
 
     /**
@@ -133,13 +125,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return 权限列表
      */
     @Override
-    public LinkedHashMap<String, String> selectPermsAll() {
+    public Map<String, String> selectPermsAll() {
         LinkedHashMap<String, String> section = new LinkedHashMap<>();
         List<SysMenu> permissions = menuMapper.selectMenuAll();
-        if (StringUtils.isNotEmpty(permissions)) {
-            for (SysMenu menu : permissions) {
-                section.put(menu.getUrl(), MessageFormat.format(PREMISSION_STRING, menu.getPerms()));
-            }
+        if (!CollectionUtils.isEmpty(permissions)) {
+            permissions.forEach(menu -> section.put(menu.getUrl(), MessageFormat.format(PREMISSION_STRING, menu.getPerms())));
         }
         return section;
     }
@@ -151,32 +141,32 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param isCheck      是否需要选中
      * @param roleMenuList 角色已存在菜单列表
      * @param permsFlag    是否需要显示权限标识
-     * @return
+     * @return 菜单树
      */
-    public List<Map<String, Object>> getTrees(List<SysMenu> menuList, boolean isCheck, List<String> roleMenuList,
+    private List<Map<String, Object>> getTrees(List<SysMenu> menuList, boolean isCheck, List<String> roleMenuList,
                                               boolean permsFlag) {
-        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
-        for (SysMenu menu : menuList) {
-            Map<String, Object> deptMap = new HashMap<String, Object>();
-            deptMap.put("id" , menu.getMenuId());
-            deptMap.put("pId" , menu.getParentId());
-            deptMap.put("name" , transMenuName(menu, roleMenuList, permsFlag));
-            deptMap.put("title" , menu.getMenuName());
+        List<Map<String, Object>> trees = new ArrayList<>();
+        menuList.forEach(menu -> {
+            Map<String, Object> deptMap = new HashMap<>();
+            deptMap.put("id", menu.getMenuId());
+            deptMap.put("pId", menu.getParentId());
+            deptMap.put("name", transMenuName(menu, permsFlag));
+            deptMap.put("title", menu.getMenuName());
             if (isCheck) {
-                deptMap.put("checked" , roleMenuList.contains(menu.getMenuId() + menu.getPerms()));
+                deptMap.put("checked", roleMenuList.contains(menu.getMenuId() + menu.getPerms()));
             } else {
-                deptMap.put("checked" , false);
+                deptMap.put("checked", false);
             }
             trees.add(deptMap);
-        }
+        });
         return trees;
     }
 
-    public String transMenuName(SysMenu menu, List<String> roleMenuList, boolean permsFlag) {
-        StringBuffer sb = new StringBuffer();
+    private String transMenuName(SysMenu menu, boolean permsFlag) {
+        StringBuilder sb = new StringBuilder();
         sb.append(menu.getMenuName());
         if (permsFlag) {
-            sb.append("<font color=\"#888\">&nbsp;&nbsp;&nbsp;" + menu.getPerms() + "</font>");
+            sb.append("<font color=\"#888\">&nbsp;&nbsp;&nbsp;").append(menu.getPerms()).append("</font>");
         }
         return sb.toString();
     }
@@ -255,9 +245,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public String checkMenuNameUnique(SysMenu menu) {
-        Long menuId = StringUtils.isNull(menu.getMenuId()) ? -1L : menu.getMenuId();
         SysMenu info = menuMapper.checkMenuNameUnique(menu.getMenuName(), menu.getParentId());
-        if (StringUtils.isNotNull(info) && info.getMenuId().longValue() != menuId.longValue()) {
+        if (ObjectUtils.allNotNull(info) && !info.getMenuId().equals(menu.getMenuId())) {
             return UserConstants.MENU_NAME_NOT_UNIQUE;
         }
         return UserConstants.MENU_NAME_UNIQUE;
@@ -270,24 +259,19 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param parentId 传入的父节点ID
      * @return String
      */
-    public List<SysMenu> getChildPerms(List<SysMenu> list, int parentId) {
-        List<SysMenu> returnList = new ArrayList<SysMenu>();
-        for (Iterator<SysMenu> iterator = list.iterator(); iterator.hasNext(); ) {
-            SysMenu t = (SysMenu) iterator.next();
-            // 一、根据传入的某个父节点ID,遍历该父节点的所有子节点
-            if (t.getParentId() == parentId) {
-                recursionFn(list, t);
-                returnList.add(t);
-            }
-        }
+    private List<SysMenu> getChildPerms(List<SysMenu> list, int parentId) {
+        List<SysMenu> returnList = new ArrayList<>();
+        list.stream().filter(t -> t.getParentId() == parentId).forEach(t -> {
+            recursionFn(list, t);
+            returnList.add(t);
+        });
         return returnList;
     }
 
     /**
      * 递归列表
      *
-     * @param list
-     * @param t
+     * @param list 菜单列表
      */
     private void recursionFn(List<SysMenu> list, SysMenu t) {
         // 得到子节点列表
@@ -296,9 +280,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         for (SysMenu tChild : childList) {
             if (hasChild(list, tChild)) {
                 // 判断是否有子节点
-                Iterator<SysMenu> it = childList.iterator();
-                while (it.hasNext()) {
-                    SysMenu n = (SysMenu) it.next();
+                for (SysMenu n : childList) {
                     recursionFn(list, n);
                 }
             }
@@ -309,14 +291,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * 得到子节点列表
      */
     private List<SysMenu> getChildList(List<SysMenu> list, SysMenu t) {
-        List<SysMenu> tlist = new ArrayList<SysMenu>();
-        Iterator<SysMenu> it = list.iterator();
-        while (it.hasNext()) {
-            SysMenu n = (SysMenu) it.next();
-            if (n.getParentId().longValue() == t.getMenuId().longValue()) {
-                tlist.add(n);
-            }
-        }
+        List<SysMenu> tlist = new ArrayList<>();
+        list.stream().filter(sysMenu -> sysMenu.getParentId().equals(t.getMenuId())).forEach(tlist::add);
         return tlist;
     }
 
@@ -324,6 +300,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * 判断是否有子节点
      */
     private boolean hasChild(List<SysMenu> list, SysMenu t) {
-        return getChildList(list, t).size() > 0 ? true : false;
+        return !CollectionUtils.isEmpty(getChildList(list, t));
     }
 }

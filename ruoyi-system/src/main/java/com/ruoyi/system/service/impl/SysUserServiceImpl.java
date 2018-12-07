@@ -1,25 +1,19 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.support.Convert;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.system.domain.SysPost;
-import com.ruoyi.system.domain.SysRole;
-import com.ruoyi.system.domain.SysUser;
-import com.ruoyi.system.domain.SysUserPost;
-import com.ruoyi.system.domain.SysUserRole;
-import com.ruoyi.system.mapper.SysPostMapper;
-import com.ruoyi.system.mapper.SysRoleMapper;
-import com.ruoyi.system.mapper.SysUserMapper;
-import com.ruoyi.system.mapper.SysUserPostMapper;
-import com.ruoyi.system.mapper.SysUserRoleMapper;
+import com.ruoyi.system.domain.*;
+import com.ruoyi.system.mapper.*;
 import com.ruoyi.system.service.ISysUserService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户 业务层处理
@@ -28,20 +22,26 @@ import com.ruoyi.system.service.ISysUserService;
  */
 @Service
 public class SysUserServiceImpl implements ISysUserService {
-    @Autowired
-    private SysUserMapper userMapper;
+
+    private final SysUserMapper userMapper;
+
+    private final SysRoleMapper roleMapper;
+
+    private final SysPostMapper postMapper;
+
+    private final SysUserPostMapper userPostMapper;
+
+    private final SysUserRoleMapper userRoleMapper;
 
     @Autowired
-    private SysRoleMapper roleMapper;
-
-    @Autowired
-    private SysPostMapper postMapper;
-
-    @Autowired
-    private SysUserPostMapper userPostMapper;
-
-    @Autowired
-    private SysUserRoleMapper userRoleMapper;
+    public SysUserServiceImpl(SysUserMapper userMapper, SysRoleMapper roleMapper, SysPostMapper postMapper,
+                              SysUserPostMapper userPostMapper, SysUserRoleMapper userRoleMapper) {
+        this.userMapper = userMapper;
+        this.roleMapper = roleMapper;
+        this.postMapper = postMapper;
+        this.userPostMapper = userPostMapper;
+        this.userRoleMapper = userRoleMapper;
+    }
 
     /**
      * 根据条件分页查询用户对象
@@ -195,16 +195,16 @@ public class SysUserServiceImpl implements ISysUserService {
      *
      * @param user 用户对象
      */
-    public void insertUserRole(SysUser user) {
+    private void insertUserRole(SysUser user) {
         // 新增用户与角色管理
-        List<SysUserRole> list = new ArrayList<SysUserRole>();
+        List<SysUserRole> list = new ArrayList<>();
         for (Long roleId : user.getRoleIds()) {
             SysUserRole ur = new SysUserRole();
             ur.setUserId(user.getUserId());
             ur.setRoleId(roleId);
             list.add(ur);
         }
-        if (list.size() > 0) {
+        if (!CollectionUtils.isEmpty(list)) {
             userRoleMapper.batchUserRole(list);
         }
     }
@@ -214,16 +214,16 @@ public class SysUserServiceImpl implements ISysUserService {
      *
      * @param user 用户对象
      */
-    public void insertUserPost(SysUser user) {
+    private void insertUserPost(SysUser user) {
         // 新增用户与岗位管理
-        List<SysUserPost> list = new ArrayList<SysUserPost>();
+        List<SysUserPost> list = new ArrayList<>();
         for (Long postId : user.getPostIds()) {
             SysUserPost up = new SysUserPost();
             up.setUserId(user.getUserId());
             up.setPostId(postId);
             list.add(up);
         }
-        if (list.size() > 0) {
+        if (!CollectionUtils.isEmpty(list)) {
             userPostMapper.batchUserPost(list);
         }
     }
@@ -232,7 +232,7 @@ public class SysUserServiceImpl implements ISysUserService {
      * 校验用户名称是否唯一
      *
      * @param loginName 用户名
-     * @return
+     * @return 校验结果
      */
     @Override
     public String checkLoginNameUnique(String loginName) {
@@ -247,13 +247,12 @@ public class SysUserServiceImpl implements ISysUserService {
      * 校验用户名称是否唯一
      *
      * @param user 用户信息
-     * @return
+     * @return 校验结果
      */
     @Override
     public String checkPhoneUnique(SysUser user) {
-        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
         SysUser info = userMapper.checkPhoneUnique(user.getPhonenumber());
-        if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue()) {
+        if (ObjectUtils.allNotNull(info) && !info.getUserId().equals(user.getUserId())) {
             return UserConstants.USER_PHONE_NOT_UNIQUE;
         }
         return UserConstants.USER_PHONE_UNIQUE;
@@ -263,13 +262,12 @@ public class SysUserServiceImpl implements ISysUserService {
      * 校验email是否唯一
      *
      * @param user 用户信息
-     * @return
+     * @return 校验结果
      */
     @Override
     public String checkEmailUnique(SysUser user) {
-        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
         SysUser info = userMapper.checkEmailUnique(user.getEmail());
-        if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue()) {
+        if (ObjectUtils.allNotNull(info) && !info.getUserId().equals(user.getUserId())) {
             return UserConstants.USER_EMAIL_NOT_UNIQUE;
         }
         return UserConstants.USER_EMAIL_UNIQUE;
@@ -284,7 +282,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public String selectUserRoleGroup(Long userId) {
         List<SysRole> list = roleMapper.selectRolesByUserId(userId);
-        StringBuffer idsStr = new StringBuffer();
+        StringBuilder idsStr = new StringBuilder();
         for (SysRole role : list) {
             idsStr.append(role.getRoleName()).append(",");
         }
@@ -303,7 +301,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public String selectUserPostGroup(Long userId) {
         List<SysPost> list = postMapper.selectPostsByUserId(userId);
-        StringBuffer idsStr = new StringBuffer();
+        StringBuilder idsStr = new StringBuilder();
         for (SysPost post : list) {
             idsStr.append(post.getPostName()).append(",");
         }

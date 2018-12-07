@@ -1,15 +1,15 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.support.Convert;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.mapper.SysConfigMapper;
 import com.ruoyi.system.service.ISysConfigService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 参数配置 服务层实现
@@ -18,8 +18,13 @@ import com.ruoyi.system.service.ISysConfigService;
  */
 @Service
 public class SysConfigServiceImpl implements ISysConfigService {
+
+    private final SysConfigMapper configMapper;
+
     @Autowired
-    private SysConfigMapper configMapper;
+    public SysConfigServiceImpl(SysConfigMapper configMapper) {
+        this.configMapper = configMapper;
+    }
 
     /**
      * 查询参数配置信息
@@ -45,7 +50,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
         SysConfig retConfig = configMapper.selectConfig(config);
-        return StringUtils.isNotNull(retConfig) ? retConfig.getConfigValue() : "" ;
+        return ObjectUtils.allNotNull(retConfig) ? retConfig.getConfigValue() : "" ;
     }
 
     /**
@@ -100,9 +105,8 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public String checkConfigKeyUnique(SysConfig config) {
-        Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
         SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
-        if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue()) {
+        if (ObjectUtils.allNotNull(info) && !info.getConfigId().equals(config.getConfigId())) {
             return UserConstants.CONFIG_KEY_NOT_UNIQUE;
         }
         return UserConstants.CONFIG_KEY_UNIQUE;

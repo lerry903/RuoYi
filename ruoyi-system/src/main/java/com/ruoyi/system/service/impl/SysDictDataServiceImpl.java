@@ -16,8 +16,13 @@ import com.ruoyi.system.service.ISysDictDataService;
  */
 @Service
 public class SysDictDataServiceImpl implements ISysDictDataService {
+
+    private final SysDictDataMapper dictDataMapper;
+
     @Autowired
-    private SysDictDataMapper dictDataMapper;
+    public SysDictDataServiceImpl(SysDictDataMapper dictDataMapper) {
+        this.dictDataMapper = dictDataMapper;
+    }
 
     /**
      * 根据条件分页查询字典数据

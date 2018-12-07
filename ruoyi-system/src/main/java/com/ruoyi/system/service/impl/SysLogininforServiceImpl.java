@@ -17,8 +17,12 @@ import com.ruoyi.system.service.ISysLogininforService;
 @Service
 public class SysLogininforServiceImpl implements ISysLogininforService {
 
+    private final SysLogininforMapper logininforMapper;
+
     @Autowired
-    private SysLogininforMapper logininforMapper;
+    public SysLogininforServiceImpl(SysLogininforMapper logininforMapper) {
+        this.logininforMapper = logininforMapper;
+    }
 
     /**
      * 新增系统登录日志
@@ -45,7 +49,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
      * 批量删除系统登录日志
      *
      * @param ids 需要删除的数据
-     * @return
+     * @return 删除记录数
      */
     @Override
     public int deleteLogininforByIds(String ids) {

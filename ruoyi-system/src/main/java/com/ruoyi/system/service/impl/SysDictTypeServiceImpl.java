@@ -1,16 +1,17 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.support.Convert;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.SysDictType;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import com.ruoyi.system.mapper.SysDictTypeMapper;
 import com.ruoyi.system.service.ISysDictTypeService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 字典 业务层处理
@@ -18,12 +19,18 @@ import com.ruoyi.system.service.ISysDictTypeService;
  * @author ruoyi
  */
 @Service
+@Slf4j
 public class SysDictTypeServiceImpl implements ISysDictTypeService {
-    @Autowired
-    private SysDictTypeMapper dictTypeMapper;
+
+    private final SysDictTypeMapper dictTypeMapper;
+
+    private final SysDictDataMapper dictDataMapper;
 
     @Autowired
-    private SysDictDataMapper dictDataMapper;
+    public SysDictTypeServiceImpl(SysDictTypeMapper sysDictTypeMapper, SysDictDataMapper sysDictDataMapper) {
+        this.dictTypeMapper = sysDictTypeMapper;
+        this.dictDataMapper = sysDictDataMapper;
+    }
 
     /**
      * 根据条件分页查询字典类型
@@ -83,7 +90,6 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
                 throw new Exception(String.format("%1$s已分配,不能删除" , dictType.getDictName()));
             }
         }
-
         return dictTypeMapper.deleteDictTypeByIds(dictIds);
     }
 
@@ -119,9 +125,8 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      */
     @Override
     public String checkDictTypeUnique(SysDictType dict) {
-        Long dictId = StringUtils.isNull(dict.getDictId()) ? -1L : dict.getDictId();
         SysDictType dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());
-        if (StringUtils.isNotNull(dictType) && dictType.getDictId().longValue() != dictId.longValue()) {
+        if (ObjectUtils.allNotNull(dictType) && !dictType.getDictId().equals(dict.getDictId())) {
             return UserConstants.DICT_TYPE_NOT_UNIQUE;
         }
         return UserConstants.DICT_TYPE_UNIQUE;

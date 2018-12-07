@@ -1,16 +1,16 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.support.Convert;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.mapper.SysPostMapper;
 import com.ruoyi.system.mapper.SysUserPostMapper;
 import com.ruoyi.system.service.ISysPostService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 岗位信息 服务层处理
@@ -19,11 +19,16 @@ import com.ruoyi.system.service.ISysPostService;
  */
 @Service
 public class SysPostServiceImpl implements ISysPostService {
-    @Autowired
-    private SysPostMapper postMapper;
+
+    private final SysPostMapper postMapper;
+
+    private final SysUserPostMapper userPostMapper;
 
     @Autowired
-    private SysUserPostMapper userPostMapper;
+    public SysPostServiceImpl(SysPostMapper postMapper, SysUserPostMapper userPostMapper) {
+        this.postMapper = postMapper;
+        this.userPostMapper = userPostMapper;
+    }
 
     /**
      * 查询岗位信息集合
@@ -58,7 +63,7 @@ public class SysPostServiceImpl implements ISysPostService {
         List<SysPost> posts = postMapper.selectPostAll();
         for (SysPost post : posts) {
             for (SysPost userRole : userPosts) {
-                if (post.getPostId().longValue() == userRole.getPostId().longValue()) {
+                if (post.getPostId().equals(userRole.getPostId())) {
                     post.setFlag(true);
                     break;
                 }
@@ -82,7 +87,7 @@ public class SysPostServiceImpl implements ISysPostService {
      * 批量删除岗位信息
      *
      * @param ids 需要删除的数据ID
-     * @throws Exception
+     * @throws Exception 异常
      */
     @Override
     public int deletePostByIds(String ids) throws Exception {
@@ -90,7 +95,7 @@ public class SysPostServiceImpl implements ISysPostService {
         for (Long postId : postIds) {
             SysPost post = selectPostById(postId);
             if (countUserPostById(postId) > 0) {
-                throw new Exception(String.format("%1$s已分配,不能删除" , post.getPostName()));
+                throw new Exception(String.format("%1$s已分配,不能删除", post.getPostName()));
             }
         }
         return postMapper.deletePostByIds(postIds);
@@ -137,9 +142,8 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public String checkPostNameUnique(SysPost post) {
-        Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
         SysPost info = postMapper.checkPostNameUnique(post.getPostName());
-        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
+        if (ObjectUtils.allNotNull(info) && !info.getPostId().equals(post.getPostId())) {
             return UserConstants.POST_NAME_NOT_UNIQUE;
         }
         return UserConstants.POST_NAME_UNIQUE;
@@ -153,9 +157,8 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public String checkPostCodeUnique(SysPost post) {
-        Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
         SysPost info = postMapper.checkPostCodeUnique(post.getPostCode());
-        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
+        if (ObjectUtils.allNotNull(info) && !info.getPostId().equals(post.getPostId())) {
             return UserConstants.POST_CODE_NOT_UNIQUE;
         }
         return UserConstants.POST_CODE_UNIQUE;

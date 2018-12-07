@@ -16,8 +16,13 @@ import com.ruoyi.system.service.ISysOperLogService;
  */
 @Service
 public class SysOperLogServiceImpl implements ISysOperLogService {
+
+    private final SysOperLogMapper operLogMapper;
+
     @Autowired
-    private SysOperLogMapper operLogMapper;
+    public SysOperLogServiceImpl(SysOperLogMapper operLogMapper) {
+        this.operLogMapper = operLogMapper;
+    }
 
     /**
      * 新增操作日志
@@ -44,7 +49,7 @@ public class SysOperLogServiceImpl implements ISysOperLogService {
      * 批量删除系统操作日志
      *
      * @param ids 需要删除的数据
-     * @return
+     * @return 删除记录数
      */
     @Override
     public int deleteOperLogByIds(String ids) {
