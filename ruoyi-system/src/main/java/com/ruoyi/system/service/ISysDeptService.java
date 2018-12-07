@@ -22,10 +22,10 @@ public interface ISysDeptService {
 
     /**
      * 查询部门管理树
-     *
+     * @param dept  部门信息
      * @return 所有部门信息
      */
-    List<Map<String, Object>> selectDeptTree();
+    List<Map<String, Object>> selectDeptTree(SysDept dept);
 
     /**
      * 根据角色ID查询菜单

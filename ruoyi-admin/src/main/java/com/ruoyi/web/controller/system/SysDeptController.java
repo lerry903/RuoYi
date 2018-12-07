@@ -135,7 +135,7 @@ public class SysDeptController extends BaseController {
     @GetMapping("/treeData")
     @ResponseBody
     public List<Map<String, Object>> treeData() {
-        return deptService.selectDeptTree();
+        return deptService.selectDeptTree(new SysDept());
     }
 
     /**

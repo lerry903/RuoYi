@@ -46,6 +46,7 @@
 
     <select id="selectMenuAll" resultMap="SysMenuResult">
         <include refid="selectMenuVo"/>
+        order by order_num
     </select>
 
     <select id="selectPermsByUserId" parameterType="Long" resultType="String">
