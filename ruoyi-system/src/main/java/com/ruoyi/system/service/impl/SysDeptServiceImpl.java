@@ -186,7 +186,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
             deptMapper.updateDeptChildren(childrens);
             childrens.stream().filter(children -> !UserConstants.DEPT_NORMAL.equals(children.getStatus()))
                     .forEach(children ->
-                            updateDeptChildren(children, children.getAncestors() + "," + children.getDeptId())
+                            updateDeptChildren(children, children.getAncestors())
                     );
         }
     }
