@@ -2,12 +2,14 @@ package com.ruoyi.generator.domain;
 
 import com.ruoyi.common.json.JSON;
 import com.ruoyi.common.utils.StringUtils;
+import lombok.Data;
 
 /**
  * ry数据库表列信息
  *
  * @author ruoyi
  */
+@Data
 public class ColumnInfo {
     /**
      * 字段名称
@@ -44,36 +46,6 @@ public class ColumnInfo {
      */
     private String attrname;
 
-    public String getColumnName() {
-        return columnName;
-    }
-
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
-    }
-
-    public String getDataType() {
-        return dataType;
-    }
-
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
-    }
-
-    public String getColumnComment() {
-        return columnComment;
-    }
-
-    public void setColumnComment(String columnComment) throws Exception {
-        // 根据列描述解析列的配置信息
-        if (StringUtils.isNotEmpty(columnComment) && columnComment.startsWith("{")) {
-            this.configInfo = JSON.unmarshal(columnComment, ColumnConfigInfo.class);
-            this.columnComment = configInfo.getTitle();
-        } else {
-            this.columnComment = columnComment;
-        }
-    }
-
     public String getAttrName() {
         return attrName;
     }
@@ -90,19 +62,13 @@ public class ColumnInfo {
         this.attrname = attrname;
     }
 
-    public String getAttrType() {
-        return attrType;
-    }
-
-    public void setAttrType(String attrType) {
-        this.attrType = attrType;
-    }
-
-    public ColumnConfigInfo getConfigInfo() {
-        return configInfo;
-    }
-
-    public void setConfigInfo(ColumnConfigInfo configInfo) {
-        this.configInfo = configInfo;
+    public void setColumnComment(String columnComment) throws Exception {
+        // 根据列描述解析列的配置信息
+        if (StringUtils.isNotEmpty(columnComment) && columnComment.startsWith("{")) {
+            this.configInfo = JSON.unmarshal(columnComment, ColumnConfigInfo.class);
+            this.columnComment = configInfo.getTitle();
+        } else {
+            this.columnComment = columnComment;
+        }
     }
 }

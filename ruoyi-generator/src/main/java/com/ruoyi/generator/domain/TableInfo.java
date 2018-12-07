@@ -1,15 +1,17 @@
 package com.ruoyi.generator.domain;
 
-import java.util.List;
-
 import com.ruoyi.common.base.BaseEntity;
-import com.ruoyi.common.utils.StringUtils;
+import lombok.Data;
+import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.List;
 
 /**
  * ry 数据库表
  *
  * @author ruoyi
  */
+@Data
 public class TableInfo extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -65,7 +67,7 @@ public class TableInfo extends BaseEntity {
 
     public ColumnInfo getColumnsLast() {
         ColumnInfo columnInfo = null;
-        if (StringUtils.isNotNull(columns) && !columns.isEmpty()) {
+        if (ObjectUtils.allNotNull(columns) && !columns.isEmpty()) {
             columnInfo = columns.get(0);
         }
         return columnInfo;

@@ -39,15 +39,15 @@ public class SysJobServiceImpl implements ISysJobService {
     @PostConstruct
     public void init() {
         List<SysJob> jobList = jobMapper.selectJobAll();
-        for (SysJob job : jobList) {
-            CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, job.getJobId());
+        jobList.forEach(sysJob -> {
+            CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, sysJob.getJobId());
             // 如果不存在，则创建
             if (cronTrigger == null) {
-                ScheduleUtils.createScheduleJob(scheduler, job);
+                ScheduleUtils.createScheduleJob(scheduler, sysJob);
             } else {
-                ScheduleUtils.updateScheduleJob(scheduler, job);
+                ScheduleUtils.updateScheduleJob(scheduler, sysJob);
             }
-        }
+        });
     }
 
     /**

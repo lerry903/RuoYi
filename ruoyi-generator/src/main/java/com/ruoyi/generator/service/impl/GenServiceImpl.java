@@ -9,6 +9,7 @@ import com.ruoyi.generator.mapper.GenMapper;
 import com.ruoyi.generator.service.IGenService;
 import com.ruoyi.generator.util.GenUtils;
 import com.ruoyi.generator.util.VelocityInitializer;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -32,8 +33,8 @@ import java.util.zip.ZipOutputStream;
  * @author ruoyi
  */
 @Service
+@Slf4j
 public class GenServiceImpl implements IGenService {
-    private static final Logger log = LoggerFactory.getLogger(GenServiceImpl.class);
 
     private final GenMapper genMapper;
 

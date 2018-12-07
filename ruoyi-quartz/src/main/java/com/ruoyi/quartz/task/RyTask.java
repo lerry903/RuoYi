@@ -1,5 +1,6 @@
 package com.ruoyi.quartz.task;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,12 +9,13 @@ import org.springframework.stereotype.Component;
  * @author ruoyi
  */
 @Component("ryTask")
+@Slf4j
 public class RyTask {
     public void ryParams(String params) {
-        System.out.println("执行有参方法：" + params);
+        log.info("执行有参方法:"+ params);
     }
 
     public void ryNoParams() {
-        System.out.println("执行无参方法");
+        log.info("执行无参方法:");
     }
 }

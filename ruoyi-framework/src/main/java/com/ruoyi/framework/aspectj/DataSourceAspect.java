@@ -1,7 +1,8 @@
 package com.ruoyi.framework.aspectj;
 
-import java.lang.reflect.Method;
-
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.framework.datasource.DynamicDataSourceContextHolder;
+import org.apache.commons.lang3.ObjectUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,9 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import com.ruoyi.common.annotation.DataSource;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.framework.datasource.DynamicDataSourceContextHolder;
+
+import java.lang.reflect.Method;
 
 /**
  * 多数据源处理
@@ -39,7 +39,7 @@ public class DataSourceAspect {
 
         DataSource dataSource = method.getAnnotation(DataSource.class);
 
-        if (StringUtils.isNotNull(dataSource)) {
+        if (ObjectUtils.allNotNull(dataSource)) {
             DynamicDataSourceContextHolder.setDateSoureType(dataSource.value().name());
         }
 

@@ -183,12 +183,12 @@ public class GenUtils {
         return StringUtils.substring(packageName, lastIndex + 1, nameLength);
     }
 
-    public static String getBasePackage(String packageName) {
+    private static String getBasePackage(String packageName) {
         int lastIndex = packageName.lastIndexOf(".");
         return StringUtils.substring(packageName, 0, lastIndex);
     }
 
-    public static String getProjectPath() {
+    private static String getProjectPath() {
         String packageName = Global.getPackageName();
         StringBuilder projectPath = new StringBuilder();
         projectPath.append("main/java/");
@@ -197,7 +197,7 @@ public class GenUtils {
         return projectPath.toString();
     }
 
-    public static String replaceKeyword(String keyword) {
+    private static String replaceKeyword(String keyword) {
         return keyword.replaceAll("(?:表|信息)" , "");
     }
 

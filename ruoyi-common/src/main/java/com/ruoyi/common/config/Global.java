@@ -1,21 +1,19 @@
 package com.ruoyi.common.config;
 
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.YamlUtil;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 全局配置类
  *
  * @author ruoyi
  */
+@Slf4j
 public class Global {
-    private static final Logger log = LoggerFactory.getLogger(Global.class);
 
     private static final String NAME = "application.yml" ;
 

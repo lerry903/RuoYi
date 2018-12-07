@@ -8,6 +8,7 @@ import com.ruoyi.framework.util.MessageUtils;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.shiro.subject.Subject;
 
 import javax.servlet.ServletRequest;
@@ -40,7 +41,7 @@ public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter
             Subject subject = getSubject(request, response);
             String redirectUrl = getRedirectUrl(request, response, subject);
             SysUser user = ShiroUtils.getSysUser();
-            if (StringUtils.isNotNull(user)) {
+            if (ObjectUtils.allNotNull(user)) {
                 String loginName = user.getLoginName();
                 // 记录用户退出日志
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(loginName, Constants.LOGOUT, MessageUtils.message("user.logout.success")));

@@ -12,6 +12,10 @@ import com.ruoyi.common.constant.Constants;
  * @author RuoYi
  */
 public class VelocityInitializer {
+
+    private VelocityInitializer(){
+        throw new IllegalStateException("Utility class");
+    }
     /**
      * 初始化vm方法
      */

@@ -1,13 +1,17 @@
 package com.ruoyi.framework.shiro.session;
 
-import org.apache.shiro.session.mgt.SimpleSession;
 import com.ruoyi.common.enums.OnlineStatus;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.apache.shiro.session.mgt.SimpleSession;
 
 /**
  * 在线用户会话属性
  *
  * @author ruoyi
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class OnlineSession extends SimpleSession {
     private static final long serialVersionUID = 1L;
 
@@ -61,64 +65,16 @@ public class OnlineSession extends SimpleSession {
         this.host = host;
     }
 
-    public String getBrowser() {
-        return browser;
+    void resetAttributeChanged() {
+        this.attributeChanged = false;
     }
 
-    public void setBrowser(String browser) {
-        this.browser = browser;
-    }
-
-    public String getOs() {
-        return os;
-    }
-
-    public void setOs(String os) {
-        this.os = os;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
-
-    public OnlineStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OnlineStatus status) {
-        this.status = status;
+    boolean isAttributeChanged() {
+        return attributeChanged;
     }
 
     public void markAttributeChanged() {
         this.attributeChanged = true;
-    }
-
-    public void resetAttributeChanged() {
-        this.attributeChanged = false;
-    }
-
-    public boolean isAttributeChanged() {
-        return attributeChanged;
     }
 
     @Override
