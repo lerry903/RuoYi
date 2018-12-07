@@ -161,7 +161,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         if (ObjectUtils.allNotNull(info)) {
             String ancestors = info.getAncestors() + "," + dept.getParentId();
             dept.setAncestors(ancestors);
-            updateDeptChildren(dept.getDeptId(), ancestors);
+            updateDeptChildren(dept, ancestors);
         }
         return deptMapper.updateDept(dept);
     }
@@ -169,16 +169,25 @@ public class SysDeptServiceImpl implements ISysDeptService {
     /**
      * 修改子元素关系
      *
-     * @param deptId    部门ID
+     * @param sysDept   部门
      * @param ancestors 元素列表
      */
-    private void updateDeptChildren(Long deptId, String ancestors) {
+    private void updateDeptChildren(SysDept sysDept, String ancestors) {
         SysDept dept = new SysDept();
-        dept.setParentId(deptId);
+        dept.setParentId(sysDept.getDeptId());
         List<SysDept> childrens = deptMapper.selectDeptList(dept);
         if (!CollectionUtils.isEmpty(childrens)) {
-            childrens.forEach(children -> children.setAncestors(ancestors + "," + dept.getParentId()));
+            childrens.forEach(children -> {
+                children.setAncestors(ancestors + "," + dept.getParentId());
+                if (!UserConstants.DEPT_NORMAL.equals(sysDept.getStatus())) {
+                    children.setStatus(sysDept.getStatus());
+                }
+            });
             deptMapper.updateDeptChildren(childrens);
+            childrens.stream().filter(children -> !UserConstants.DEPT_NORMAL.equals(children.getStatus()))
+                    .forEach(children ->
+                            updateDeptChildren(children, children.getAncestors() + "," + children.getDeptId())
+                    );
         }
     }
 

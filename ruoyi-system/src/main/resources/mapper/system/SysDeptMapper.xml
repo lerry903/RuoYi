@@ -120,11 +120,29 @@
     </update>
 
     <update id="updateDeptChildren" parameterType="java.util.List">
-        update sys_dept set ancestors =
-        <foreach collection="depts" item="item" index="index"
-                 separator=" " open="case dept_id" close="end">
-            when #{item.deptId} then #{item.ancestors}
-        </foreach>
+      update sys_dept
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="ancestors =case" suffix="end,">
+                <foreach collection="depts" item="item" index="index">
+                    <if test="item.ancestors != null and item.ancestors != ''">
+                        when #{item.deptId} then #{item.ancestors}
+                    </if>
+                    <if test="item.ancestors == null or item.ancestors ==  ''">
+                        when name=#{item.name} then sys_dept.ancestors -- 原数据
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="status =case" suffix="end,">
+                <foreach collection="depts" item="item" index="index">
+                    <if test="item.status != null and item.status != ''">
+                        when #{item.deptId} then #{item.status}
+                    </if>
+                    <if test="item.status == null or item.status ==  ''">
+                        when name=#{item.name} then sys_dept.status -- 原数据
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
         where dept_id in
         <foreach collection="depts" item="item" index="index"
                  separator="," open="(" close=")">
