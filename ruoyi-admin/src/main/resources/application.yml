@@ -2,6 +2,8 @@
 ruoyi:
   # 名称
   name: RuoYi
+  # 描述
+  description: 若依管理系统
   # 版本
   version: 3.1.0
   # 版权年份
@@ -61,11 +63,6 @@ spring:
     multipart:
       max-file-size:  30MB
       max-request-size:  30MB
-  # 服务模块
-  devtools:
-    restart:
-      # 热部署开关
-      enabled: true
 
 # MyBatis
 mybatis:
@@ -125,7 +122,7 @@ xss:
 # 代码生成
 gen:
   # 作者
-  author: ruoyi
+  author: lerry
   # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
   packageName: com.ruoyi.system
   # 自动去除表前缀，默认是true
