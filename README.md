@@ -7,6 +7,7 @@
 若依基于hplus和inspinia两套后台系统模板开发。有需要可自行到群内下载。
 
 > RuoYi从3.0开始，进行模块拆分，将原先的单应用转变为多模块，如需单应用，请移步 [RuoYi-fast](https://gitee.com/y_project/RuoYi-fast)  
+> 阿里云双12活动低至2折 ：[点我购买](https://m.aliyun.com/act/team1212?params=N.aqOewixFpu)
 
 ## 内置功能
 
