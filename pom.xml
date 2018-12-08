@@ -27,6 +27,7 @@
         <pagehelper.boot.version>1.2.10</pagehelper.boot.version>
         <oshi.version>3.9.1</oshi.version>
         <lombok.version>1.18.4</lombok.version>
+        <hutool.version>4.3.0</hutool.version>
     </properties>
 
     <dependencyManagement>
@@ -85,6 +86,7 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
+        <!--lombok插件-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -92,6 +94,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--Java工具集-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
 
     </dependencies>
 
