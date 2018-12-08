@@ -1,4 +1,4 @@
-package com.ruoyi.web.interceptor;
+package com.ruoyi.web.core.interceptor;
 
 import com.ruoyi.common.annotation.LoginAuth;
 import com.ruoyi.framework.util.ShiroUtils;

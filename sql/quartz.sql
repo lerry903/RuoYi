@@ -1,7 +1,20 @@
 -- ----------------------------
+-- 0、 删除定时任务相关表,后续重建
+-- ----------------------------
+drop table if exists QRTZ_SIMPLE_TRIGGERS;
+drop table if exists QRTZ_CRON_TRIGGERS;
+drop table if exists QRTZ_BLOB_TRIGGERS;
+drop table if exists QRTZ_CALENDARS;
+drop table if exists QRTZ_PAUSED_TRIGGER_GRPS;
+drop table if exists QRTZ_FIRED_TRIGGERS;
+drop table if exists QRTZ_SCHEDULER_STATE;
+drop table if exists QRTZ_LOCKS;
+drop table if exists QRTZ_SIMPROP_TRIGGERS;
+drop table if exists QRTZ_TRIGGERS;
+drop table if exists QRTZ_JOB_DETAILS;
+-- ----------------------------
 -- 1、存储每一个已配置的 jobDetail 的详细信息
 -- ----------------------------
-drop table if exists QRTZ_JOB_DETAILS;
 create table QRTZ_JOB_DETAILS (
     sched_name           varchar(120)    not null,
     job_name             varchar(200)    not null,
@@ -19,7 +32,6 @@ create table QRTZ_JOB_DETAILS (
 -- ----------------------------
 -- 2、 存储已配置的 Trigger 的信息
 -- ----------------------------
-drop table if exists QRTZ_TRIGGERS;
 create table QRTZ_TRIGGERS (
     sched_name           varchar(120)    not null,
     trigger_name         varchar(200)    not null,
@@ -44,7 +56,6 @@ create table QRTZ_TRIGGERS (
 -- ----------------------------
 -- 3、 存储简单的 Trigger，包括重复次数，间隔，以及已触发的次数
 -- ----------------------------
-drop table if exists QRTZ_SIMPLE_TRIGGERS;
 create table QRTZ_SIMPLE_TRIGGERS (
     sched_name           varchar(120)    not null,
     trigger_name         varchar(200)    not null,
@@ -59,7 +70,6 @@ create table QRTZ_SIMPLE_TRIGGERS (
 -- ----------------------------
 -- 4、 存储 Cron Trigger，包括 Cron 表达式和时区信息
 -- ---------------------------- 
-drop table if exists QRTZ_CRON_TRIGGERS;
 create table QRTZ_CRON_TRIGGERS (
     sched_name           varchar(120)    not null,
     trigger_name         varchar(200)    not null,
@@ -73,7 +83,6 @@ create table QRTZ_CRON_TRIGGERS (
 -- ----------------------------
 -- 5、 Trigger 作为 Blob 类型存储(用于 Quartz 用户用 JDBC 创建他们自己定制的 Trigger 类型，JobStore 并不知道如何存储实例的时候)
 -- ---------------------------- 
-drop table if exists QRTZ_BLOB_TRIGGERS;
 create table QRTZ_BLOB_TRIGGERS (
     sched_name           varchar(120)    not null,
     trigger_name         varchar(200)    not null,
@@ -86,7 +95,6 @@ create table QRTZ_BLOB_TRIGGERS (
 -- ----------------------------
 -- 6、 以 Blob 类型存储存放日历信息， quartz可配置一个日历来指定一个时间范围
 -- ---------------------------- 
-drop table if exists QRTZ_CALENDARS;
 create table QRTZ_CALENDARS (
     sched_name           varchar(120)    not null,
     calendar_name        varchar(200)    not null,
@@ -97,7 +105,6 @@ create table QRTZ_CALENDARS (
 -- ----------------------------
 -- 7、 存储已暂停的 Trigger 组的信息
 -- ---------------------------- 
-drop table if exists QRTZ_PAUSED_TRIGGER_GRPS;
 create table QRTZ_PAUSED_TRIGGER_GRPS (
     sched_name           varchar(120)    not null,
     trigger_group        varchar(200)    not null,
@@ -107,7 +114,6 @@ create table QRTZ_PAUSED_TRIGGER_GRPS (
 -- ----------------------------
 -- 8、 存储与已触发的 Trigger 相关的状态信息，以及相联 Job 的执行信息
 -- ---------------------------- 
-drop table if exists QRTZ_FIRED_TRIGGERS;
 create table QRTZ_FIRED_TRIGGERS (
     sched_name           varchar(120)    not null,
     entry_id             varchar(95)     not null,
@@ -128,7 +134,6 @@ create table QRTZ_FIRED_TRIGGERS (
 -- ----------------------------
 -- 9、 存储少量的有关 Scheduler 的状态信息，假如是用于集群中，可以看到其他的 Scheduler 实例
 -- ---------------------------- 
-drop table if exists QRTZ_SCHEDULER_STATE; 
 create table QRTZ_SCHEDULER_STATE (
     sched_name           varchar(120)    not null,
     instance_name        varchar(200)    not null,
@@ -140,14 +145,12 @@ create table QRTZ_SCHEDULER_STATE (
 -- ----------------------------
 -- 10、 存储程序的悲观锁的信息(假如使用了悲观锁)
 -- ---------------------------- 
-drop table if exists QRTZ_LOCKS;
 create table QRTZ_LOCKS (
     sched_name           varchar(120)    not null,
     lock_name            varchar(40)     not null,
     primary key (sched_name,lock_name)
 ) engine=innodb default charset=utf8;
 
-drop table if exists QRTZ_SIMPROP_TRIGGERS;
 create table QRTZ_SIMPROP_TRIGGERS (
     sched_name           varchar(120)    not null,
     trigger_name         varchar(200)    not null,

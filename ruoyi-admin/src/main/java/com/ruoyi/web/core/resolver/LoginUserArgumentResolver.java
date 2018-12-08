@@ -1,4 +1,4 @@
-package com.ruoyi.web.resolver;
+package com.ruoyi.web.core.resolver;
 
 import com.ruoyi.common.annotation.LoginAuth;
 import com.ruoyi.framework.util.ShiroUtils;
