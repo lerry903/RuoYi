@@ -39,7 +39,7 @@
         </div>
 
         <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
-            <a class="btn btn-success" th:onclick="'javascript:$.operate.add(\''+${dict.dictType}+'\')'"
+            <a class="btn btn-success" th:onclick="$.operate.add([[${dict.dictType}]])"
                shiro:hasPermission="system:dict:add">
                 <i class="fa fa-plus"></i> 新增
             </a>
