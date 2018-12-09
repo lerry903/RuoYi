@@ -146,6 +146,10 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public int insertDept(SysDept dept) {
         SysDept info = deptMapper.selectDeptById(dept.getParentId());
+        //如果父节点不为"正常"状态,则不允许新增子节点
+        if(!UserConstants.DEPT_NORMAL.equals(info.getStatus())){
+            throw new RuntimeException("上级部门不为正常状态,新增失败!");
+        }
         dept.setAncestors(info.getAncestors() + "," + dept.getParentId());
         return deptMapper.insertDept(dept);
     }
@@ -160,11 +164,27 @@ public class SysDeptServiceImpl implements ISysDeptService {
     public int updateDept(SysDept dept) {
         SysDept info = deptMapper.selectDeptById(dept.getParentId());
         if (ObjectUtils.allNotNull(info)) {
-            String ancestors = info.getAncestors() + "," + dept.getParentId();
+            String ancestors = info.getAncestors() + "," + info.getDeptId();
             dept.setAncestors(ancestors);
             updateDeptChildren(dept, ancestors);
         }
-        return deptMapper.updateDept(dept);
+        int result = deptMapper.updateDept(dept);
+        if(UserConstants.DEPT_NORMAL.equals(dept.getStatus())){
+            //如果该部门是启用状态,这启用该部门的所有上级部门
+            updateParentDeptStatus(dept);
+        }
+        return result;
+    }
+
+    /**
+     * 修改该部门的父级部门状态
+     * @param dept 当前部门
+     */
+    private void updateParentDeptStatus(SysDept dept) {
+        String updateBy = dept.getUpdateBy();
+        dept = deptMapper.selectDeptById(dept.getDeptId());
+        dept.setUpdateBy(updateBy);
+        deptMapper.updateDeptStatus(dept);
     }
 
     /**

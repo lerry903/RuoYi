@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.constant.Constants;
 import lombok.Data;
 
 /**
@@ -56,7 +57,7 @@ public class BaseEntity implements Serializable {
 
     public Map<String, Object> getParams() {
         if (params == null) {
-            params = new HashMap<>(16);
+            params = new HashMap<>(Constants.INITIAL_CAPACITY);
         }
         return params;
     }

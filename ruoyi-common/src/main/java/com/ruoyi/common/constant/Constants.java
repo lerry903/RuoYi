@@ -14,6 +14,11 @@ public class Constants {
     public static final String LOCAL_IP = "127.0.0.1";
 
     /**
+     * 集合类初始容量
+     */
+    public static final int INITIAL_CAPACITY = 16;
+
+    /**
      * 通用成功标识
      */
     public static final String SUCCESS = "0" ;
