@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.system.domain.SysDept;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.mapper.SysDeptMapper;
@@ -148,7 +149,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         SysDept info = deptMapper.selectDeptById(dept.getParentId());
         //如果父节点不为"正常"状态,则不允许新增子节点
         if(!UserConstants.DEPT_NORMAL.equals(info.getStatus())){
-            throw new RuntimeException("上级部门不为正常状态,新增失败!");
+            throw new BusinessException("上级部门不为正常状态,新增失败!");
         }
         dept.setAncestors(info.getAncestors() + "," + dept.getParentId());
         return deptMapper.insertDept(dept);

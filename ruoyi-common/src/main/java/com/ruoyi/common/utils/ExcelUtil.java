@@ -3,6 +3,7 @@ package com.ruoyi.common.utils;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.config.Global;
+import com.ruoyi.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
@@ -200,7 +201,7 @@ public class ExcelUtil<T> {
             return AjaxResult.success(filename);
         } catch (Exception e) {
             log.error("导出Excel异常{}", e);
-            throw new RuntimeException("导出Excel失败，请联系网站管理员！");
+            throw new BusinessException("导出Excel失败，请联系网站管理员！");
         } finally {
             if (out != null) {
                 try {
