@@ -67,7 +67,28 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}-${project.version}-${env}</finalName>
+        <filters>
+            <filter>src/main/resources/application-${env}.yml</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>application-dev.yml</exclude>
+                    <exclude>application-test.yml</exclude>
+                    <exclude>application-prod.yml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>application-${env}.yml</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>
