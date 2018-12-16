@@ -6,12 +6,6 @@
 
 寓意：你若不离不弃，我必生死相依
 
-若依基于hplus和inspinia两套后台系统模板开发。有需要可自行到群内下载。
-
-- 源码地址
-  - GitHub：https://github.com/lerry903/RuoYi
-  - 码云：https://gitee.com/lerry903/RuoYi
-
 > 阿里云双12活动低至2折 ：[点我购买](https://m.aliyun.com/act/team1212?params=N.aqOewixFpu)
 
 ## 内置功能
@@ -32,6 +26,12 @@
 14. 系统接口：根据业务代码自动生成相关的api接口文档。
 15. 在线构建器：拖动表单元素生成相应的HTML代码。
 16. 连接池监视：监视当期系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
+
+## 源码地址
+GitHub：https://github.com/lerry903/RuoYi
+
+码云：https://gitee.com/lerry903/RuoYi
+  
 ## 在线体验
 > admin/admin123
 
@@ -68,7 +68,8 @@
     </tr>
 </table>
 
+## License
 
-## 若依交流群
+用户在遵循本项目协议的同时，如果用户下载、安装、使用本项目中所提供的软件，软件作者对任何原因在使用本项目中提供的软件时可能对用户自己或他人造成的任何形式的损失和伤害不承担任何责任。作者有权根据有关法律、法规的变化修改本项目协议。修改后的协议会随附于本项目的新版本中。当发生有关争议时，以最新的协议文本为准。如果用户不同意改动的内容，用户可以自行删除本项目。如果用户继续使用本项目，则视为您接受本协议的变动。
 
-QQ群： [![加入QQ群](https://img.shields.io/badge/已满-1389287-blue.svg)](https://jq.qq.com/?_wv=1027&k=5HBAaYN)  [![加入QQ群](https://img.shields.io/badge/QQ群-1679294-blue.svg)](https://jq.qq.com/?_wv=1027&k=5cHeRVW) 点击按钮入群。
+感谢大家 [Star](https://github.com/lerry903/RuoYi/stargazers) & [Fork](https://github.com/lerry903/RuoYi/network/members) 的支持。
