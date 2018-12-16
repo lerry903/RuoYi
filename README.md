@@ -27,10 +27,8 @@
 15. 在线构建器：拖动表单元素生成相应的HTML代码。
 16. 连接池监视：监视当期系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
 
-## 源码地址
-GitHub：https://github.com/lerry903/RuoYi
-
-码云：https://gitee.com/lerry903/RuoYi
+## 源码托管
+> **[Github](https://github.com/lerry903/RuoYi)** | **[Gitee](https://gitee.com/lerry903/RuoYi)**
   
 ## 在线体验
 > admin/admin123
