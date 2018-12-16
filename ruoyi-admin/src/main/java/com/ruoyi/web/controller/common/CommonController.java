@@ -5,6 +5,10 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,12 +22,18 @@ import com.ruoyi.common.utils.file.FileUtils;
  * @author ruoyi
  */
 @Controller
+@Api(value = "通用请求处理Controller",tags = {"通用请求处理"})
 public class CommonController {
     private static final Logger log = LoggerFactory.getLogger(CommonController.class);
 
     private static final String ENC = "utf-8";
 
     @RequestMapping("common/download")
+    @ApiOperation(value = "通用下载文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileName",value = "文件名",required = true),
+            @ApiImplicitParam(name = "delete",value = "是否删除临时文件",required = true,dataType ="boolean")
+    })
     public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
         String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf('_') + 1);
         try {

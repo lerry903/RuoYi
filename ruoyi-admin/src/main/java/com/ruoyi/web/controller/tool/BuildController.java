@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.ruoyi.framework.web.base.BaseController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * build 表单构建
@@ -13,6 +14,7 @@ import com.ruoyi.framework.web.base.BaseController;
  */
 @Controller
 @RequestMapping("/tool/build")
+@ApiIgnore(value = "表单构建")
 public class BuildController extends BaseController {
 
     @RequiresPermissions("tool:build:view")

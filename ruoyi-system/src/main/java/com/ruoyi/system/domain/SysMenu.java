@@ -1,6 +1,8 @@
 package com.ruoyi.system.domain;
 
 import com.ruoyi.common.base.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,61 +16,40 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ApiModel(description="菜单权限",parent=BaseEntity.class)
 public class SysMenu extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 菜单ID
-     */
+    @ApiModelProperty(value="菜单ID",name="menuId",example="100")
     private Long menuId;
 
-    /**
-     * 菜单名称
-     */
+    @ApiModelProperty(value="菜单名称",name="menuName",example="用户管理")
     private String menuName;
 
-    /**
-     * 父菜单名称
-     */
+    @ApiModelProperty(value="父菜单名称",name="parentName",example="系统管理")
     private String parentName;
 
-    /**
-     * 父菜单ID
-     */
+    @ApiModelProperty(value="父菜单ID",name="parentId",example="1")
     private Long parentId;
 
-    /**
-     * 显示顺序
-     */
+    @ApiModelProperty(value="显示顺序",name="orderNum",example="1")
     private String orderNum;
 
-    /**
-     * 菜单URL
-     */
+    @ApiModelProperty(value="请求地址",name="url",example="/system/user")
     private String url;
 
-    /**
-     * 类型:0目录,1菜单,2按钮
-     */
+    @ApiModelProperty(value="菜单类型",name="menuType",example="C",allowableValues = "M,C,F",reference="M=目录,C=菜单,F=按钮")
     private String menuType;
 
-    /**
-     * 菜单状态:0显示,1隐藏
-     */
+    @ApiModelProperty(value="菜单状态",name="visible",example="0",allowableValues = "0,1",reference="0=显示,1=隐藏")
     private String visible;
 
-    /**
-     * 权限字符串
-     */
+    @ApiModelProperty(value="权限标识",name="perms",example="system:user:view")
     private String perms;
 
-    /**
-     * 菜单图标
-     */
+    @ApiModelProperty(value="菜单图标",name="icon",example="#")
     private String icon;
 
-    /**
-     * 子菜单
-     */
+    @ApiModelProperty(value="子菜单",name="children",hidden = true)
     private List<SysMenu> children = new ArrayList<>();
 }

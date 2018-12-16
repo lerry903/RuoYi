@@ -2,6 +2,8 @@ package com.ruoyi.quartz.domain;
 
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,54 +14,39 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ApiModel(description="定时任务调度日志",parent=BaseEntity.class)
 public class SysJobLog extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * ID
-     */
     @Excel(name = "日志序号")
+    @ApiModelProperty(value="日志序号",name="jobLogId",example="1")
     private Long jobLogId;
 
-    /**
-     * 任务名称
-     */
     @Excel(name = "任务名称")
+    @ApiModelProperty(value="任务名称",name="jobName",example="ryTask")
     private String jobName;
 
-    /**
-     * 任务组名
-     */
     @Excel(name = "任务组名")
+    @ApiModelProperty(value="任务组名",name="jobGroup",example="系统默认（无参）")
     private String jobGroup;
 
-    /**
-     * 任务方法
-     */
     @Excel(name = "任务方法")
+    @ApiModelProperty(value="任务方法",name="methodName",example="ryNoParams")
     private String methodName;
 
-    /**
-     * 方法参数
-     */
     @Excel(name = "方法参数")
+    @ApiModelProperty(value="方法参数",name="methodParams")
     private String methodParams;
 
-    /**
-     * 日志信息
-     */
     @Excel(name = "日志信息")
+    @ApiModelProperty(value="日志信息",name="jobMessage",example="ryTask 总共耗时：2毫秒")
     private String jobMessage;
 
-    /**
-     * 执行状态（0正常 1失败）
-     */
     @Excel(name = "执行状态" , readConverterExp = "0=正常,1=失败")
+    @ApiModelProperty(value="执行状态",name="status",example="0",allowableValues = "0,1",reference="0=正常,1=失败")
     private String status;
 
-    /**
-     * 异常信息
-     */
     @Excel(name = "异常信息")
+    @ApiModelProperty(value="异常信息",name="exceptionInfo")
     private String exceptionInfo;
 }

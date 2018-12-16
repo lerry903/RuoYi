@@ -20,6 +20,7 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.generator.domain.TableInfo;
 import com.ruoyi.generator.service.IGenService;
 import com.ruoyi.framework.web.base.BaseController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 代码生成 操作处理
@@ -28,6 +29,7 @@ import com.ruoyi.framework.web.base.BaseController;
  */
 @Controller
 @RequestMapping("/tool/gen")
+@ApiIgnore(value = "代码生成")
 public class GenController extends BaseController {
 
     private final IGenService genService;

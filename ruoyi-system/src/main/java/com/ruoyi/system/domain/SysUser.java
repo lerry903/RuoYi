@@ -2,8 +2,11 @@ package com.ruoyi.system.domain;
 
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Date;
 import java.util.List;
@@ -15,114 +18,82 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ApiModel(description="用户信息",parent=BaseEntity.class)
 public class SysUser extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 用户ID
-     */
     @Excel(name = "用户序号")
+    @ApiModelProperty(value="用户序号",name="userId",example="1")
     private Long userId;
 
-    /**
-     * 部门ID
-     */
+    @ApiModelProperty(value="部门ID",name="deptId",example="1")
     private Long deptId;
 
-    /**
-     * 部门父ID
-     */
+    @ApiModelProperty(value="部门父ID",name="parentId",example="1")
     private Long parentId;
 
-    /**
-     * 登录名称
-     */
     @Excel(name = "登录名称")
+    @ApiModelProperty(value="登录名称",name="loginName",example="admin")
     private String loginName;
 
-    /**
-     * 用户名称
-     */
     @Excel(name = "用户名称")
+    @ApiModelProperty(value="用户名称",name="userName",example="系统管理员")
     private String userName;
 
-    /**
-     * 用户邮箱
-     */
     @Excel(name = "用户邮箱")
+    @ApiModelProperty(value="用户邮箱",name="email",example="1@qq.com")
     private String email;
 
-    /**
-     * 手机号码
-     */
     @Excel(name = "手机号码")
+    @ApiModelProperty(value="手机号码",name="phonenumber",example="15888888888")
     private String phonenumber;
 
-    /**
-     * 用户性别
-     */
     @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
+    @ApiModelProperty(value="用户性别",name="sex",example="0",allowableValues = "0,1,2",reference="0=男,1=女,2=未知")
     private String sex;
 
-    /**
-     * 用户头像
-     */
+    @ApiModelProperty(value="用户头像",name="avatar")
     private String avatar;
 
-    /**
-     * 密码
-     */
+    @ApiModelProperty(value="密码",name="password",example="123456")
     private String password;
 
-    /**
-     * 盐加密
-     */
+    @ApiModelProperty(value="盐加密",name="salt",example="111111")
     private String salt;
 
-    /**
-     * 帐号状态（0正常 1停用）
-     */
     @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
+    @ApiModelProperty(value="帐号状态",name="status",example="0",allowableValues = "0,1",reference="0=正常,1=停用")
     private String status;
 
-    /**
-     * 删除标志（0代表存在 2代表删除）
-     */
+    @ApiModelProperty(value="删除标志",name="delFlag",example="0=正常,2=删除")
     private String delFlag;
 
-    /**
-     * 最后登陆IP
-     */
     @Excel(name = "最后登陆IP")
+    @ApiModelProperty(value="最后登陆IP",name="loginIp",example="127.0.0.1")
     private String loginIp;
 
-    /**
-     * 最后登陆时间
-     */
     @Excel(name = "最后登陆时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value="最后登陆时间",name="loginDate",example="2018-12-15 18:03:58",dataType="java.util.Date")
     private Date loginDate;
 
-    /**
-     * 部门对象
-     */
+    @ApiModelProperty(value = "部门信息",hidden = true)
     private SysDept dept;
 
+    @ApiModelProperty(value = "角色组",hidden = true)
     private List<SysRole> roles;
 
-    /**
-     * 角色组
-     */
+    @ApiModelProperty(value = "角色组",hidden = true)
     private Long[] roleIds;
 
-    /**
-     * 岗位组
-     */
+    @ApiModelProperty(value = "岗位组",hidden = true)
     private Long[] postIds;
 
+    @ApiIgnore
     public boolean isAdmin() {
         return isAdmin(this.userId);
     }
 
+    @ApiIgnore
     public static boolean isAdmin(Long userId) {
         return userId != null && 1L == userId;
     }
