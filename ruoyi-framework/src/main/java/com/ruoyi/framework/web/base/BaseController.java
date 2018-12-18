@@ -6,8 +6,8 @@ import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.framework.web.page.PageDomain;
-import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.common.page.PageDomain;
+import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.framework.web.page.TableSupport;
 import com.ruoyi.system.domain.SysUser;
 import org.apache.commons.lang3.ObjectUtils;
@@ -71,6 +71,17 @@ public class BaseController {
      */
     protected AjaxResult toAjax(int rows) {
         return rows > 0 ? success() : error();
+    }
+
+    /**
+     * 响应返回结果
+     *
+     * @param result 结果
+     * @return 操作结果
+     */
+    protected AjaxResult toAjax(boolean result)
+    {
+        return result ? success() : error();
     }
 
     /**

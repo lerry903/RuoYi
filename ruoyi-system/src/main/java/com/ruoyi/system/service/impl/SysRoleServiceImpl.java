@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.support.Convert;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysRoleDept;
@@ -125,15 +126,15 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * 批量删除角色信息
      *
      * @param ids 需要删除的数据ID
-     * @throws Exception 异常
+     * @throws BusinessException 异常
      */
     @Override
-    public int deleteRoleByIds(String ids) throws Exception {
+    public int deleteRoleByIds(String ids){
         Long[] roleIds = Convert.toLongArray(ids);
         for (Long roleId : roleIds) {
             SysRole role = selectRoleById(roleId);
             if (countUserRoleByRoleId(roleId) > 0) {
-                throw new Exception(String.format("%1$s已分配,不能删除", role.getRoleName()));
+                throw new BusinessException(String.format("%1$s已分配,不能删除", role.getRoleName()));
             }
         }
         return roleMapper.deleteRoleByIds(roleIds);

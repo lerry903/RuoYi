@@ -18,7 +18,7 @@ import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.quartz.domain.SysJob;
 import com.ruoyi.quartz.service.ISysJobService;
 import com.ruoyi.framework.web.base.BaseController;

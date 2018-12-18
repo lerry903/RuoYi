@@ -1,6 +1,7 @@
 package com.ruoyi.framework.web.exception;
 
 import com.ruoyi.common.base.AjaxResult;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.exception.DemoModeException;
 import com.ruoyi.framework.util.PermissionUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,14 @@ public class DefaultExceptionHandler {
         log.error(e.getMessage(), e);
         return AjaxResult.error("服务器错误，请联系管理员");
     }
-
+    /**
+     * 业务异常
+     */
+    @ExceptionHandler(BusinessException.class)
+    public AjaxResult businessException(BusinessException e){
+        log.error(e.getMessage(), e);
+        return AjaxResult.error(e.getMessage());
+    }
     /**
      * 演示模式异常
      */

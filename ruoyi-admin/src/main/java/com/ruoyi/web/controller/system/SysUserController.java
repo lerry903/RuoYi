@@ -7,7 +7,7 @@ import com.ruoyi.common.utils.ExcelUtil;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.framework.web.base.BaseController;
-import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysPostService;
 import com.ruoyi.system.service.ISysRoleService;

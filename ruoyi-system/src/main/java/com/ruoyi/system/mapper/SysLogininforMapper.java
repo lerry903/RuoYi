@@ -35,6 +35,7 @@ public interface SysLogininforMapper {
 
     /**
      * 清空系统登录日志
+     * @return 结果
      */
     int cleanLogininfor();
 }

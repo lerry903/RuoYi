@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.support.Convert;
 import com.ruoyi.system.domain.SysDictType;
 import com.ruoyi.system.mapper.SysDictDataMapper;
@@ -82,12 +83,12 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * @return 结果
      */
     @Override
-    public int deleteDictTypeByIds(String ids) throws Exception {
+    public int deleteDictTypeByIds(String ids){
         Long[] dictIds = Convert.toLongArray(ids);
         for (Long dictId : dictIds) {
             SysDictType dictType = selectDictTypeById(dictId);
             if (dictDataMapper.countDictDataByType(dictType.getDictType()) > 0) {
-                throw new Exception(String.format("%1$s已分配,不能删除" , dictType.getDictName()));
+                throw new BusinessException(String.format("%1$s已分配,不能删除" , dictType.getDictName()));
             }
         }
         return dictTypeMapper.deleteDictTypeByIds(dictIds);

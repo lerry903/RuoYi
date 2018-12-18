@@ -1,26 +1,22 @@
 package com.ruoyi.web.controller.tool;
 
-import java.io.IOException;
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.page.TableDataInfo;
+import com.ruoyi.common.support.Convert;
+import com.ruoyi.framework.web.base.BaseController;
+import com.ruoyi.generator.domain.TableInfo;
+import com.ruoyi.generator.service.IGenService;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.common.support.Convert;
-import com.ruoyi.framework.web.page.TableDataInfo;
-import com.ruoyi.generator.domain.TableInfo;
-import com.ruoyi.generator.service.IGenService;
-import com.ruoyi.framework.web.base.BaseController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 代码生成 操作处理

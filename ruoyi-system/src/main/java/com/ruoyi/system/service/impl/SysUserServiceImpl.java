@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.support.Convert;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.*;
@@ -121,11 +122,11 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return 结果
      */
     @Override
-    public int deleteUserByIds(String ids) throws Exception {
+    public int deleteUserByIds(String ids){
         Long[] userIds = Convert.toLongArray(ids);
         for (Long userId : userIds) {
             if (SysUser.isAdmin(userId)) {
-                throw new Exception("不允许删除超级管理员用户");
+                throw new BusinessException("不允许删除超级管理员用户");
             }
         }
         return userMapper.deleteUserByIds(userIds);

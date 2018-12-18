@@ -65,7 +65,7 @@ public interface ISysRoleService {
      * @return 结果
      * @throws Exception 异常
      */
-    int deleteRoleByIds(String ids) throws Exception;
+    int deleteRoleByIds(String ids);
 
     /**
      * 新增保存角色信息
