@@ -17,8 +17,13 @@ import com.ruoyi.common.utils.IpUtils;
  * @author ruoyi
  */
 public class LogUtils {
-    public static final Logger ERROR_LOG = LoggerFactory.getLogger("sys-error");
-    public static final Logger ACCESS_LOG = LoggerFactory.getLogger("sys-access");
+
+    private static final Logger ERROR_LOG = LoggerFactory.getLogger("sys-error");
+    private static final Logger ACCESS_LOG = LoggerFactory.getLogger("sys-access");
+
+    private LogUtils() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * 记录访问日志 [username][jsessionid][ip][accept][UserAgent][url][params][Referer]
@@ -57,7 +62,7 @@ public class LogUtils {
         String s = getBlock("exception") +
                 getBlock(username) +
                 getBlock(message);
-        ERROR_LOG.error(s, e);
+        getErrorLog().error(s, e);
     }
 
     /**
