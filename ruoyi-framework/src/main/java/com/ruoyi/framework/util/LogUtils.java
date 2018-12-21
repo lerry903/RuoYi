@@ -98,7 +98,8 @@ public class LogUtils {
             t = t.getCause();
         }
         s.append(getBlock(sw.toString()));
-        getErrorLog().error(s.toString());
+        String msg = s.toString();
+        getErrorLog().error(msg);
 
     }
 
