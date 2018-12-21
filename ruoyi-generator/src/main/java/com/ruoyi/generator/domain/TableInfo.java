@@ -2,6 +2,7 @@ package com.ruoyi.generator.domain;
 
 import com.ruoyi.common.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class TableInfo extends BaseEntity {
     private static final long serialVersionUID = 1L;
