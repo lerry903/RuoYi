@@ -14,7 +14,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     /**
      * 空字符串
      */
-    private static final String NULLSTR = "" ;
+    private static final String NULLSTR = "";
 
     /**
      * 下划线
@@ -235,33 +235,32 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     /**
      * 下划线转驼峰命名
      */
-    public static String toUnderScoreCase(String s) {
-        if (s == null) {
+    public static String toUnderScoreCase(String str) {
+        if (str == null) {
             return null;
         }
         StringBuilder sb = new StringBuilder();
-        boolean upperCase = false;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-
-            boolean nextUpperCase = true;
-
-            if (i < (s.length() - 1)) {
-                nextUpperCase = Character.isUpperCase(s.charAt(i + 1));
+        // 前置字符是否大写
+        boolean preCharIsUpperCase = false;
+        // 当前字符是否大写
+        boolean curreCharIsUpperCase;
+        // 下一字符是否大写
+        boolean nexteCharIsUpperCase = true;
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (i > 0) {
+                preCharIsUpperCase = Character.isUpperCase(str.charAt(i - 1));
             }
-
-            if ((i > 0) && Character.isUpperCase(c)) {
-                if (!upperCase || !nextUpperCase) {
-                    sb.append(SEPARATOR);
-                }
-                upperCase = true;
-            } else {
-                upperCase = false;
+            curreCharIsUpperCase = Character.isUpperCase(c);
+            if (i < (str.length() - 1)) {
+                nexteCharIsUpperCase = Character.isUpperCase(str.charAt(i + 1));
             }
-
+            curreCharIsUpperCase = curreCharIsUpperCase && ((preCharIsUpperCase &&  !nexteCharIsUpperCase) || (i != 0 && !preCharIsUpperCase));
+            if (curreCharIsUpperCase) {
+                sb.append(SEPARATOR);
+            }
             sb.append(Character.toLowerCase(c));
         }
-
         return sb.toString();
     }
 
@@ -294,7 +293,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         // 快速检查
         if (name == null || name.isEmpty()) {
             // 没必要转换
-            return "" ;
+            return "";
         } else if (!name.contains("_")) {
             // 不含下划线，仅将首字母大写
             return name.substring(0, 1).toUpperCase() + name.substring(1);

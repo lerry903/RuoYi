@@ -36,10 +36,10 @@ public interface SysJobMapper {
     /**
      * 通过调度ID删除调度任务信息
      *
-     * @param job 调度ID
+     * @param jobId 调度ID
      * @return 结果
      */
-    int deleteJobById(SysJob job);
+    int deleteJobById(Long jobId);
 
     /**
      * 批量删除调度任务信息
