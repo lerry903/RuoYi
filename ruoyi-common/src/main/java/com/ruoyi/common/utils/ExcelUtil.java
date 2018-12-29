@@ -13,6 +13,8 @@ import org.apache.poi.ss.util.CellRangeAddressList;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -51,7 +53,7 @@ public class ExcelUtil<T> {
         List<T> list = new ArrayList<>();
 
         try (Workbook workbook = WorkbookFactory.create(input)) {
-            Sheet sheet = null;
+            Sheet sheet;
             if (StringUtils.isNotEmpty(sheetName)) {
                 // 如果指定sheet名,则取指定sheet中的内容.
                 sheet = workbook.getSheet(sheetName);
@@ -213,7 +215,7 @@ public class ExcelUtil<T> {
         }
     }
 
-    private void setCellValue(List<Field> fields, HSSFRow row, HSSFCellStyle cs, T vo) throws IllegalAccessException {
+    private void setCellValue(List<Field> fields, HSSFRow row, HSSFCellStyle cs, T vo) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         // 产生单元格
         HSSFCell cell;
         for (int j = 0; j < fields.size(); j++) {
@@ -235,16 +237,18 @@ public class ExcelUtil<T> {
                     continue;
                 }
 
+                // 用于读取对象中的属性
+                Object value = getTargetValue(vo, field, attr);
                 String dateFormat = attr.dateFormat();
                 String readConverterExp = attr.readConverterExp();
                 if (StringUtils.isNotEmpty(dateFormat)) {
-                    cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) field.get(vo)));
+                    cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value));
                 } else if (StringUtils.isNotEmpty(readConverterExp)) {
-                    cell.setCellValue(convertByExp(String.valueOf(field.get(vo)), readConverterExp));
+                    cell.setCellValue(convertByExp(String.valueOf(value), readConverterExp));
                 } else {
                     cell.setCellType(CellType.STRING);
                     // 如果数据存在就填入,不存在填入空格.
-                    cell.setCellValue(StringUtils.isNull(field.get(vo)) ? attr.defaultValue() : field.get(vo) + attr.suffix());
+                    cell.setCellValue(StringUtils.isNull(value) ? attr.defaultValue() : value + attr.suffix());
                 }
             }
         }
@@ -307,10 +311,9 @@ public class ExcelUtil<T> {
      * @param promptContent 内容
      * @param firstCol      开始列
      * @param endCol        结束列
-     * @return 设置好的sheet.
      */
-    private static HSSFSheet setHSSFPrompt(HSSFSheet sheet, String promptTitle, String promptContent,
-                                           int firstCol, int endCol) {
+    private static void setHSSFPrompt(HSSFSheet sheet, String promptTitle, String promptContent,
+                                      int firstCol, int endCol) {
         // 构造constraint对象
         DVConstraint constraint = DVConstraint.createCustomFormulaConstraint("DD1");
         // 四个参数分别是：起始行、终止行、起始列、终止列
@@ -319,7 +322,6 @@ public class ExcelUtil<T> {
         HSSFDataValidation dataValidationView = new HSSFDataValidation(regions, constraint);
         dataValidationView.createPromptBox(promptTitle, promptContent);
         sheet.addValidationData(dataValidationView);
-        return sheet;
     }
 
     /**
@@ -329,10 +331,9 @@ public class ExcelUtil<T> {
      * @param textList 下拉框显示的内容
      * @param firstCol 开始列
      * @param endCol   结束列
-     * @return 设置好的sheet.
      */
-    private static HSSFSheet setHSSFValidation(HSSFSheet sheet, String[] textList,
-                                               int firstCol, int endCol) {
+    private static void setHSSFValidation(HSSFSheet sheet, String[] textList,
+                                          int firstCol, int endCol) {
         // 加载下拉列表内容
         DVConstraint constraint = DVConstraint.createExplicitListConstraint(textList);
         // 设置数据有效性加载在哪个单元格上,四个参数分别是：起始行、终止行、起始列、终止列
@@ -340,7 +341,6 @@ public class ExcelUtil<T> {
         // 数据有效性对象
         HSSFDataValidation dataValidationList = new HSSFDataValidation(regions, constraint);
         sheet.addValidationData(dataValidationList);
-        return sheet;
     }
 
     /**
@@ -386,5 +386,45 @@ public class ExcelUtil<T> {
             desc.getParentFile().mkdirs();
         }
         return downloadPath;
+    }
+
+    /**
+     * 获取bean中的属性值
+     *
+     * @param vo 实体对象
+     * @param field 字段
+     * @param excel 注解
+     * @return 最终的属性值
+     */
+    private Object getTargetValue(T vo, Field field, Excel excel) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Object o = field.get(vo);
+        if (StringUtils.isNotEmpty(excel.targetAttr())){
+            String target = excel.targetAttr();
+            if (target.contains(".")){
+                String[] targets = target.split("[.]");
+                for (String name : targets){
+                    o = getValue(o, name);
+                }
+            }else{
+                o = getValue(o, target);
+            }
+        }
+        return o;
+    }
+
+    /**
+     * 以类的属性的get方法方法形式获取值
+     *
+     * @param o 类对象
+     * @param name 方法名称
+     * @return value
+     */
+    private Object getValue(Object o, String name) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        if (StringUtils.isNotEmpty(name)){
+            String methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+            Method method = o.getClass().getMethod(methodName);
+            o = method.invoke(o);
+        }
+        return o;
     }
 }

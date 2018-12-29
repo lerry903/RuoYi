@@ -76,6 +76,7 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value="最后登陆时间",name="loginDate",example="2018-12-15 18:03:58",dataType="java.util.Date")
     private Date loginDate;
 
+    @Excel(name = "部门名称", targetAttr = "deptName")
     @ApiModelProperty(value = "部门信息",hidden = true)
     private SysDept dept;
 
