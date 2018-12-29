@@ -55,66 +55,60 @@
             escape: true,
             columns: [{
                 checkbox: true
-            },
-                {
-                    field: 'sessionId',
-                    title: '会话编号'
-                },
-                {
-                    field: 'loginName',
-                    title: '登录名称',
-                    sortable: true
-                },
-                {
-                    field: 'deptName',
-                    title: '部门名称'
-                },
-                {
-                    field: 'ipaddr',
-                    title: '主机'
-                },
-                {
-                    field: 'longinLocation',
-                    title: '登录地点'
-                },
-                {
-                    field: 'browser',
-                    title: '浏览器'
-                },
-                {
-                    field: 'os',
-                    title: '操作系统'
-                },
-                {
-                    field: 'status',
-                    title: '会话状态',
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        if (value == 'on_line') {
-                            return '<span class="badge badge-primary">在线</span>';
-                        } else if (value == 'off_line') {
-                            return '<span class="badge badge-danger">离线</span>';
-                        }
+            }, {
+                title: "序号",
+                formatter: function (value, row, index) {
+                    return $.table.serialNumber(index);
+                }
+            }, {
+                field: 'sessionId',
+                title: '会话编号'
+            }, {
+                field: 'loginName',
+                title: '登录名称',
+                sortable: true
+            }, {
+                field: 'deptName',
+                title: '部门名称'
+            }, {
+                field: 'ipaddr',
+                title: '主机'
+            }, {
+                field: 'longinLocation',
+                title: '登录地点'
+            }, {
+                field: 'browser',
+                title: '浏览器'
+            }, {
+                field: 'os',
+                title: '操作系统'
+            }, {
+                field: 'status',
+                title: '会话状态',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    if (value == 'on_line') {
+                        return '<span class="badge badge-primary">在线</span>';
+                    } else if (value == 'off_line') {
+                        return '<span class="badge badge-danger">离线</span>';
                     }
-                },
-                {
-                    field: 'startTimestamp',
-                    title: '登录时间',
-                    sortable: true
-                },
-                {
-                    field: 'lastAccessTime',
-                    title: '最后访问时间',
-                    sortable: true
-                },
-                {
-                    title: '操作',
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        var msg = '<a class="btn btn-danger btn-xs ' + forceFlag + '" href="#" onclick="forceLogout(\'' + row.sessionId + '\')"><i class="fa fa-sign-out"></i>强退</a> ';
-                        return msg;
-                    }
-                }]
+                }
+            }, {
+                field: 'startTimestamp',
+                title: '登录时间',
+                sortable: true
+            }, {
+                field: 'lastAccessTime',
+                title: '最后访问时间',
+                sortable: true
+            }, {
+                title: '操作',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var msg = '<a class="btn btn-danger btn-xs ' + forceFlag + '" href="#" onclick="forceLogout(\'' + row.sessionId + '\')"><i class="fa fa-sign-out"></i>强退</a> ';
+                    return msg;
+                }
+            }]
         };
         $.table.init(options);
     });

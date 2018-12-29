@@ -58,40 +58,40 @@
             search: false,
             columns: [{
                 checkbox: true
-            },
-                {
-                    field: 'tableName',
-                    title: '表名称',
-                    width: '20%',
-                    sortable: true
-                },
-                {
-                    field: 'tableComment',
-                    title: '表描述',
-                    width: '20%',
-                    sortable: true
-                },
-                {
-                    field: 'createTime',
-                    title: '创建时间',
-                    width: '20%',
-                    sortable: true
-                },
-                {
-                    field: 'updateTime',
-                    title: '更新时间',
-                    width: '20%',
-                    sortable: true
-                },
-                {
-                    title: '操作',
-                    width: '20%',
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        var msg = '<a class="btn btn-primary btn-xs" href="#" onclick="genCode(\'' + row.tableName + '\')"><i class="fa fa-bug"></i>生成代码</a> ';
-                        return msg;
-                    }
-                }]
+            }, {
+                title: "序号",
+                formatter: function (value, row, index) {
+                    return $.table.serialNumber(index);
+                }
+            }, {
+                field: 'tableName',
+                title: '表名称',
+                width: '20%',
+                sortable: true
+            }, {
+                field: 'tableComment',
+                title: '表描述',
+                width: '20%',
+                sortable: true
+            }, {
+                field: 'createTime',
+                title: '创建时间',
+                width: '20%',
+                sortable: true
+            }, {
+                field: 'updateTime',
+                title: '更新时间',
+                width: '20%',
+                sortable: true
+            }, {
+                title: '操作',
+                width: '20%',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var msg = '<a class="btn btn-primary btn-xs" href="#" onclick="genCode(\'' + row.tableName + '\')"><i class="fa fa-bug"></i>生成代码</a> ';
+                    return msg;
+                }
+            }]
         };
         $.table.init(options);
     });
