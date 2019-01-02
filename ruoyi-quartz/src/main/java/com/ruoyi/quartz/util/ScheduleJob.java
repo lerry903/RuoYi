@@ -10,11 +10,10 @@ import com.ruoyi.quartz.service.ISysJobLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
@@ -26,7 +25,7 @@ import java.util.concurrent.Future;
 @Slf4j
 public class ScheduleJob extends QuartzJobBean {
 
-    private ExecutorService service = Executors.newSingleThreadExecutor();
+    private final static ThreadPoolTaskExecutor SERVICE = (ThreadPoolTaskExecutor)SpringContextUtil.getBean("publicThreadPool");
 
     private final static ISysJobLogService jobLogService = (ISysJobLogService) SpringContextUtil.getBean("sysJobLogServiceImpl");
 
@@ -48,7 +47,7 @@ public class ScheduleJob extends QuartzJobBean {
             // 执行任务
             log.info("任务开始执行 - 名称：{} 方法：{}" , job.getJobName(), job.getMethodName());
             ScheduleRunnable task = new ScheduleRunnable(job.getJobName(), job.getMethodName(), job.getMethodParams());
-            Future<?> future = service.submit(task);
+            Future<?> future = SERVICE.submit(task);
             future.get();
             long times = System.currentTimeMillis() - startTime;
             // 任务状态 0：成功 1：失败

@@ -150,6 +150,13 @@ xss:
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
 
+#线程池
+thread:
+  pool:
+    keepAliveSeconds: 2000
+    maxPoolSize: 100
+    corePoolSize: 10
+
 # 代码生成
 gen:
   # 作者
