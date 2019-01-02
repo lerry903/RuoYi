@@ -25,9 +25,9 @@ import java.util.concurrent.Future;
 @Slf4j
 public class ScheduleJob extends QuartzJobBean {
 
-    private final static ThreadPoolTaskExecutor SERVICE = (ThreadPoolTaskExecutor)SpringContextUtil.getBean("publicThreadPool");
+    private static final ThreadPoolTaskExecutor SERVICE = (ThreadPoolTaskExecutor)SpringContextUtil.getBean("publicThreadPool");
 
-    private final static ISysJobLogService jobLogService = (ISysJobLogService) SpringContextUtil.getBean("sysJobLogServiceImpl");
+    private static final ISysJobLogService jobLogService = (ISysJobLogService) SpringContextUtil.getBean("sysJobLogServiceImpl");
 
     @Override
     protected void executeInternal(JobExecutionContext context){
