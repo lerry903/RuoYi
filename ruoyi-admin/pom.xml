@@ -79,13 +79,15 @@
                     <exclude>application-dev.yml</exclude>
                     <exclude>application-test.yml</exclude>
                     <exclude>application-prod.yml</exclude>
+                    <exclude>static/fonts/**</exclude>
                 </excludes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
+                <filtering>false</filtering>
                 <includes>
                     <include>application-${env}.yml</include>
+                    <include>static/fonts/**</include>
                 </includes>
             </resource>
         </resources>
