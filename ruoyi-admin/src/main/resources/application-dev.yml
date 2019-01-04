@@ -2,6 +2,8 @@
 ruoyi:
   # 文件上传路径
   profile: D:/profile/
+  #演示模式
+  demoMode: true
 
 # 开发环境配置
 server:

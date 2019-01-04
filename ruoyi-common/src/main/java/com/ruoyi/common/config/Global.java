@@ -94,6 +94,14 @@ public class Global {
     }
 
     /**
+     * 获取演示模式标志
+     * @return
+     */
+    public static Boolean demoMode() {
+        return true;
+    }
+
+    /**
      * 获取文件上传路径
      */
     public static String getProfile() {

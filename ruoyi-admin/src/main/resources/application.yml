@@ -10,6 +10,8 @@ ruoyi:
   copyrightYear: 2018
   # 获取ip地址开关
   addressEnabled: true
+  #演示模式
+  demoMode: false
 
 # 开发环境配置
 server:
