@@ -10,4 +10,9 @@ public class DemoModeException extends RuntimeException {
 
     public DemoModeException() {
     }
+
+    @Override
+    public String getMessage(){
+        return "演示模式，禁止操作";
+    }
 }

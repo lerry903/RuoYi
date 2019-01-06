@@ -1,10 +1,10 @@
 package com.ruoyi.framework.aspectj;
 
-import com.ruoyi.common.config.Global;
 import com.ruoyi.common.exception.DemoModeException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,6 +28,10 @@ public class RestControllerAspect {
 
     private static final String METHOD = "POST";
 
+    @Value("${ruoyi.demoMode}")
+    private Boolean demoMode;
+
+
     /**
      * 环绕通知
      * @param joinPoint 连接点
@@ -37,12 +41,11 @@ public class RestControllerAspect {
     @Around("@within(org.springframework.stereotype.Controller) || @annotation(org.springframework.stereotype.Controller)")
     public Object controllerAspect(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        if(Global.demoMode() && METHOD.equalsIgnoreCase(request.getMethod())){
+        if(demoMode && METHOD.equalsIgnoreCase(request.getMethod())){
             String methodName = this.getMethodName(joinPoint);
             this.demoMode(methodName);
         }
-        Object result = joinPoint.proceed();
-        return result;
+        return joinPoint.proceed();
     }
 
     private String getMethodName(ProceedingJoinPoint joinPoint) {
@@ -59,8 +62,8 @@ public class RestControllerAspect {
      * @param methodName 方法名
      */
     private void demoMode(String methodName){
-        List<String> methodNameList = Arrays.asList("SysProfileController.resetPwd","SysProfileController.update","SysUserController.remove","SysMenuController.remove");
-        if(methodNameList.contains(methodName)){
+        List<String> methodNameList = Arrays.asList("SysProfileController.resetPwd","SysProfileController.update");
+        if(methodName.contains(".remove") || methodNameList.contains(methodName)){
             throw new DemoModeException();
         }
     }

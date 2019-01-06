@@ -4,6 +4,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.YamlUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,7 +84,8 @@ public class Global {
      * 获取版权年份
      */
     public static String getCopyrightYear() {
-        return StringUtils.nvl(getConfig("ruoyi.copyrightYear"), "2018");
+        LocalDate now = LocalDate.now();
+        return String.valueOf(now.getYear());
     }
 
     /**
@@ -91,14 +93,6 @@ public class Global {
      */
     public static Boolean isAddressEnabled() {
         return Boolean.valueOf(getConfig("ruoyi.addressEnabled"));
-    }
-
-    /**
-     * 获取演示模式标志
-     * @return
-     */
-    public static Boolean demoMode() {
-        return true;
     }
 
     /**

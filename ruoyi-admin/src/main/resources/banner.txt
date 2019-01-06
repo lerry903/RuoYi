@@ -6,7 +6,6 @@ ${AnsiColor.BRIGHT_YELLOW}
 **	Application Version:       ${ruoyi.version}
 **	Spring Boot Version:       ${spring-boot.version}
 **	Server Port:               ${server.port}
-**	Application Copyright:     ${ruoyi.copyrightYear}
 **
 **	Plug-in Modules
 **

@@ -6,8 +6,6 @@ ruoyi:
   description: 若依管理系统
   # 版本
   version: 3.1.0
-  # 版权年份
-  copyrightYear: 2018
   # 获取ip地址开关
   addressEnabled: true
   #演示模式

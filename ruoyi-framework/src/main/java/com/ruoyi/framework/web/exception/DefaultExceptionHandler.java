@@ -68,6 +68,6 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(DemoModeException.class)
     public AjaxResult demoModeException(DemoModeException e) {
         log.error(e.getMessage(),e);
-        return AjaxResult.error("演示模式，不允许操作");
+        return AjaxResult.error(e.getMessage());
     }
 }
