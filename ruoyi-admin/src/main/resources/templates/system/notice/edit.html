@@ -54,20 +54,20 @@
             lang: 'zh-CN'
         });
         var content = $("#noticeContent").val();
-        $('#editor').code(content);
+        $('#editor').summernote('code', content);
     });
 
     $("#form-notice-edit").validate({
         rules:{
-            xxxx:{
-                required:true,
-            },
+            noticeTitle:{
+                required:true
+            }
         }
     });
 
     function submitHandler() {
         if ($.validate.form()) {
-            var sHTML = $('.summernote').code();
+            var sHTML = $('.summernote').summernote('code');
             $("#noticeContent").val(sHTML);
             $.operate.save(prefix + "/edit", $('#form-notice-edit').serialize());
         }

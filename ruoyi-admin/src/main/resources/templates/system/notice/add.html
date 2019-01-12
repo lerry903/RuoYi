@@ -61,7 +61,7 @@
 
     function submitHandler() {
         if ($.validate.form()) {
-            var sHTML = $('.summernote').code();
+            var sHTML = $('.summernote').summernote('code');
             $("#noticeContent").val(sHTML);
             $.operate.save(prefix + "/add", $('#form-notice-add').serialize());
         }

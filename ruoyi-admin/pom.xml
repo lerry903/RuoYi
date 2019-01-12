@@ -79,7 +79,7 @@
                     <exclude>application-dev.yml</exclude>
                     <exclude>application-test.yml</exclude>
                     <exclude>application-prod.yml</exclude>
-                    <exclude>static/fonts/**</exclude>
+                    <exclude>static/**</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -87,7 +87,7 @@
                 <filtering>false</filtering>
                 <includes>
                     <include>application-${env}.yml</include>
-                    <include>static/fonts/**</include>
+                    <include>static/**</include>
                 </includes>
             </resource>
         </resources>
