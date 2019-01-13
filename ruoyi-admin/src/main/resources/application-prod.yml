@@ -7,6 +7,8 @@ ruoyi:
 server:
   # 服务端口
   port: 8080
+  #演示模式
+  demoMode: true
 
 #数据源配置
 spring:
