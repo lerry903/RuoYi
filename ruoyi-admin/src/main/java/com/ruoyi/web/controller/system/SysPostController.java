@@ -60,7 +60,7 @@ public class SysPostController extends BaseController {
     public AjaxResult export(SysPost post) {
         List<SysPost> list = postService.selectPostList(post);
         ExcelUtil<SysPost> util = new ExcelUtil<>(SysPost.class);
-        return util.exportExcel(list, "post");
+        return util.exportExcel(list, "岗位信息");
     }
 
     @RequiresPermissions("system:post:remove")

@@ -85,64 +85,64 @@ body.signin {
 }
 }
 /*
-ç™»å½•ç•Œé¢checkæ ·å¼
-*/
+µÇÂ¼½çÃæcheckÑùÊ½
+*/ 
 .checkbox-custom {
-	position: relative;
-	padding: 0 15px 0 25px;
-	margin-bottom: 7px;
-	margin-top: 0;
-	display: inline-block;
+    position: relative;
+    padding: 0 15px 0 25px;
+    margin-bottom: 7px;
+    margin-top: 0;
+    display: inline-block;
 }
 /*
-å°†åˆå§‹çš„checkboxçš„æ ·å¼æ”¹å˜
+½«³õÊ¼µÄcheckboxµÄÑùÊ½¸Ä±ä
 */
 .checkbox-custom input[type="checkbox"] {
-	opacity: 0;/*å°†åˆå§‹çš„checkboxéšè—èµ·æ¥*/
-	position: absolute;
-	cursor: pointer;
-	z-index: 2;
-	margin: -6px 0 0 0;
-	top: 50%;
-	left: 3px;
+    opacity: 0;/*½«³õÊ¼µÄcheckboxÒş²ØÆğÀ´*/
+    position: absolute;
+    cursor: pointer;
+    z-index: 2;
+    margin: -6px 0 0 0;
+    top: 50%;
+    left: 3px;
 }
 /*
-è®¾è®¡æ–°çš„checkboxï¼Œä½ç½®
+Éè¼ÆĞÂµÄcheckbox£¬Î»ÖÃ
 */
 .checkbox-custom label:before {
-	content: '';
-	position: absolute;
-	top: 50%;
-	left: 0;
-	margin-top: -9px;
-	width: 18px;
-	height: 17px;
-	display: inline-block;
-	border-radius: 2px;
-	border: 1px solid #bbb;
-	background: #fff;
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -9px;
+    width: 18px;
+    height: 17px;
+    display: inline-block;
+    border-radius: 2px;
+    border: 1px solid #bbb;
+    background: #fff;
 }
 /*
-ç‚¹å‡»åˆå§‹çš„checkboxï¼Œå°†æ–°çš„checkboxå…³è”èµ·æ¥
+µã»÷³õÊ¼µÄcheckbox£¬½«ĞÂµÄcheckbox¹ØÁªÆğÀ´
 */
 .checkbox-custom input[type="checkbox"]:checked +label:after {
-	position: absolute;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	content: "\e013";
-	top: 42%;
-	left: 3px;
-	margin-top: -5px;
-	font-size: 11px;
-	line-height: 1;
-	width: 16px;
-	height: 16px;
-	color: #333;
+    position: absolute;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    content: "\e013";
+    top: 42%;
+    left: 3px;
+    margin-top: -5px;
+    font-size: 11px;
+    line-height: 1;
+    width: 16px;
+    height: 16px;
+    color: #333;
 }
 .checkbox-custom label {
-	cursor: pointer;
-	line-height: 1.2;
-	font-weight: normal;/*æ”¹å˜äº†remembermeçš„å­—ä½“*/
-	margin-bottom: 0;
-	text-align: left;
+    cursor: pointer;
+    line-height: 1.2;
+    font-weight: normal;/*¸Ä±äÁËremembermeµÄ×ÖÌå*/
+    margin-bottom: 0;
+    text-align: left;
 }

@@ -14,7 +14,7 @@ import com.ruoyi.common.utils.StringUtils;
  *
  * @author ruoyi
  */
-public class Convert {
+public class Convert{
 
     private Convert(){
         throw new IllegalStateException("Utility class");

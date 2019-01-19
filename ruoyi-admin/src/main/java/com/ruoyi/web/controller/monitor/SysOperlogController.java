@@ -59,7 +59,7 @@ public class SysOperlogController extends BaseController {
     public AjaxResult export(SysOperLog operLog) {
         List<SysOperLog> list = operLogService.selectOperLogList(operLog);
         ExcelUtil<SysOperLog> util = new ExcelUtil<>(SysOperLog.class);
-        return util.exportExcel(list, "operLog");
+        return util.exportExcel(list, "操作日志");
     }
 
     @RequiresPermissions("monitor:operlog:remove")

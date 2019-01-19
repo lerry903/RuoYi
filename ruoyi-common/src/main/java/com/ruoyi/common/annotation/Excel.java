@@ -67,4 +67,35 @@ public @interface Excel {
      * 另一个类中的属性名称,支持多级获取,以小数点隔开
      */
     String targetAttr() default "";
+
+    /**
+     * 字段类型（0：导出导入；1：仅导出；2：仅导入）
+     */
+    Type type() default Type.ALL;
+
+    public enum Type{
+        /**
+         * 导入导出
+         */
+        ALL(0),
+        /**
+         * 仅导出
+         */
+        EXPORT(1),
+        /**
+         * 仅导入
+         */
+        IMPORT(2);
+        private final int value;
+
+        Type(int value)
+        {
+            this.value = value;
+        }
+
+        public int value()
+        {
+            return this.value;
+        }
+    }
 }

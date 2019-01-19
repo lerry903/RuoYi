@@ -117,6 +117,13 @@ public class Global {
     }
 
     /**
+     * 获取上传路径
+     */
+    public static String getUploadPath(){
+        return getConfig(CONFIG_KEY) + "upload/";
+    }
+
+    /**
      * 获取作者
      */
     public static String getAuthor() {

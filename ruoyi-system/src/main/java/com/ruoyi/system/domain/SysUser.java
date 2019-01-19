@@ -26,6 +26,7 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value="用户序号",name="userId",example="1")
     private Long userId;
 
+    @Excel(name = "部门编号", type = Excel.Type.IMPORT)
     @ApiModelProperty(value="部门ID",name="deptId",example="1")
     private Long deptId;
 
@@ -68,15 +69,15 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value="删除标志",name="delFlag",example="0=正常,2=删除")
     private String delFlag;
 
-    @Excel(name = "最后登陆IP")
+    @Excel(name = "最后登陆IP", type = Excel.Type.EXPORT)
     @ApiModelProperty(value="最后登陆IP",name="loginIp",example="127.0.0.1")
     private String loginIp;
 
-    @Excel(name = "最后登陆时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "最后登陆时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Excel.Type.EXPORT)
     @ApiModelProperty(value="最后登陆时间",name="loginDate",example="2018-12-15 18:03:58",dataType="java.util.Date")
     private Date loginDate;
 
-    @Excel(name = "部门名称", targetAttr = "deptName")
+    @Excel(name = "部门名称", targetAttr = "deptName", type = Excel.Type.EXPORT)
     @ApiModelProperty(value = "部门信息",hidden = true)
     private SysDept dept;
 
@@ -97,5 +98,9 @@ public class SysUser extends BaseEntity {
     @ApiIgnore
     public static boolean isAdmin(Long userId) {
         return userId != null && 1L == userId;
+    }
+
+    public SysDept getDept() {
+        return dept == null?new SysDept() : dept;
     }
 }

@@ -53,14 +53,14 @@ public class SysDictDataController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "字典数据", businessType = BusinessType.EXPORT)
+    @Log(title = "数据字典", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:dict:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(SysDictData dictData) {
         List<SysDictData> list = dictDataService.selectDictDataList(dictData);
         ExcelUtil<SysDictData> util = new ExcelUtil<>(SysDictData.class);
-        return util.exportExcel(list, "dictData");
+        return util.exportExcel(list, "数据字典");
     }
 
     /**

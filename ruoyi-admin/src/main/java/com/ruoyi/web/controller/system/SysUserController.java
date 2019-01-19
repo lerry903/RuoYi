@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.system;
 
 import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.annotation.LoginAuth;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.ExcelUtil;
@@ -19,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -70,7 +73,27 @@ public class SysUserController extends BaseController {
     public AjaxResult export(SysUser user) {
         List<SysUser> list = userService.selectUserList(user);
         ExcelUtil<SysUser> util = new ExcelUtil<>(SysUser.class);
-        return util.exportExcel(list, "user");
+        return util.exportExcel(list, "用户信息");
+    }
+
+    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
+    @RequiresPermissions("system:user:import")
+    @PostMapping("/importData")
+    @ResponseBody
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws IOException {
+        ExcelUtil<SysUser> util = new ExcelUtil<>(SysUser.class);
+        List<SysUser> userList = util.importExcel(file.getInputStream());
+        SysUser loginUser = ShiroUtils.getSysUser();
+        String message = userService.importUser(userList, updateSupport, loginUser);
+        return AjaxResult.success(message);
+    }
+
+    @RequiresPermissions("system:user:view")
+    @GetMapping("/importTemplate")
+    @ResponseBody
+    public AjaxResult importTemplate(){
+        ExcelUtil<SysUser> util = new ExcelUtil<>(SysUser.class);
+        return util.importTemplateExcel("用户信息导入模版");
     }
 
     /**
@@ -183,5 +206,16 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public String checkEmailUnique(SysUser user) {
         return userService.checkEmailUnique(user);
+    }
+
+    /**
+     * 用户状态修改
+     */
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
+    @RequiresPermissions("system:user:edit")
+    @PostMapping("/changeStatus")
+    @ResponseBody
+    public AjaxResult changeStatus(SysUser user){
+        return toAjax(userService.changeStatus(user));
     }
 }

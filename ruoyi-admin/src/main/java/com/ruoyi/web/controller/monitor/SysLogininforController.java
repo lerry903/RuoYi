@@ -57,7 +57,7 @@ public class SysLogininforController extends BaseController {
     public AjaxResult export(SysLogininfor logininfor) {
         List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
         ExcelUtil<SysLogininfor> util = new ExcelUtil<>(SysLogininfor.class);
-        return util.exportExcel(list, "logininfor");
+        return util.exportExcel(list, "登陆日志");
     }
 
     @RequiresPermissions("monitor:logininfor:remove")

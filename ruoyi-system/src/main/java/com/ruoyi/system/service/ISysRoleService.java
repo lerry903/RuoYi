@@ -114,4 +114,11 @@ public interface ISysRoleService {
      * @return 结果
      */
     int countUserRoleByRoleId(Long roleId);
+
+    /**
+     * 修改角色状态
+     * @param role 角色
+     * @return 结果
+     */
+    int changeStatus(SysRole role);
 }

@@ -61,7 +61,7 @@ public class SysJobLogController extends BaseController {
     public AjaxResult export(SysJobLog jobLog) {
         List<SysJobLog> list = jobLogService.selectJobLogList(jobLog);
         ExcelUtil<SysJobLog> util = new ExcelUtil<>(SysJobLog.class);
-        return util.exportExcel(list, JOB_LOG);
+        return util.exportExcel(list, "调度日志");
     }
 
     @Log(title = "调度日志", businessType = BusinessType.DELETE)

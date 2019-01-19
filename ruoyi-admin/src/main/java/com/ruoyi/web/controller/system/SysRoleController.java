@@ -61,7 +61,7 @@ public class SysRoleController extends BaseController {
     public AjaxResult export(SysRole role) {
         List<SysRole> list = roleService.selectRoleList(role);
         ExcelUtil<SysRole> util = new ExcelUtil<>(SysRole.class);
-        return util.exportExcel(list, "role");
+        return util.exportExcel(list, "角色信息");
     }
 
     /**
@@ -168,5 +168,16 @@ public class SysRoleController extends BaseController {
     @GetMapping("/selectMenuTree")
     public String selectMenuTree() {
         return prefix + "/tree";
+    }
+
+    /**
+     * 角色状态修改
+     */
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
+    @RequiresPermissions("system:role:edit")
+    @PostMapping("/changeStatus")
+    @ResponseBody
+    public AjaxResult changeStatus(SysRole role){
+        return toAjax(roleService.changeStatus(role));
     }
 }

@@ -8,7 +8,7 @@ package com.ruoyi.framework.web.exception.user;
 public class RoleBlockedException extends UserException {
     private static final long serialVersionUID = 1L;
 
-    public RoleBlockedException(String reason) {
-        super("role.blocked" , new Object[]{reason});
+    public RoleBlockedException() {
+        super("role.blocked" , null);
     }
 }
