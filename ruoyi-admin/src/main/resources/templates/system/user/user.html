@@ -104,8 +104,11 @@
     var datas = [[${@dict.getType('sys_normal_disable')}]];
     var prefix = ctx + "system/user";
 
-    $(function () {
-        $('body').layout({west__size: 185});
+    $(function () {var panehHidden = false;
+        if ($(this).width() < 769) {
+            panehHidden = true;
+        }
+        $('body').layout({ initClosed: panehHidden, west__size: 185 });
         queryUserList();
         queryDeptTree();
     });

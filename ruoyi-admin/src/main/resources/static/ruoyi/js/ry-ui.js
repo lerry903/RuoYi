@@ -309,16 +309,16 @@
             	}
             	if ($.common.isEmpty(title)) {
                     title = false;
-                };
+                }
                 if ($.common.isEmpty(url)) {
                     url = "/404.html";
-                };
+                }
                 if ($.common.isEmpty(width)) {
                 	width = 800;
-                };
+                }
                 if ($.common.isEmpty(height)) {
                 	height = ($(window).height() - 50);
-                };
+                }
             	layer.open({
             		type: 2,
             		area: [width + 'px', height + 'px'],
@@ -372,16 +372,16 @@
             	}
             	if ($.common.isEmpty(title)) {
                     title = false;
-                };
+                }
                 if ($.common.isEmpty(url)) {
                     url = "/404.html";
-                };
+                }
                 if ($.common.isEmpty(width)) {
                 	width = 800;
-                };
+                }
                 if ($.common.isEmpty(height)) {
                 	height = ($(window).height() - 50);
-                };
+                }
                 var index = layer.open({
             		type: 2,
             		area: [width + 'px', height + 'px'],
@@ -453,25 +453,22 @@
             	    _width = 'auto';
             	    _height = 'auto';
             	}
-            	layer.open({
-            		type: 2,
-            		area: [_width + 'px', _height + 'px'],
-            		fix: false,
-            		//不固定
-            		maxmin: true,
-            		shade: 0.3,
-            		title: $.table._option.modalName + "详细",
-            		content: _url,
-            		btn: '关闭',
-            	    // 弹层外区域关闭
-            		shadeClose: true,
-            		success: function(layer) {
-            			layer[0].childNodes[3].childNodes[0].attributes[0].value='layui-layer-btn1';
-            		},
-            		btn1: function(index) {
-            			layer.close(index);
-            	    }
-            	});
+				top.layer.open({
+					type: 2,
+					area: [_width + 'px', _height + 'px'],
+					fix: false,
+					//不固定
+					maxmin: true,
+					shade: 0.3,
+					title: $.table._option.modalName + "详细",
+					content: _url,
+					btn: ['关闭'],
+					// 弹层外区域关闭
+					shadeClose: true,
+					cancel: function(index){
+						return true;
+					}
+				});
             },
             // 删除信息
             remove: function(id) {
