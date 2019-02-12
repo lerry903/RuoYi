@@ -10,14 +10,10 @@ import com.ruoyi.common.enums.UserStatus;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
-import com.ruoyi.framework.util.MessageUtils;
-import com.ruoyi.framework.util.ServletUtils;
+import com.ruoyi.common.utils.MessageUtils;
+import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.framework.web.exception.user.CaptchaException;
-import com.ruoyi.framework.web.exception.user.UserBlockedException;
-import com.ruoyi.framework.web.exception.user.UserDeleteException;
-import com.ruoyi.framework.web.exception.user.UserNotExistsException;
-import com.ruoyi.framework.web.exception.user.UserPasswordNotMatchException;
+import com.ruoyi.common.exception.user.*;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
 

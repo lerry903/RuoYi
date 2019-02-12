@@ -1,4 +1,6 @@
-package com.ruoyi.framework.web.exception.user;
+package com.ruoyi.common.exception.user;
+
+import com.ruoyi.common.exception.base.BaseException;
 
 /**
  * 用户不存在异常类
@@ -9,6 +11,6 @@ public class UserNotExistsException extends UserException {
     private static final long serialVersionUID = 1L;
 
     public UserNotExistsException() {
-        super("user.not.exists" , null);
+        super("user.not.exists", null);
     }
 }

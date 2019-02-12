@@ -1,6 +1,6 @@
 package com.ruoyi.framework.manager;
 
-import com.ruoyi.framework.util.SpringUtils;
+import com.ruoyi.common.utils.SpringUtils;
 
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;

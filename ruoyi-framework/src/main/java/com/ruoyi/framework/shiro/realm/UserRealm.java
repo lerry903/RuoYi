@@ -2,7 +2,7 @@ package com.ruoyi.framework.shiro.realm;
 
 import com.ruoyi.framework.shiro.service.SysLoginService;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.framework.web.exception.user.*;
+import com.ruoyi.common.exception.user.*;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysMenuService;
 import com.ruoyi.system.service.ISysRoleService;

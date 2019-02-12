@@ -206,6 +206,7 @@ public class GenUtils {
         javaTypeMap.put("smallint" , "Integer");
         javaTypeMap.put("mediumint" , "Integer");
         javaTypeMap.put("int" , "Integer");
+        javaTypeMap.put("number", "Integer");
         javaTypeMap.put("integer" , "integer");
         javaTypeMap.put("bigint" , "Long");
         javaTypeMap.put("float" , "Float");
@@ -214,6 +215,7 @@ public class GenUtils {
         javaTypeMap.put("bit" , "Boolean");
         javaTypeMap.put("char" , "String");
         javaTypeMap.put("varchar" , "String");
+        javaTypeMap.put("varchar2", "String");
         javaTypeMap.put("tinytext" , "String");
         javaTypeMap.put("text" , "String");
         javaTypeMap.put("mediumtext" , "String");

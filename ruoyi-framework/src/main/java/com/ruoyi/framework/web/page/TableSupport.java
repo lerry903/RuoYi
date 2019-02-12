@@ -2,7 +2,7 @@ package com.ruoyi.framework.web.page;
 
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.page.PageDomain;
-import com.ruoyi.framework.util.ServletUtils;
+import com.ruoyi.common.utils.ServletUtils;
 
 /**
  * 表格数据处理

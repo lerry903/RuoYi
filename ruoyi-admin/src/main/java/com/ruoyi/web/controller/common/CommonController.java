@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.framework.config.ServerConfig;
-import com.ruoyi.framework.util.FileUploadUtils;
+import com.ruoyi.common.utils.file.FileUploadUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

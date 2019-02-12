@@ -2,7 +2,7 @@ package com.ruoyi.framework.shiro.web.session;
 
 import com.ruoyi.common.constant.ShiroConstants;
 import com.ruoyi.framework.shiro.session.OnlineSession;
-import com.ruoyi.framework.util.SpringUtils;
+import com.ruoyi.common.utils.SpringUtils;
 import com.ruoyi.system.domain.SysUserOnline;
 import com.ruoyi.system.service.ISysUserOnlineService;
 import lombok.extern.slf4j.Slf4j;

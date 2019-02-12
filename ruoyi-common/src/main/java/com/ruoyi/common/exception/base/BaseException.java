@@ -1,7 +1,7 @@
-package com.ruoyi.framework.web.exception.base;
+package com.ruoyi.common.exception.base;
 
+import com.ruoyi.common.utils.MessageUtils;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.framework.util.MessageUtils;
 
 /**
  * 基础异常
@@ -14,22 +14,22 @@ public class BaseException extends RuntimeException {
     /**
      * 所属模块
      */
-    private final String module;
+    private String module;
 
     /**
      * 错误码
      */
-    private final String code;
+    private String code;
 
     /**
      * 错误码对应的参数
      */
-    private transient final Object[] args;
+    private Object[] args;
 
     /**
      * 错误消息
      */
-    private final String defaultMessage;
+    private String defaultMessage;
 
     public BaseException(String module, String code, Object[] args, String defaultMessage) {
         this.module = module;

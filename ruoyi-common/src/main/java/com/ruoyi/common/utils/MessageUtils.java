@@ -1,4 +1,4 @@
-package com.ruoyi.framework.util;
+package com.ruoyi.common.utils;
 
 import org.springframework.context.MessageSource;
 
