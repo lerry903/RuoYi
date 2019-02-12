@@ -5,11 +5,13 @@ ruoyi:
   # 描述
   description: 若依管理系统
   # 版本
-  version: 3.1.0
+  version: 3.2.0
   # 获取ip地址开关
   addressEnabled: true
   #演示模式
   demoMode: false
+  # 文件上传路径
+  profile: D:/profile/
 
 # 开发环境配置
 server:
