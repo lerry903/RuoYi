@@ -46,6 +46,11 @@ public class ColumnInfo {
      */
     private String attrname;
 
+    /**
+     *  执行计划（包含了与索引相关的一些细节信息）
+     */
+    private String extra;
+
     public String getAttrName() {
         return attrName;
     }
