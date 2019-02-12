@@ -54,4 +54,11 @@ public interface SysJobLogMapper {
      * 清空任务日志
      */
     void cleanJobLog();
+
+    /**
+     * 查询所有调度任务日志
+     *
+     * @return 调度任务日志列表
+     */
+    List<SysJobLog> selectJobLogAll();
 }

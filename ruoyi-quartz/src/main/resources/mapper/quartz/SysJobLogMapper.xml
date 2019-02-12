@@ -42,7 +42,7 @@
         </where>
     </select>
 
-    <select id="selectJobAll" resultMap="SysJobLogResult">
+    <select id="selectJobLogAll" resultMap="SysJobLogResult">
         <include refid="selectJobLogVo"/>
     </select>
 
