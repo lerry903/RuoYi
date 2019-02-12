@@ -13,11 +13,13 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFDataValidation;
 
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -152,32 +154,33 @@ public class ExcelUtil<T> {
                         Class<?> fieldType = field.getType();
                         if (String.class == fieldType) {
                             field.set(entity, Convert.toStr(val));
-                        } else if ((Integer.TYPE == fieldType) || (Integer.class == fieldType)) {
+                        } else if (Integer.TYPE == fieldType || Integer.class == fieldType) {
                             field.set(entity, Convert.toInt(val));
-                        } else if ((Long.TYPE == fieldType) || (Long.class == fieldType)) {
+                        } else if (Long.TYPE == fieldType || Long.class == fieldType) {
                             field.set(entity, Convert.toLong(val));
-                        } else if ((Float.TYPE == fieldType) || (Float.class == fieldType)) {
+                        } else if (Float.TYPE == fieldType || Float.class == fieldType) {
                             field.set(entity, Convert.toFloat(val));
-                        } else if ((Short.TYPE == fieldType) || (Short.class == fieldType)) {
+                        } else if (Short.TYPE == fieldType || Short.class == fieldType) {
                             field.set(entity, Convert.toShort(val));
-                        } else if ((Double.TYPE == fieldType) || (Double.class == fieldType)) {
+                        } else if (Double.TYPE == fieldType || Double.class == fieldType) {
                             field.set(entity, Convert.toDouble(val));
                         }else if (java.util.Date.class == fieldType) {
                             if (val instanceof String){
                                 val = DateUtils.parseDate(val);
+                                field.set(entity, val);
                             }else if (val instanceof Double){
                                 val = DateUtil.getJavaDate((Double) val);
+                                field.set(entity, val);
                             }
+                        }else if (BigDecimal.class == fieldType){
+                            field.set(entity, Convert.toBigDecimal(val));
                         }
                         if (StringUtils.isNotNull(fieldType)){
                             Excel attr = field.getAnnotation(Excel.class);
                             String propertyName = field.getName();
-                            if (StringUtils.isNotEmpty(attr.targetAttr()))
-                            {
+                            if (StringUtils.isNotEmpty(attr.targetAttr())){
                                 propertyName = field.getName() + "." + attr.targetAttr();
-                            }
-                            else if (StringUtils.isNotEmpty(attr.readConverterExp()))
-                            {
+                            }else if (StringUtils.isNotEmpty(attr.readConverterExp())){
                                 val = reverseByExp(String.valueOf(val), attr.readConverterExp());
                             }
                             ReflectUtils.invokeSetter(entity, propertyName, val);
@@ -349,7 +352,7 @@ public class ExcelUtil<T> {
             // 如果设置了combo属性则本列只能选择不能输入
             if (attr.combo().length > 0) {
                 // 这里默认设了2-101列只能选择不能输入.
-                setHSSFValidation(sheet, attr.combo(), i, i);
+                setHSSFValidation(sheet, attr.combo(), 1, 100, i, i);
             }
         }
     }
@@ -379,19 +382,28 @@ public class ExcelUtil<T> {
      * 设置某些列的值只能输入预制的数据,显示下拉框.
      *
      * @param sheet    要设置的sheet.
-     * @param textList 下拉框显示的内容
+     * @param textlist 下拉框显示的内容
+     * @param firstRow 开始行
+     * @param endRow 结束行
      * @param firstCol 开始列
      * @param endCol   结束列
      */
-    private static void setHSSFValidation(Sheet sheet, String[] textList,
-                                          int firstCol, int endCol) {
+    private static void setHSSFValidation(Sheet sheet, String[] textlist, int firstRow, int endRow, int firstCol, int endCol) {
+        DataValidationHelper helper = sheet.getDataValidationHelper();
         // 加载下拉列表内容
-        DVConstraint constraint = DVConstraint.createExplicitListConstraint(textList);
+        DataValidationConstraint constraint = helper.createExplicitListConstraint(textlist);
         // 设置数据有效性加载在哪个单元格上,四个参数分别是：起始行、终止行、起始列、终止列
-        CellRangeAddressList regions = new CellRangeAddressList(1, 100, firstCol, endCol);
+        CellRangeAddressList regions = new CellRangeAddressList(firstRow, endRow, firstCol, endCol);
         // 数据有效性对象
-        HSSFDataValidation dataValidationList = new HSSFDataValidation(regions, constraint);
-        sheet.addValidationData(dataValidationList);
+        DataValidation dataValidation = helper.createValidation(constraint, regions);
+        // 处理Excel兼容性问题
+        if (dataValidation instanceof XSSFDataValidation){
+            dataValidation.setSuppressDropDownArrow(true);
+            dataValidation.setShowErrorBox(true);
+        }else{
+            dataValidation.setSuppressDropDownArrow(false);
+        }
+        sheet.addValidationData(dataValidation);
     }
 
     /**
@@ -507,12 +519,26 @@ public class ExcelUtil<T> {
      */
     private void createExcelField() {
         this.fields = new ArrayList<>();
-        Field[] allFields = clazz.getDeclaredFields();
-        // 得到所有field并存放到一个list中.
-        for (Field field : allFields) {
+        List<Field> tempFields = new ArrayList<>();
+        Class<?> tempClass = clazz;
+        tempFields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+        while (tempClass != null){
+            tempClass = tempClass.getSuperclass();
+            if (tempClass != null) {
+                tempFields.addAll(Arrays.asList(tempClass.getDeclaredFields()));
+            }
+        }
+        putToFields(tempFields);
+    }
+
+    /**
+     * 放到字段集合中
+     */
+    private void putToFields(List<Field> fields){
+        for (Field field : fields){
             Excel attr = field.getAnnotation(Excel.class);
-            if (attr != null && (attr.type() == Excel.Type.ALL || attr.type() == type)) {
-                fields.add(field);
+            if (attr != null && (attr.type() == Excel.Type.ALL || attr.type() == type)){
+                this.fields.add(field);
             }
         }
     }
