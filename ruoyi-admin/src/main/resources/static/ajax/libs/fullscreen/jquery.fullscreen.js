@@ -1,9 +1,7 @@
 /**
- * @name        jQuery FullScreen Plugin
- * @author      Martin Angelov, Morten Sjøgren
- * @version     1.2
- * @url         http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
- * @license     MIT License
+ * 基于jQuery FullScreen修改
+ * 新增支持IE全屏显示
+ * Copyright (c) 2019 ruoyi
  */
 
 /*jshint browser: true, jquery: true */
@@ -15,8 +13,9 @@
 		var doc = document.documentElement;
 
 		return ('requestFullscreen' in doc) ||
-				('mozRequestFullScreen' in doc && document.mozFullScreenEnabled) ||
-				('webkitRequestFullScreen' in doc);
+			('msRequestFullscreen' in doc) ||
+			('mozRequestFullScreen' in doc && document.mozFullScreenEnabled) ||
+			('webkitRequestFullScreen' in doc);
 	}
 
 	function requestFullScreen(elem){
@@ -26,14 +25,17 @@
 			elem.mozRequestFullScreen();
 		} else if (elem.webkitRequestFullScreen) {
 			elem.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+		} else if (elem.msRequestFullscreen) {
+			elem.msRequestFullscreen();
 		}
 	}
 
 	function fullScreenStatus(){
 		return document.fullscreen ||
-				document.mozFullScreen ||
-				document.webkitIsFullScreen ||
-				false;
+			document.mozFullScreen ||
+			document.webkitIsFullScreen ||
+			document.msFullscreenElement ||
+			false;
 	}
 
 	function cancelFullScreen(){
@@ -43,6 +45,8 @@
 			document.mozCancelFullScreen();
 		} else if (document.webkitCancelFullScreen) {
 			document.webkitCancelFullScreen();
+		} else if (document.msExitFullscreen) {
+			document.msExitFullscreen();
 		}
 	}
 
@@ -76,26 +80,26 @@
 		// for the background and a callback function
 
 		var options = $.extend({
-			'background'      : '#111',
-			'callback'        : $.noop( ),
-			'fullscreenClass' : 'fullScreen'
-		}, props),
+				'background'      : '#111',
+				'callback'        : $.noop( ),
+				'fullscreenClass' : 'fullScreen'
+			}, props),
 
-		elem = this,
+			elem = this,
 
-		// This temporary div is the element that is
-		// actually going to be enlarged in full screen
+			// This temporary div is the element that is
+			// actually going to be enlarged in full screen
 
-		fs = $('<div>', {
-			'css' : {
-				'overflow-y' : 'auto',
-				'background' : options.background,
-				'width'      : '100%',
-				'height'     : '100%'
-			}
-		})
-			.insertBefore(elem)
-			.append(elem);
+			fs = $('<div>', {
+				'css' : {
+					'overflow-y' : 'auto',
+					'background' : options.background,
+					'width'      : '100%',
+					'height'     : '100%'
+				}
+			})
+				.insertBefore(elem)
+				.append(elem);
 
 		// You can use the .fullScreen class to
 		// apply styling to your element
@@ -121,8 +125,8 @@
 		onFullScreenEvent(function(fullScreen){
 			if(!fullScreen){
 				// We have exited full screen.
-			        // Detach event listener
-			        $(document).off( 'fullscreenchange mozfullscreenchange webkitfullscreenchange' );
+				// Detach event listener
+				$(document).off( 'fullscreenchange mozfullscreenchange webkitfullscreenchange' );
 				// Remove the class and destroy
 				// the temporary div
 
@@ -132,16 +136,16 @@
 
 			// Calling the facultative user supplied callback
 			if(options.callback) {
-                            options.callback(fullScreen);
-                        }
+				options.callback(fullScreen);
+			}
 		});
 
 		return elem;
 	};
 
 	$.fn.cancelFullScreen = function( ) {
-			cancelFullScreen();
+		cancelFullScreen();
 
-			return this;
+		return this;
 	};
 }(jQuery));
