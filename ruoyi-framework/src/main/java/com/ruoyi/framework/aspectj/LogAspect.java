@@ -137,7 +137,7 @@ public class LogAspect {
     private void setRequestValue(SysOperLog operLog) throws Exception {
         Map<String, String[]> map = ServletUtils.getRequest().getParameterMap();
         String params = JSON.marshal(map);
-        operLog.setOperParam(StringUtils.substring(params, 0, 255));
+        operLog.setOperParam(params);
     }
 
     /**
