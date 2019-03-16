@@ -12,9 +12,10 @@ import org.quartz.CronExpression;
  */
 public class CronUtils {
 
-    private CronUtils(){
+    private CronUtils() {
         throw new IllegalStateException("Utility class");
     }
+
     /**
      * 返回一个布尔值代表一个给定的Cron表达式的有效性
      *
