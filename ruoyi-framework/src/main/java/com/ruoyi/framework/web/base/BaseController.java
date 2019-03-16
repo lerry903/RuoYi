@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.sql.SqlUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.common.page.PageDomain;
 import com.ruoyi.common.page.TableDataInfo;
@@ -46,7 +47,7 @@ public class BaseController {
         Integer pageNum = pageDomain.getPageNum();
         Integer pageSize = pageDomain.getPageSize();
         if (ObjectUtils.allNotNull(pageNum,pageSize)) {
-            String orderBy = pageDomain.getOrderBy();
+            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
             PageHelper.startPage(pageNum, pageSize, orderBy);
         }
     }
