@@ -7,8 +7,6 @@ import com.ruoyi.quartz.domain.SysJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 
-import java.util.Objects;
-
 /**
  * 定时任务工具类
  *
@@ -17,7 +15,7 @@ import java.util.Objects;
 @Slf4j
 public class ScheduleUtils {
 
-    private ScheduleUtils(){
+    private ScheduleUtils() {
         throw new IllegalStateException("Utility class");
     }
 
@@ -27,7 +25,7 @@ public class ScheduleUtils {
      * @param sysJob 执行计划
      * @return 具体执行任务类
      */
-    private static Class<? extends Job> getQuartzJobClass(SysJob sysJob){
+    private static Class<? extends Job> getQuartzJobClass(SysJob sysJob) {
         boolean isConcurrent = "0".equals(sysJob.getConcurrent());
         return isConcurrent ? QuartzJobExecution.class : QuartzDisallowConcurrentExecution.class;
     }
@@ -53,7 +51,7 @@ public class ScheduleUtils {
         try {
             return (CronTrigger) scheduler.getTrigger(getTriggerKey(jobId));
         } catch (SchedulerException e) {
-            log.error("getCronTrigger 异常：" , e);
+            log.error("getCronTrigger 异常：", e);
         }
         return null;
     }
@@ -61,7 +59,7 @@ public class ScheduleUtils {
     /**
      * 创建定时任务
      */
-    public static void createScheduleJob(Scheduler scheduler, SysJob job) throws SchedulerException, TaskException{
+    public static void createScheduleJob(Scheduler scheduler, SysJob job) throws SchedulerException, TaskException {
         Class<? extends Job> jobClass = getQuartzJobClass(job);
         // 构建job信息
         JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(getJobKey(job.getJobId())).build();
@@ -80,7 +78,7 @@ public class ScheduleUtils {
         scheduler.scheduleJob(jobDetail, trigger);
 
         // 暂停任务
-        if (job.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue())){
+        if (job.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue())) {
             pauseJob(scheduler, job.getJobId());
         }
     }
@@ -88,21 +86,17 @@ public class ScheduleUtils {
     /**
      * 更新定时任务
      */
-    public static void updateScheduleJob(Scheduler scheduler, SysJob job) throws SchedulerException, TaskException{
+    public static void updateScheduleJob(Scheduler scheduler, SysJob job) throws SchedulerException, TaskException {
         JobKey jobKey = getJobKey(job.getJobId());
 
         // 判断是否存在
-        if (scheduler.checkExists(jobKey))
-        {
+        if (scheduler.checkExists(jobKey)) {
             // 先移除，然后做更新操作
             scheduler.deleteJob(jobKey);
         }
-
         createScheduleJob(scheduler, job);
-
         // 暂停任务
-        if (job.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue()))
-        {
+        if (job.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue())) {
             pauseJob(scheduler, job.getJobId());
         }
     }
@@ -110,7 +104,7 @@ public class ScheduleUtils {
     /**
      * 立即执行任务
      */
-    public static void run(Scheduler scheduler, SysJob job) throws SchedulerException{
+    public static void run(Scheduler scheduler, SysJob job) throws SchedulerException {
         // 参数
         JobDataMap dataMap = new JobDataMap();
         dataMap.put(ScheduleConstants.TASK_PROPERTIES, job);
@@ -120,21 +114,21 @@ public class ScheduleUtils {
     /**
      * 暂停任务
      */
-    public static void pauseJob(Scheduler scheduler, Long jobId) throws SchedulerException{
+    public static void pauseJob(Scheduler scheduler, Long jobId) throws SchedulerException {
         scheduler.pauseJob(getJobKey(jobId));
     }
 
     /**
      * 恢复任务
      */
-    public static void resumeJob(Scheduler scheduler, Long jobId) throws SchedulerException{
+    public static void resumeJob(Scheduler scheduler, Long jobId) throws SchedulerException {
         scheduler.resumeJob(getJobKey(jobId));
     }
 
     /**
      * 删除定时任务
      */
-    public static void deleteScheduleJob(Scheduler scheduler, Long jobId) throws SchedulerException{
+    public static void deleteScheduleJob(Scheduler scheduler, Long jobId) throws SchedulerException {
         scheduler.deleteJob(getJobKey(jobId));
     }
 
