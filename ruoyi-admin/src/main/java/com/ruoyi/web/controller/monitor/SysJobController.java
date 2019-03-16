@@ -1,29 +1,24 @@
 package com.ruoyi.web.controller.monitor;
 
-import java.util.List;
-
-import com.ruoyi.common.exception.job.TaskException;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.quartz.SchedulerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.exception.job.TaskException;
+import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.common.utils.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.common.page.TableDataInfo;
+import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.quartz.domain.SysJob;
 import com.ruoyi.quartz.service.ISysJobService;
-import com.ruoyi.framework.web.base.BaseController;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.quartz.SchedulerException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 调度任务信息操作处理
@@ -32,9 +27,8 @@ import com.ruoyi.framework.web.base.BaseController;
  */
 @Controller
 @RequestMapping("/monitor/job")
+@Slf4j
 public class SysJobController extends BaseController {
-
-    private static final Logger log = LoggerFactory.getLogger(SysJobController.class);
 
     private String prefix = "monitor/job";
 

@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 
 import com.ruoyi.common.exception.job.TaskException;
 import org.quartz.CronTrigger;
+import org.quartz.ObjectAlreadyExistsException;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,12 @@ public class SysJobServiceImpl implements ISysJobService {
             CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, sysJob.getJobId());
             // 如果不存在，则创建
             if (cronTrigger == null) {
-                createScheduleJob(scheduler, sysJob);
+                try {
+                    createScheduleJob(scheduler, sysJob);
+                }catch (ObjectAlreadyExistsException e){
+                    updateScheduleJob(scheduler, sysJob);
+                }
+
             } else {
                 updateScheduleJob(scheduler, sysJob);
             }
