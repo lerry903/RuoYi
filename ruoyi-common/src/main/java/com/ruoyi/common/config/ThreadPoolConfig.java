@@ -1,5 +1,6 @@
 package com.ruoyi.common.config;
 
+import com.ruoyi.common.utils.Threads;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,24 +52,11 @@ public class ThreadPoolConfig {
     @Bean(name = "scheduledExecutorService")
     protected ScheduledExecutorService scheduleTaskExuctor() {
         return new ScheduledThreadPoolExecutor(corePoolSize,
-                new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build()) {
+                new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build()){
             @Override
-            protected void afterExecute(Runnable r, Throwable t) {
+            protected void afterExecute(Runnable r, Throwable t){
                 super.afterExecute(r, t);
-                if (t == null && r instanceof Future<?>) {
-                    try {
-                        ((Future<?>) r).get();
-                    } catch (CancellationException ce) {
-                        t = ce;
-                    } catch (ExecutionException ee) {
-                        t = ee.getCause();
-                    } catch (InterruptedException ie) {
-                        Thread.currentThread().interrupt();
-                    }
-                }
-                if(t != null) {
-                    log.error(t.getMessage());
-                }
+                Threads.printException(r, t);
             }
         };
     }
