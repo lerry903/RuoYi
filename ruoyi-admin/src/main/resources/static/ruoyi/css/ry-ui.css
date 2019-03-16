@@ -171,9 +171,14 @@
 label.error {
 	position: absolute;
 	right: 18px;
-	top: 7px;
+	top: 10px;
 	color: #ef392b;
 	font-size: 12px
+}
+
+.input-group label.error {
+	z-index:99;
+	right: 42px
 }
 
 .Validform_error,input.error,select.error {
@@ -407,7 +412,7 @@ label {
 	background: transparent;
 	outline: none;
 	height: 30px;
-	width: 280px;
+	width: 200px;
 	padding-left: 5px;
 }
 
@@ -426,15 +431,24 @@ label {
 	background: transparent;
 	outline: none;
 	height: 30px;
-	width: 280px;
+	width: 200px;
 }
 
 .select-list .select-time input {
-	width: 133px;
+	width: 93px;
 }
 
 .select-time label,.select-time span,.select-time input {
 	float: left;
+}
+
+@media (max-width:767px) {
+    .select-time label,.select-time span,.select-time input {
+	    float: none;
+    }
+    .select-list .select-time input {
+	    width: 200px;
+    }
 }
 
 .select-time label {
@@ -485,11 +499,19 @@ label {
 }
 
 .table-striped .table>thead:first-child>tr:first-child>th {
-	color: #333;
+	font-weight: normal;
+	font-size: 13px
+}
+.table-striped table thead {
+    background-color: #eff3f8;
 }
 
 .table-bordered td,.table-bordered th {
 	border: 1px solid #ddd!important
+}
+
+.fixed-table-container thead th  >.both{ 
+    display: inline-block
 }
 
 /** 首页样式 **/
@@ -532,4 +554,40 @@ label {
 }
 .dropdown-menu > .divider {
 	background-color:#eee;
+}
+
+/** 表单布局 **/
+.form-header {
+    font-size:15px;
+	color:#6379bb;
+	border-bottom:1px solid #ddd;
+	margin:8px 10px 25px 10px;
+	padding-bottom:5px
+}
+
+.form-content {
+    background-color: #ffffff;
+    color: inherit;
+    padding: 10px 15px 15px 15px;
+    border-color: #e7eaec;
+    -webkit-border-image: none;
+    -o-border-image: none;
+    border-image: none;
+    border-width: 1px 0px;
+}
+
+/** 表格跳转样式 **/
+.pageGo input {
+    height: 32px;
+    width: 50px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    display: block;
+    float:left;
+}
+.pageGo button {
+    height: 32px;
+    display: block;
+    float:left;
 }

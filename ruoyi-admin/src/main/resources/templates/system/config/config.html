@@ -37,7 +37,7 @@
 				</form>
 			</div>
 			
-	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+	        <div class="btn-group-sm" id="toolbar" role="group">
 		        <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:config:add">
 		            <i class="fa fa-plus"></i> 新增
 		        </a>
@@ -73,8 +73,6 @@
                 sortName: "createTime",
 		        sortOrder: "desc",
                 modalName: "参数",
-                search: false,
-		        showExport: false,
                 columns: [{
                     checkbox: true
                 },
@@ -102,14 +100,14 @@
                     	return $.table.selectDictLabel(datas, value);
                     }
                 },
-				{
-					field: 'remark',
-					title: '备注',
-					align: 'center',
-					formatter: function(value, row, index) {
-						return $.table.tooltip(value);
-					}
-				},
+                {
+                    field: 'remark',
+                    title: '备注',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                    	return $.table.tooltip(value);
+                    }
+                },
                 {
                     field: 'createTime',
                     title: '创建时间'

@@ -6,11 +6,11 @@
     
     <title>若依管理系统</title>
     <meta name="keywords" content="若依,若依开源,若依框架,若依系统,ruoyi">
-    <meta name="description" content="若依基于SpringBoot2.1的权限管理系统 易读易懂、界面简洁美观。 核心技术采用Spring、MyBatis、Shiro没有任何其它重度依赖">
-    <link href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" rel="stylesheet"/>
-    <link href="../static/css/font-awesome.min.css" th:href="@{css/font-awesome.min.css}" rel="stylesheet"/>
-    <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet"/>
-    <link href="../static/css/login.min.css" th:href="@{css/login.min.css}" rel="stylesheet"/>
+    <meta name="description" content="若依基于SpringBoot2.0的权限管理系统 易读易懂、界面简洁美观。 核心技术采用Spring、MyBatis、Shiro没有任何其它重度依赖">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="../static/css/login.min.css" th:href="@{/css/login.min.css}" rel="stylesheet"/>
     <link href="../static/ruoyi/css/ry-ui.css" th:href="@{/ruoyi/css/ry-ui.css?v=3.2.0}" rel="stylesheet"/>
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
@@ -51,7 +51,7 @@
                     <input type="password" name="password" class="form-control pword"     placeholder="密码"   value="admin123" />
 					<div class="row m-t" th:if="${captchaEnabled==true}">
 						<div class="col-xs-6">
-                            <input type="text" name="validateCode" class="form-control code" placeholder="验证码" maxlength="5" autocomplete="off">
+						    <input type="text" name="validateCode" class="form-control code" placeholder="验证码" maxlength="5" autocomplete="off">
 						</div>
 						<div class="col-xs-6">
 							<a href="javascript:void(0);" title="点击更换验证码">
@@ -59,7 +59,7 @@
 							</a>
 						</div>
 					</div>
-                    <div class="checkbox-custom" th:classappend="${captchaEnabled==false}? 'm-t'">
+                    <div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
 				        <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">记住我</label>
 				    </div>
                     <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证登录，请稍后...">登录</button>
