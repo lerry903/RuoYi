@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 @Slf4j
-public class DefaultExceptionHandler {
+public class GlobalExceptionHandler {
 
     /**
      * 权限校验失败
