@@ -1,5 +1,6 @@
 package com.ruoyi.quartz.util;
 
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
@@ -39,7 +40,7 @@ public class ScheduleRunnable implements Runnable {
                 method.invoke(target);
             }
         } catch (Exception e) {
-            log.error("执行定时任务  - ：" , e);
+            throw new BusinessException("执行定时任务失败", e);
         }
     }
 }
