@@ -1,5 +1,7 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.ruoyi.common.base.Ztree;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.SysMenu;
@@ -95,17 +97,17 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return 菜单列表
      */
     @Override
-    public List<Map<String, Object>> roleMenuTreeData(SysRole role) {
+    public List<Ztree> roleMenuTreeData(SysRole role) {
         Long roleId = role.getRoleId();
-        List<Map<String, Object>> trees;
+        List<Ztree> ztrees;
         List<SysMenu> menuList = menuMapper.selectMenuAll();
         if (ObjectUtils.allNotNull(roleId)) {
             List<String> roleMenuList = menuMapper.selectMenuTree(roleId);
-            trees = getTrees(menuList, true, roleMenuList, true);
+            ztrees = initZtree(menuList, roleMenuList, true);
         } else {
-            trees = getTrees(menuList, false, null, true);
+            ztrees = initZtree(menuList, null, true);
         }
-        return trees;
+        return ztrees;
     }
 
     /**
@@ -114,9 +116,20 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return 菜单列表
      */
     @Override
-    public List<Map<String, Object>> menuTreeData() {
+    public List<Ztree> menuTreeData() {
         List<SysMenu> menuList = menuMapper.selectMenuAll();
-        return getTrees(menuList, false, null, false);
+        return initZtree(menuList);
+    }
+
+    /**
+     * 对象转菜单树
+     *
+     * @param menuList 菜单列表
+     * @return 树结构列表
+     */
+    public List<Ztree> initZtree(List<SysMenu> menuList)
+    {
+        return initZtree(menuList, null, false);
     }
 
     /**
@@ -138,28 +151,27 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * 对象转菜单树
      *
      * @param menuList     菜单列表
-     * @param isCheck      是否需要选中
      * @param roleMenuList 角色已存在菜单列表
      * @param permsFlag    是否需要显示权限标识
      * @return 菜单树
      */
-    private List<Map<String, Object>> getTrees(List<SysMenu> menuList, boolean isCheck, List<String> roleMenuList,
-                                              boolean permsFlag) {
-        List<Map<String, Object>> trees = new ArrayList<>();
-        menuList.forEach(menu -> {
-            Map<String, Object> deptMap = new HashMap<>();
-            deptMap.put("id", menu.getMenuId());
-            deptMap.put("pId", menu.getParentId());
-            deptMap.put("name", transMenuName(menu, permsFlag));
-            deptMap.put("title", menu.getMenuName());
-            if (isCheck) {
-                deptMap.put("checked", roleMenuList.contains(menu.getMenuId() + menu.getPerms()));
-            } else {
-                deptMap.put("checked", false);
-            }
-            trees.add(deptMap);
-        });
-        return trees;
+    private List<Ztree> initZtree(List<SysMenu> menuList, List<String> roleMenuList, boolean permsFlag){
+        List<Ztree> ztrees = new ArrayList<>();
+        boolean isCheck = CollectionUtil.isNotEmpty(roleMenuList);
+        if(CollectionUtil.isNotEmpty(menuList)){
+            menuList.forEach(menu ->{
+                Ztree ztree = new Ztree();
+                ztree.setId(menu.getMenuId());
+                ztree.setPId(menu.getParentId());
+                ztree.setName(transMenuName(menu, permsFlag));
+                ztree.setTitle(menu.getMenuName());
+                if (isCheck){
+                    ztree.setChecked(roleMenuList.contains(menu.getMenuId() + menu.getPerms()));
+                }
+                ztrees.add(ztree);
+            });
+        }
+        return ztrees;
     }
 
     private String transMenuName(SysMenu menu, boolean permsFlag) {

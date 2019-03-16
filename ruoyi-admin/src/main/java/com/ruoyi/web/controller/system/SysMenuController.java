@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import java.util.Map;
 
+import com.ruoyi.common.base.Ztree;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -144,7 +145,7 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping("/roleMenuTreeData")
     @ResponseBody
-    public List<Map<String, Object>> roleMenuTreeData(SysRole role) {
+    public List<Ztree> roleMenuTreeData(SysRole role) {
         return menuService.roleMenuTreeData(role);
     }
 
@@ -153,7 +154,7 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping("/menuTreeData")
     @ResponseBody
-    public List<Map<String, Object>> menuTreeData(SysRole role) {
+    public List<Ztree> menuTreeData(SysRole role) {
         return menuService.menuTreeData();
     }
 

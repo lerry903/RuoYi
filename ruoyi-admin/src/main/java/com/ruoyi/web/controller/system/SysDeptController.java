@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.system;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
+import com.ruoyi.common.base.Ztree;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.framework.web.base.BaseController;
@@ -134,7 +135,7 @@ public class SysDeptController extends BaseController {
      */
     @GetMapping("/treeData")
     @ResponseBody
-    public List<Map<String, Object>> treeData() {
+    public List<Ztree> treeData() {
         return deptService.selectDeptTree(new SysDept());
     }
 
@@ -143,7 +144,7 @@ public class SysDeptController extends BaseController {
      */
     @GetMapping("/roleDeptTreeData")
     @ResponseBody
-    public List<Map<String, Object>> deptTreeData(SysRole role) {
+    public List<Ztree> deptTreeData(SysRole role) {
         return deptService.roleDeptTreeData(role);
     }
 }
