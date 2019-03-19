@@ -58,7 +58,7 @@ create table sys_user (
   create_time 	    datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP    comment '创建时间',
   update_by         varchar(64)     default ''                 comment '更新者',
   update_time       datetime                                   comment '更新时间',
-  remark 		    varchar(500) 	default '' 				   comment '备注',
+  remark 		    text			   comment '备注',
   primary key (user_id)
 ) engine=innodb auto_increment=100 default charset=utf8 comment = '用户信息表';
 
@@ -75,16 +75,16 @@ insert into sys_user values(2,  105, 'LERRY', 'LERRY', '00', 'ry@qq.com',  '1566
 drop table if exists sys_post;
 create table sys_post
 (
-    post_id       int(11)         not null auto_increment    comment '岗位ID',
+  post_id       int(11)         not null auto_increment    comment '岗位ID',
 	post_code     varchar(64)     not null                   comment '岗位编码',
 	post_name     varchar(50)     not null                   comment '岗位名称',
 	post_sort     int(4)          not null                   comment '显示顺序',
 	status        char(1)         not null                   comment '状态（0正常 1停用）',
-    create_by     varchar(64)     default ''                 comment '创建者',
-    create_time   datetime     NOT NULL ON UPDATE CURRENT_TIMESTAMP     comment '创建时间',
-    update_by     varchar(64) 	  default ''			     comment '更新者',
+	create_by     varchar(64)     default ''                 comment '创建者',
+	create_time   datetime     NOT NULL ON UPDATE CURRENT_TIMESTAMP     comment '创建时间',
+	update_by     varchar(64) 	  default ''			     comment '更新者',
 	update_time   datetime                                   comment '更新时间',
-    remark 		  varchar(500) 	  default '' 				 comment '备注',
+	remark 		  text 	  				 comment '备注',
 	primary key (post_id)
 ) engine=innodb default charset=utf8 comment = '岗位信息表';
 
@@ -113,7 +113,7 @@ create table sys_role (
   create_time 		datetime     NOT NULL ON UPDATE CURRENT_TIMESTAMP  comment '创建时间',
   update_by 		varchar(64) 	default ''			       comment '更新者',
   update_time 		datetime                                   comment '更新时间',
-  remark 			varchar(500) 	default '' 				   comment '备注',
+  remark 			text  				   comment '备注',
   primary key (role_id)
 ) engine=innodb auto_increment=100 default charset=utf8 comment = '角色信息表';
 
@@ -142,7 +142,7 @@ create table sys_menu (
   create_time 		datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP  comment '创建时间',
   update_by 		varchar(64) 	default ''			       comment '更新者',
   update_time 		datetime                                   comment '更新时间',
-  remark 			varchar(500) 	default '' 				   comment '备注',
+  remark 			text 				   comment '备注',
   primary key (menu_id)
 ) engine=innodb auto_increment=2000 default charset=utf8 comment = '菜单权限表';
 
@@ -404,9 +404,9 @@ create table sys_oper_log (
   oper_url 		    varchar(255) 	default '' 				   comment '请求URL',
   oper_ip 			varchar(50) 	default '' 				   comment '主机地址',
   oper_location     varchar(255)    default ''                 comment '操作地点',
-  oper_param 		varchar(255) 	default '' 				   comment '请求参数',
+  oper_param 		text 				   comment '请求参数',
   status 			int(1) 		    default 0				   comment '操作状态（0正常 1异常）',
-  error_msg 		varchar(2000) 	default '' 				   comment '错误消息',
+  error_msg 		text 				   comment '错误消息',
   oper_time 		datetime                                   comment '操作时间',
   primary key (oper_id)
 ) engine=innodb auto_increment=100 default charset=utf8 comment = '操作日志记录';
@@ -421,12 +421,12 @@ create table sys_dict_type
 	dict_id          int(11) 		 not null auto_increment    comment '字典主键',
 	dict_name        varchar(100)    default ''                 comment '字典名称',
 	dict_type        varchar(100)    default ''                 comment '字典类型',
-    status 			 char(1) 		 default '0'			    comment '状态（0正常 1停用）',
-    create_by        varchar(64)     default ''                 comment '创建者',
-    create_time      datetime      NOT NULL ON UPDATE CURRENT_TIMESTAMP   comment '创建时间',
-    update_by        varchar(64) 	 default ''			        comment '更新者',
+	status 			 char(1) 		 default '0'			    comment '状态（0正常 1停用）',
+	create_by        varchar(64)     default ''                 comment '创建者',
+	create_time      datetime      NOT NULL ON UPDATE CURRENT_TIMESTAMP   comment '创建时间',
+	update_by        varchar(64) 	 default ''			        comment '更新者',
 	update_time      datetime                                   comment '更新时间',
-    remark 	         varchar(500) 	 default '' 				comment '备注',
+	remark 	         text 				comment '备注',
 	primary key (dict_id),
 	unique (dict_type)
 ) engine=innodb auto_increment=100 default charset=utf8 comment = '字典类型表';
@@ -456,12 +456,12 @@ create table sys_dict_data
 	css_class        varchar(100)    default ''                 comment '样式属性（其他样式扩展）',
 	list_class       varchar(100)    default ''                 comment '表格回显样式',
 	is_default       char(1)         default 'N'                comment '是否默认（Y是 N否）',
-    status 			 char(1) 		 default '0'			    comment '状态（0正常 1停用）',
-    create_by        varchar(64)     default ''                 comment '创建者',
-    create_time      datetime   NOT NULL ON UPDATE CURRENT_TIMESTAMP comment '创建时间',
-    update_by        varchar(64) 	 default ''			        comment '更新者',
+	status 			     char(1) 		 default '0'			    comment '状态（0正常 1停用）',
+	create_by        varchar(64)     default ''                 comment '创建者',
+	create_time      datetime   NOT NULL ON UPDATE CURRENT_TIMESTAMP comment '创建时间',
+	update_by        varchar(64) 	 default ''			        comment '更新者',
 	update_time      datetime                                   comment '更新时间',
-    remark 	         varchar(500) 	 default '' 				comment '备注',
+	remark 	         text 				comment '备注',
 	primary key (dict_code)
 ) engine=innodb auto_increment=100 default charset=utf8 comment = '字典数据表';
 
@@ -499,16 +499,16 @@ insert into sys_dict_data values(26, 2,  '失败',     '1',  'sys_common_status'
 -- ----------------------------
 drop table if exists sys_config;
 create table sys_config (
-	config_id 		   int(5) 	     not null auto_increment    comment '参数主键',
+	config_id 		     int(5) 	     not null auto_increment    comment '参数主键',
 	config_name        varchar(100)  default ''                 comment '参数名称',
 	config_key         varchar(100)  default ''                 comment '参数键名',
 	config_value       varchar(100)  default ''                 comment '参数键值',
 	config_type        char(1)       default 'N'                comment '系统内置（Y是 N否）',
-    create_by          varchar(64)   default ''                 comment '创建者',
-    create_time 	   datetime   NOT NULL ON UPDATE CURRENT_TIMESTAMP    comment '创建时间',
-    update_by          varchar(64)   default ''                 comment '更新者',
-    update_time        datetime                                 comment '更新时间',
-	remark 	           varchar(500)  default '' 				comment '备注',
+	create_by          varchar(64)   default ''                 comment '创建者',
+	create_time 	     datetime   NOT NULL ON UPDATE CURRENT_TIMESTAMP    comment '创建时间',
+	update_by          varchar(64)   default ''                 comment '更新者',
+	update_time        datetime                                 comment '更新时间',
+	remark 	           text 				comment '备注',
 	primary key (config_id)
 ) engine=innodb auto_increment=100 default charset=utf8 comment = '参数配置表';
 
@@ -521,14 +521,14 @@ insert into sys_config values(2, '用户管理-账号初始密码',     'sys.use
 -- ----------------------------
 drop table if exists sys_logininfor;
 create table sys_logininfor (
-  info_id 		 int(11) 	   not null auto_increment   comment '访问ID',
-  login_name 	 varchar(50)   default '' 			     comment '登录账号',
-  ipaddr 		 varchar(50)   default '' 			     comment '登录IP地址',
+  info_id 		   int(11) 	   not null auto_increment   comment '访问ID',
+  login_name 	   varchar(50)   default '' 			     comment '登录账号',
+  ipaddr 		     varchar(50)   default '' 			     comment '登录IP地址',
   login_location varchar(255)  default ''                comment '登录地点',
   browser  		 varchar(50)   default '' 			     comment '浏览器类型',
   os      		 varchar(50)   default '' 			     comment '操作系统',
   status 		 char(1) 	   default '0' 			     comment '登录状态（0成功 1失败）',
-  msg      		 varchar(255)  default '' 			     comment '提示消息',
+  msg      		 text 			     comment '提示消息',
   login_time 	 datetime                                comment '访问时间',
   primary key (info_id)
 ) engine=innodb auto_increment=100 default charset=utf8 comment = '系统访问记录';
@@ -563,7 +563,7 @@ create table sys_job (
   job_name            varchar(64)   default ''                 comment '任务名称',
   job_group           varchar(64)   default ''                 comment '任务组名',
   method_name         varchar(500)  default ''                 comment '任务方法',
-  method_params       varchar(200)  default null                 comment '方法参数',
+  method_params       text  default null                 comment '方法参数',
   cron_expression     varchar(255)  default ''                 comment 'cron执行表达式',
   misfire_policy      varchar(20)   default '3'                comment '计划执行错误策略（1立即执行 2执行一次 3放弃执行）',
   concurrent          char          default '1'                comment '是否并发执行（0允许 1禁止）',
@@ -572,7 +572,7 @@ create table sys_job (
   create_time         datetime    NOT NULL ON UPDATE CURRENT_TIMESTAMP  comment '创建时间',
   update_by           varchar(64)   default ''                 comment '更新者',
   update_time         datetime                                 comment '更新时间',
-  remark              varchar(500)  default ''                 comment '备注信息',
+  remark              text                 comment '备注信息',
   primary key (job_id, job_name, job_group)
 ) engine=innodb auto_increment=100 default charset=utf8 comment = '定时任务调度表';
 
@@ -589,10 +589,10 @@ create table sys_job_log (
   job_name            varchar(64)   not null                   comment '任务名称',
   job_group           varchar(64)   not null                   comment '任务组名',
   method_name         varchar(500)                             comment '任务方法',
-  method_params       varchar(200)  default null                 comment '方法参数',
-  job_message         varchar(500)                             comment '日志信息',
+  method_params       text  default null                 comment '方法参数',
+  job_message         text                             comment '日志信息',
   status              char(1)       default '0'                comment '执行状态（0正常 1失败）',
-  exception_info      varchar(2000) default ''                 comment '异常信息',
+  exception_info      text                 comment '异常信息',
   create_time         datetime  NOT NULL ON UPDATE CURRENT_TIMESTAMP    comment '创建时间',
   primary key (job_log_id)
 ) engine=innodb default charset=utf8 comment = '定时任务调度日志表';
@@ -606,13 +606,13 @@ create table sys_notice (
   notice_id 		int(4) 		    not null auto_increment    comment '公告ID',
   notice_title 		varchar(50) 	not null 				   comment '公告标题',
   notice_type 		char(1) 	    not null 			       comment '公告类型（1通知 2公告）',
-  notice_content    varchar(5000)    not null                   comment '公告内容',
+  notice_content    text    not null                   comment '公告内容',
   status 			char(1) 		default '0' 			   comment '公告状态（0正常 1关闭）',
   create_by         varchar(64)     default ''                 comment '创建者',
   create_time 		datetime     NOT NULL ON UPDATE CURRENT_TIMESTAMP  comment '创建时间',
   update_by 		varchar(64) 	default ''			       comment '更新者',
   update_time 		datetime                                   comment '更新时间',
-  remark 			varchar(255) 	default '' 				   comment '备注',
+  remark 			text 				   comment '备注',
   primary key (notice_id)
 ) engine=innodb auto_increment=10 default charset=utf8 comment = '通知公告表';
 
@@ -621,3 +621,4 @@ create table sys_notice (
 -- ----------------------------
 insert into sys_notice values('1', '温馨提醒：2018-07-01 若依新版本发布啦', '2', '新版本内容', '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '管理员');
 insert into sys_notice values('2', '维护通知：2018-07-01 若依系统凌晨维护', '1', '维护内容',   '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '管理员');
+insert into sys_notice values('3', '温馨提醒：2019-03-20 若依3.2.1版本发布啦', '2', '<p>温馨提醒：2019-03-20 若依3.2.1版本发布啦</p><p>本次更新内容:</p><ol><li>1、升级SpringBoot到最新版本2.1.3</li><li>2、修复一些已知bug</li><li>3、新增表格客户端分页选项</li><li>4、使用jsonview展示操作日志参数</li><li>5、修复一些安全问题</li><li>6、优化现有代码</li><li>7、定时任务支持并发控制</li></ol>', '0', 'admin', '2019-03-20 00-30-00', 'LERRY', '2019-03-20 00-30-00', '管理员');
