@@ -38,7 +38,7 @@ body.signin {
 	color:#333
 }
 .signinpanel .code {
-	background: #fff no-repeat 95% center;color:#333; margin:0 0 15px 0;
+    background: #fff no-repeat 95% center;color:#333; margin:0 0 15px 0;
 }
 .signinpanel .btn {
 	margin-top:15px
@@ -61,87 +61,87 @@ body.signin {
 }
 @media screen and (max-width:768px) {
 	.signinpanel,.signuppanel {
-		margin:0 auto;
-		width:420px!important;
-		padding:20px
-	}
-	.signinpanel form {
-		margin-top:20px
-	}
-	.signup-footer,.signuppanel .form-control {
-		margin-bottom:10px
-	}
-	.signup-footer .pull-left,.signup-footer .pull-right {
-		float:none!important;
-		text-align:center
-	}
-	.signinpanel .signin-info ul {
-		display:none
-	}
+	margin:0 auto;
+	width:420px!important;
+	padding:20px
+}
+.signinpanel form {
+	margin-top:20px
+}
+.signup-footer,.signuppanel .form-control {
+	margin-bottom:10px
+}
+.signup-footer .pull-left,.signup-footer .pull-right {
+	float:none!important;
+	text-align:center
+}
+.signinpanel .signin-info ul {
+	display:none
+}
 }@media screen and (max-width:320px) {
 	.signinpanel,.signuppanel {
-		margin:0 20px;
-		width:auto
-	}
+	margin:0 20px;
+	width:auto
+}
 }
 /*
-µÇÂ¼½çÃæcheckÑùÊ½
+ç™»å½•ç•Œé¢checkæ ·å¼
 */
 .checkbox-custom {
-	position: relative;
-	padding: 0 15px 0 25px;
-	margin-bottom: 7px;
-	display: inline-block;
+    position: relative;
+    padding: 0 15px 0 25px;
+    margin-bottom: 7px;
+    display: inline-block;
 }
 /*
-½«³õÊ¼µÄcheckboxµÄÑùÊ½¸Ä±ä
+å°†åˆå§‹çš„checkboxçš„æ ·å¼æ”¹å˜
 */
 .checkbox-custom input[type="checkbox"] {
-	opacity: 0; /*½«³õÊ¼µÄcheckboxÒş²ØÆğÀ´*/
-	position: absolute;
-	cursor: pointer;
-	z-index: 2;
-	margin: -6px 0 0 0;
-	top: 50%;
-	left: 3px;
+    opacity: 0; /*å°†åˆå§‹çš„checkboxéšè—èµ·æ¥*/
+    position: absolute;
+    cursor: pointer;
+    z-index: 2;
+    margin: -6px 0 0 0;
+    top: 50%;
+    left: 3px;
 }
 /*
-Éè¼ÆĞÂµÄcheckbox£¬Î»ÖÃ
+è®¾è®¡æ–°çš„checkboxï¼Œä½ç½®
 */
 .checkbox-custom label:before {
-	content: '';
-	position: absolute;
-	top: 50%;
-	left: 0;
-	margin-top: -9px;
-	width: 18px;
-	height: 17px;
-	display: inline-block;
-	border-radius: 2px;
-	border: 1px solid #bbb;
-	background: #fff;
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -9px;
+    width: 18px;
+    height: 17px;
+    display: inline-block;
+    border-radius: 2px;
+    border: 1px solid #bbb;
+    background: #fff;
 }
 /*
-µã»÷³õÊ¼µÄcheckbox£¬½«ĞÂµÄcheckbox¹ØÁªÆğÀ´
+ç‚¹å‡»åˆå§‹çš„checkboxï¼Œå°†æ–°çš„checkboxå…³è”èµ·æ¥
 */
 .checkbox-custom input[type="checkbox"]:checked +label:after {
-	position: absolute;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	content: "\e013";
-	top: 42%;
-	left: 3px;
-	margin-top: -5px;
-	font-size: 11px;
-	line-height: 1;
-	width: 16px;
-	height: 16px;
-	color: #333;
+    position: absolute;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    content: "\e013";
+    top: 42%;
+    left: 3px;
+    margin-top: -5px;
+    font-size: 11px;
+    line-height: 1;
+    width: 16px;
+    height: 16px;
+    color: #333;
 }
 .checkbox-custom label {
-	cursor: pointer;
-	line-height: 1.2;
-	font-weight: normal; /*¸Ä±äÁËremembermeµÄ×ÖÌå*/
-	margin-bottom: 0;
-	text-align: left;
+    cursor: pointer;
+    line-height: 1.2;
+    font-weight: normal; /*æ”¹å˜äº†remembermeçš„å­—ä½“*/
+    margin-bottom: 0;
+    text-align: left;
 }
