@@ -1,4 +1,4 @@
-package com.ruoyi.common.utils;
+package com.ruoyi.common.utils.security;
 
 import lombok.extern.slf4j.Slf4j;
 

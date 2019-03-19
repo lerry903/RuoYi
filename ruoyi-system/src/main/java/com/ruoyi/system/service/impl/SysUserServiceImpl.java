@@ -1,12 +1,12 @@
 package com.ruoyi.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.support.Convert;
-import com.ruoyi.common.utils.Md5Utils;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.security.Md5Utils;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.mapper.*;
 import com.ruoyi.system.service.ISysConfigService;
@@ -295,7 +295,7 @@ public class SysUserServiceImpl implements ISysUserService {
         for (SysRole role : list) {
             idsStr.append(role.getRoleName()).append(",");
         }
-        if (StringUtils.isNotEmpty(idsStr.toString())) {
+        if (StrUtil.isNotEmpty(idsStr.toString())) {
             return idsStr.substring(0, idsStr.length() - 1);
         }
         return idsStr.toString();
@@ -314,7 +314,7 @@ public class SysUserServiceImpl implements ISysUserService {
         for (SysPost post : list) {
             idsStr.append(post.getPostName()).append(",");
         }
-        if (StringUtils.isNotEmpty(idsStr.toString())) {
+        if (StrUtil.isNotEmpty(idsStr.toString())) {
             return idsStr.substring(0, idsStr.length() - 1);
         }
         return idsStr.toString();

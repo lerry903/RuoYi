@@ -1,14 +1,14 @@
 package com.ruoyi.common.utils.file;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.exception.file.FileNameLengthLimitExceededException;
 import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.Md5Utils;
+import com.ruoyi.common.utils.security.Md5Utils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * 文件上传工具类
@@ -16,6 +16,10 @@ import com.ruoyi.common.utils.Md5Utils;
  * @author ruoyi
  */
 public class FileUploadUtils {
+
+    private FileUploadUtils() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * 默认大小 50M

@@ -4,7 +4,7 @@ import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.exception.DemoModeException;
 import com.ruoyi.common.utils.ServletUtils;
-import com.ruoyi.framework.util.PermissionUtils;
+import com.ruoyi.common.utils.security.PermissionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
