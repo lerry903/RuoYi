@@ -77,7 +77,7 @@ public class Global {
      * 获取项目版本
      */
     public static String getVersion() {
-        return StringUtils.nvl(getConfig("ruoyi.version"), "3.2.0");
+        return StringUtils.nvl(getConfig("ruoyi.version"), "3.2.1");
     }
 
     /**
