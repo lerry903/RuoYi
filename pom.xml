@@ -129,15 +129,15 @@
             </activation>
         </profile>
         <profile>
-            <id>test</id>
+            <id>uat</id>
             <properties>
-                <env>test</env>
+                <env>uat</env>
             </properties>
         </profile>
         <profile>
-            <id>prod</id>
+            <id>run</id>
             <properties>
-                <env>prod</env>
+                <env>run</env>
             </properties>
         </profile>
     </profiles>
