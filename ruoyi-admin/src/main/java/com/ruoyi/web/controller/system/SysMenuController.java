@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
+import com.ruoyi.common.base.AjaxResult.Type;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysMenu;
@@ -62,10 +63,10 @@ public class SysMenuController extends BaseController {
     @ResponseBody
     public AjaxResult remove(@PathVariable("menuId") Long menuId) {
         if (menuService.selectCountMenuByParentId(menuId) > 0) {
-            return error(1, "存在子菜单,不允许删除");
+            return error(Type.WARN, "存在子菜单,不允许删除");
         }
         if (menuService.selectCountRoleMenuByMenuId(menuId) > 0) {
-            return error(1, "菜单已分配,不允许删除");
+            return error(Type.WARN, "菜单已分配,不允许删除");
         }
         ShiroUtils.clearCachedAuthorizationInfo();
         return toAjax(menuService.deleteMenuById(menuId));

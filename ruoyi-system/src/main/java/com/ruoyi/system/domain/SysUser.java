@@ -33,6 +33,9 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value="部门父ID",name="parentId",example="1")
     private Long parentId;
 
+    @ApiModelProperty(value="角色ID",name="roleId",example="1")
+    private Long roleId;
+
     @Excel(name = "登录名称")
     @ApiModelProperty(value="登录名称",name="loginName",example="admin")
     private String loginName;

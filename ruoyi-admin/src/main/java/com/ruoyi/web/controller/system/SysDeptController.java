@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.system;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
+import com.ruoyi.common.base.AjaxResult.Type;
 import com.ruoyi.common.base.Ztree;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.framework.util.ShiroUtils;
@@ -17,7 +18,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 部门信息
@@ -104,10 +104,10 @@ public class SysDeptController extends BaseController {
     @ResponseBody
     public AjaxResult remove(@PathVariable("deptId") Long deptId) {
         if (deptService.selectDeptCount(deptId) > 0) {
-            return error(1, "存在下级部门,不允许删除");
+            return error(Type.WARN, "存在下级部门,不允许删除");
         }
         if (deptService.checkDeptExistUser(deptId)) {
-            return error(1, "部门存在用户,不允许删除");
+            return error(Type.WARN, "部门存在用户,不允许删除");
         }
         return toAjax(deptService.deleteDeptById(deptId));
     }

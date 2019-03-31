@@ -3,6 +3,7 @@ package com.ruoyi.system.mapper;
 import java.util.List;
 
 import com.ruoyi.system.domain.SysUserRole;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户表 数据层
@@ -41,4 +42,22 @@ public interface SysUserRoleMapper {
      * @return 结果
      */
     int batchUserRole(List<SysUserRole> userRoleList);
+
+
+    /**
+     * 删除用户和角色关联信息
+     *
+     * @param userRole 用户和角色关联信息
+     * @return 结果
+     */
+    int deleteUserRoleInfo(SysUserRole userRole);
+
+    /**
+     * 批量取消授权用户角色
+     *
+     * @param roleId 角色ID
+     * @param userIds 需要删除的用户数据ID
+     * @return 结果
+     */
+    int deleteUserRoleInfos(@Param("roleId") Long roleId, @Param("userIds") Long[] userIds);
 }

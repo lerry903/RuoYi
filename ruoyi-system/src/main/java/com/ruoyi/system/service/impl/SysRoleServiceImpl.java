@@ -7,6 +7,7 @@ import com.ruoyi.common.support.Convert;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysRoleDept;
 import com.ruoyi.system.domain.SysRoleMenu;
+import com.ruoyi.system.domain.SysUserRole;
 import com.ruoyi.system.mapper.SysRoleDeptMapper;
 import com.ruoyi.system.mapper.SysRoleMapper;
 import com.ruoyi.system.mapper.SysRoleMenuMapper;
@@ -129,7 +130,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @throws BusinessException 异常
      */
     @Override
-    public int deleteRoleByIds(String ids){
+    public int deleteRoleByIds(String ids) {
         Long[] roleIds = Convert.toLongArray(ids);
         for (Long roleId : roleIds) {
             SysRole role = selectRoleById(roleId);
@@ -175,7 +176,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 结果
      */
     @Override
-    public int updateRule(SysRole role) {
+    public int authDataScope(SysRole role) {
         // 修改角色信息
         roleMapper.updateRole(role);
         // 删除角色与部门关联
@@ -276,5 +277,49 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public int changeStatus(SysRole role) {
         return roleMapper.updateRole(role);
+    }
+
+    /**
+     * 取消授权用户角色
+     *
+     * @param userRole 用户和角色关联信息
+     * @return 结果
+     */
+    @Override
+    public int deleteAuthUser(SysUserRole userRole) {
+        return userRoleMapper.deleteUserRoleInfo(userRole);
+    }
+
+    /**
+     * 批量取消授权用户角色
+     *
+     * @param roleId  角色ID
+     * @param userIds 需要删除的用户数据ID
+     * @return 结果
+     */
+    @Override
+    public int deleteAuthUsers(Long roleId, String userIds) {
+        return userRoleMapper.deleteUserRoleInfos(roleId, Convert.toLongArray(userIds));
+    }
+
+    /**
+     * 批量选择授权用户角色
+     *
+     * @param roleId  角色ID
+     * @param userIds 需要删除的用户数据ID
+     * @return 结果
+     */
+    @Override
+    public int insertAuthUsers(Long roleId, String userIds) {
+        Long[] users = Convert.toLongArray(userIds);
+        // 新增用户与角色管理
+        List<SysUserRole> list = new ArrayList<>();
+        for (Long userId : users) {
+            SysUserRole ur = new SysUserRole();
+            ur.setUserId(userId);
+            ur.setRoleId(roleId);
+            list.add(ur);
+        }
+        return userRoleMapper.batchUserRole(list);
     }
 }

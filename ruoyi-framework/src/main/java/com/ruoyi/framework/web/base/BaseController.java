@@ -116,8 +116,8 @@ public class BaseController {
     /**
      * 返回错误码消息
      */
-    public AjaxResult error(int code, String message) {
-        return AjaxResult.error(code, message);
+    public AjaxResult error(AjaxResult.Type type, String message) {
+        return new AjaxResult(type, message);
     }
 
     /**
