@@ -44,32 +44,36 @@
 
 <table>
     <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/25b5e333768d013d45a990c152dbe4d9d6e.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/dfadf4d864242745486aa0167110dfcbeb8.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/login.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/index.jpg"/></td>
     </tr>
     <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/2e1ed87df9b476ed73ed650df20cf009b78.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/693955d8914ee3c34ab904fa0602bc31267.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/user_list.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/user_update.jpg"/></td>
     </tr>
     <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/9a2851988f4e7433c9322154534865f57d7.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/396293f80b1e8cce8671f56c296bee78a3a.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/role_list.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/role_update.jpg"/></td>
     </tr>
+	<tr>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/user_role.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/role_data.jpg"/></td>
+    </tr>	 
     <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/787b3b06430a403655b48b9bcd1fa829555.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/a51820009836276b778bc89d4d0e217e26d.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/function.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/function_update.jpg"/></td>
     </tr>
 	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/5fb138478adeda6825e206d21f67ecd0625.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/fa2f027a10707a4eb4fc47d5ea1c3d2b772.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/gen_code.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/user.jpg"/></td>
     </tr>
 	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/a714056081523b7dfa782cda866e8be4adc.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/ab4b5797dfb2bc68c4974ad5458bd5f5bcf.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/oper_log.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/login_log.jpg"/></td>
     </tr>
 	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/98beb69118d9ab59aa898d5d5baad20b755.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/5f3d39a141f21f81b90536f391b8408f1fa.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/server_monitoring.jpg"/></td>
+        <td><img src="https://raw.githubusercontent.com/lerry903/RuoYi/master/img/prize.jpg"/></td>
     </tr>
 </table>
 
