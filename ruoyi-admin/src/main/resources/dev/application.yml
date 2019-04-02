@@ -63,8 +63,6 @@ spring:
       max-request-size:  30MB
   # 数据源配置
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: com.mysql.cj.jdbc.Driver
     druid:
       # 主库数据源
       master:
