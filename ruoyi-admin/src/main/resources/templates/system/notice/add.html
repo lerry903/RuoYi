@@ -1,16 +1,16 @@
-<!DOCTYPE HTML>
-<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
-<meta charset="utf-8">
-<head th:include="include :: header"></head>
-<link th:href="@{/ajax/libs/summernote/summernote.css}" rel="stylesheet"/>
-<link th:href="@{/ajax/libs/summernote/summernote-bs3.css}" rel="stylesheet"/>
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增通知公告')" />
+	<th:block th:include="include :: summernote-css" />
+</head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-notice-add">
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">公告标题：</label>
 				<div class="col-sm-8">
-					<input id="noticeTitle" name="noticeTitle" class="form-control" type="text">
+					<input id="noticeTitle" name="noticeTitle" class="form-control" type="text" required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -39,9 +39,8 @@
 			</div>
 		</form>
 	</div>
-    <div th:include="include::footer"></div>
-    <script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
-    <script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: summernote-js" />
     <script type="text/javascript">
         var prefix = ctx + "system/notice";
 
@@ -81,11 +80,7 @@
 	    }
 		
 		$("#form-notice-add").validate({
-			rules:{
-				noticeTitle:{
-					required:true,
-				}
-			}
+			focusCleanup: true
 		});
 		
 		function submitHandler() {

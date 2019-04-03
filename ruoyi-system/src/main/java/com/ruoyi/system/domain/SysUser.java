@@ -22,7 +22,7 @@ import java.util.List;
 public class SysUser extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    @Excel(name = "用户序号")
+    @Excel(name = "用户序号", prompt = "用户编号")
     @ApiModelProperty(value="用户序号",name="userId",example="1")
     private Long userId;
 
@@ -32,6 +32,9 @@ public class SysUser extends BaseEntity {
 
     @ApiModelProperty(value="部门父ID",name="parentId",example="1")
     private Long parentId;
+
+    @ApiModelProperty(value="角色ID",name="roleId",example="1")
+    private Long roleId;
 
     @Excel(name = "登录名称")
     @ApiModelProperty(value="登录名称",name="loginName",example="admin")

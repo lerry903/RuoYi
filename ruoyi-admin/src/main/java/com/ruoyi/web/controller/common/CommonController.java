@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.base.AjaxResult;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.framework.config.ServerConfig;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import io.swagger.annotations.Api;
@@ -56,6 +57,9 @@ public class CommonController {
     public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
         String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf('_') + 1);
         try {
+            if (!FileUtils.isValidFilename(fileName)){
+                throw new BusinessException(String.format(" 文件名称(%s)非法，不允许下载。 ", fileName));
+            }
             String filePath = Global.getDownloadPath() + fileName;
 
             response.setCharacterEncoding(ENC);

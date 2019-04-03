@@ -1,11 +1,14 @@
 package com.ruoyi.quartz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 /**
  * 定时任务调度日志表 sys_job_log
@@ -49,4 +52,12 @@ public class SysJobLog extends BaseEntity {
     @Excel(name = "异常信息")
     @ApiModelProperty(value="异常信息",name="exceptionInfo")
     private String exceptionInfo;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value="开始时间",name="startTime",example="2018-12-15 18:03:58",dataType="java.util.Date")
+    private Date startTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value="结束时间",name="endTime",example="2018-12-15 18:03:58",dataType="java.util.Date")
+    private Date endTime;
 }

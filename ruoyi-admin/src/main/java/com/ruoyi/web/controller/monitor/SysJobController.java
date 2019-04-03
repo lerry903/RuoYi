@@ -1,27 +1,24 @@
 package com.ruoyi.web.controller.monitor;
 
-import java.util.List;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.exception.job.TaskException;
+import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.common.utils.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.common.page.TableDataInfo;
+import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.quartz.domain.SysJob;
 import com.ruoyi.quartz.service.ISysJobService;
-import com.ruoyi.framework.web.base.BaseController;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.quartz.SchedulerException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 调度任务信息操作处理
@@ -30,9 +27,8 @@ import com.ruoyi.framework.web.base.BaseController;
  */
 @Controller
 @RequestMapping("/monitor/job")
+@Slf4j
 public class SysJobController extends BaseController {
-
-    private static final Logger log = LoggerFactory.getLogger(SysJobController.class);
 
     private String prefix = "monitor/job";
 
@@ -72,14 +68,9 @@ public class SysJobController extends BaseController {
     @RequiresPermissions("monitor:job:remove")
     @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids) {
-        try {
-            jobService.deleteJobByIds(ids);
-            return success();
-        } catch (Exception e) {
-            log.error("定时任务remove失败!", e);
-            return error(e.getMessage());
-        }
+    public AjaxResult remove(String ids)throws SchedulerException {
+        jobService.deleteJobByIds(ids);
+        return success();
     }
 
     @RequiresPermissions("monitor:job:detail")
@@ -97,7 +88,7 @@ public class SysJobController extends BaseController {
     @RequiresPermissions("monitor:job:changeStatus")
     @PostMapping("/changeStatus")
     @ResponseBody
-    public AjaxResult changeStatus(SysJob job) {
+    public AjaxResult changeStatus(SysJob job) throws SchedulerException{
         job.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(jobService.changeStatus(job));
     }
@@ -109,8 +100,9 @@ public class SysJobController extends BaseController {
     @RequiresPermissions("monitor:job:changeStatus")
     @PostMapping("/run")
     @ResponseBody
-    public AjaxResult run(SysJob job) {
-        return toAjax(jobService.run(job));
+    public AjaxResult run(SysJob job) throws SchedulerException{
+        jobService.run(job);
+        return success();
     }
 
     /**
@@ -128,7 +120,7 @@ public class SysJobController extends BaseController {
     @RequiresPermissions("monitor:job:add")
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(SysJob job) {
+    public AjaxResult addSave(SysJob job) throws SchedulerException, TaskException{
         job.setCreateBy(ShiroUtils.getLoginName());
         return toAjax(jobService.insertJobCron(job));
     }
@@ -149,7 +141,7 @@ public class SysJobController extends BaseController {
     @RequiresPermissions("monitor:job:edit")
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(SysJob job) {
+    public AjaxResult editSave(SysJob job) throws SchedulerException, TaskException {
         job.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(jobService.updateJobCron(job));
     }

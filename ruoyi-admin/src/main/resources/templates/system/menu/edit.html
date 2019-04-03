@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
-<meta charset="utf-8">
-<head th:include="include :: header"></head>
+<head>
+	<th:block th:include="include :: header('修改菜单')" />
+</head>
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 		<form class="form-horizontal m" id="form-menu-edit" th:object="${menu}">
@@ -10,7 +11,10 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label ">上级菜单：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" onclick="selectMenuTree()" id="treeName" readonly="true" th:value="${menu.parentName == null ? '无' : menu.parentName}"/>
+				    <div class="input-group">
+						<input class="form-control" type="text" onclick="selectMenuTree()" id="treeName" readonly="true" th:value="${menu.parentName == null ? '无' : menu.parentName}">
+					    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+				    </div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -24,7 +28,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">菜单名称：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="menuName" id="menuName" th:field="*{menuName}">
+					<input class="form-control" type="text" name="menuName" id="menuName" th:field="*{menuName}" required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -42,7 +46,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">显示排序：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="orderNum" th:field="*{orderNum}">
+					<input class="form-control" type="text" name="orderNum" th:field="*{orderNum}" required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -67,7 +71,7 @@
 			</div>
 		</form>
 	</div>
-	<div th:include="include::footer"></div>
+	<th:block th:include="include :: footer" />
 	 <script>
         var prefix = ctx + "system/menu";
 
@@ -77,12 +81,12 @@
         });
 
         $("#form-menu-edit").validate({
+        	onkeyup: false,
         	rules:{
         		menuType:{
         			required:true,
         		},
         		menuName:{
-        			required:true,
         			remote: {
                         url: prefix + "/checkMenuNameUnique",
                         type: "post",
@@ -104,7 +108,6 @@
                     }
         		},
         		orderNum:{
-        			required:true,
         			digits:true
         		},
         	},
@@ -112,7 +115,8 @@
                 "menuName": {
                     remote: "菜单已经存在"
                 }
-            }
+            },
+            focusCleanup: true
         });
         
         function submitHandler() {

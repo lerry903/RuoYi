@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
-<meta charset="utf-8">
-<head th:include="include :: header"></head>
+<head>
+	<th:block th:include="include :: header('修改岗位')" />
+</head>
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 		<form class="form-horizontal m" id="form-post-edit" th:object="${post}">
@@ -9,19 +10,19 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">岗位名称：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="postName" id="postName" th:field="*{postName}">
+					<input class="form-control" type="text" name="postName" id="postName" th:field="*{postName}" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label ">岗位编码：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="postCode" id="postCode" th:field="*{postCode}"/>
+					<input class="form-control" type="text" name="postCode" id="postCode" th:field="*{postCode}" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">显示顺序：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="postSort" id="postSort" th:field="*{postSort}">
+					<input class="form-control" type="text" name="postSort" id="postSort" th:field="*{postSort}" required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -41,14 +42,14 @@
 			</div>
 		</form>
 	</div>
-	<div th:include="include::footer"></div>
+	<th:block th:include="include :: footer" />
 	<script type="text/javascript">
 		var prefix = ctx + "system/post";
 		
 		$("#form-post-edit").validate({
+			onkeyup: false,
 			rules:{
 				postName:{
-					required:true,
 					remote: {
 		                url: ctx + "system/post/checkPostNameUnique",
 		                type: "post",
@@ -67,7 +68,6 @@
 		            }
 				},
 				postCode:{
-					required:true,
 					remote: {
 		                url: ctx + "system/post/checkPostCodeUnique",
 		                type: "post",
@@ -86,7 +86,6 @@
 		            }
 				},
 				postSort:{
-					required:true,
 					digits:true
 				},
 			},
@@ -97,7 +96,8 @@
 		        "postName": {
 		            remote: "岗位名称已经存在"
 		        }
-		    }
+		    },
+		    focusCleanup: true
 		});
 		
 		function submitHandler() {

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
-<meta charset="utf-8">
-<head th:include="include :: header"></head>
+<head>
+	<th:block th:include="include :: header('修改参数')" />
+</head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-config-edit" th:object="${config}">
@@ -9,19 +10,19 @@
             <div class="form-group">	
                 <label class="col-sm-3 control-label">参数名称：</label>
                 <div class="col-sm-8">
-                    <input id="configName" name="configName" th:field="*{configName}" class="form-control" type="text">
+                    <input id="configName" name="configName" th:field="*{configName}" class="form-control" type="text" required>
                 </div>
             </div>
             <div class="form-group">	
                 <label class="col-sm-3 control-label">参数键名：</label>
                 <div class="col-sm-8">
-                    <input id="configKey" name="configKey" th:field="*{configKey}" class="form-control" type="text">
+                    <input id="configKey" name="configKey" th:field="*{configKey}" class="form-control" type="text" required>
                 </div>
             </div>
             <div class="form-group">	
                 <label class="col-sm-3 control-label">参数键值：</label>
                 <div class="col-sm-8">
-                    <input id="configValue" name="configValue" th:field="*{configValue}" class="form-control" type="text">
+                    <input id="configValue" name="configValue" th:field="*{configValue}" class="form-control" type="text" required>
                 </div>
             </div>
 			<div class="form-group">
@@ -41,14 +42,14 @@
 	        </div>
     	</form>
     </div>
-    <div th:include="include::footer"></div>
+    <th:block th:include="include :: footer" />
     <script type="text/javascript">
 	    var prefix = ctx + "system/config";
 	    
 	    $("#form-config-edit").validate({
+	    	onkeyup: false,
 	        rules: {
 	            configKey: {
-	                required: true,
 	                remote: {
 	                    url: prefix + "/checkConfigKeyUnique",
 	                    type: "post",
@@ -66,18 +67,13 @@
 	                    }
 	                }
 	            },
-	            configName: {
-	                required: true
-	            },
-	            configValue: {
-	                required: true
-	            },
 	        },
 	        messages: {
 	            "configKey": {
 	                remote: "参数键名已经存在"
 	            }
-	        }
+	        },
+	        focusCleanup: true
 	    });
 	    
 	    function submitHandler() {

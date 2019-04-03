@@ -1,13 +1,14 @@
 package com.ruoyi.common.config;
 
+import com.ruoyi.common.utils.Threads;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +19,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  * Time: 10:14
  */
 @Configuration
+@Slf4j
 public class ThreadPoolConfig {
 
     /**
@@ -50,7 +52,13 @@ public class ThreadPoolConfig {
     @Bean(name = "scheduledExecutorService")
     protected ScheduledExecutorService scheduleTaskExuctor() {
         return new ScheduledThreadPoolExecutor(corePoolSize,
-                new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build());
+                new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build()){
+            @Override
+            protected void afterExecute(Runnable r, Throwable t){
+                super.afterExecute(r, t);
+                Threads.printException(r, t);
+            }
+        };
     }
 
 }

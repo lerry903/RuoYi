@@ -1,62 +1,61 @@
-<!DOCTYPE HTML>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
-<meta charset="utf-8">
-<head th:include="include :: header"></head>
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增${tableComment}')" />
+</head>
 <body class="white-bg">
-<div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal m" id="form-${classname}-add">
-        #foreach($column in $columns)
-            #if($column.columnName != $primaryKey.columnName)
-                #if(!${column.configInfo})
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">${column.columnComment}：</label>
-                        <div class="col-sm-8">
-                            <input id="${column.attrname}" name="${column.attrname}" class="form-control" type="text">
-                        </div>
-                    </div>
-                #else
-                    #if(${column.configInfo.type} == "dict")
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">${column.columnComment}：</label>
-                            <div class="col-sm-8">
-                                <select name="${column.attrname}" class="form-control m-b"
-                                        th:with="type=${@dict.getType('${column.configInfo.value}')}">
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
-                                            th:value="${dict.dictValue}"></option>
-                                </select>
-                            </div>
-                        </div>
-                    #elseif(${column.configInfo.type} == "date")
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">${column.columnComment}：</label>
-                            <div class="col-sm-8">
-                                <input id="${column.attrname}" name="${column.attrname}" class="form-control time-input"
-                                       type="text">
-                            </div>
-                        </div>
-                    #elseif(${column.configInfo.type} == "fk")
-                    #end
-                #end
-            #end
-        #end
-    </form>
-</div>
-<div th:include="include::footer"></div>
-<script type="text/javascript">
-    var prefix = ctx + "${moduleName}/${classname}"
-    $("#form-${classname}-add").validate({
-        rules: {
-            xxxx: {
-                required: true,
-            },
-        }
-    });
-
-    function submitHandler() {
-        if ($.validate.form()) {
-            $.operate.save(prefix + "/add", $('#form-${classname}-add').serialize());
-        }
-    }
-</script>
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-${classname}-add">
+#foreach($column in $columns)
+#if($column.columnName != $primaryKey.columnName)
+#if(!${column.configInfo})
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">${column.columnComment}：</label>
+				<div class="col-sm-8">
+					<input id="${column.attrname}" name="${column.attrname}" class="form-control" type="text">
+				</div>
+			</div>
+#else
+#if(${column.configInfo.type} == "dict")
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">${column.columnComment}：</label>
+				<div class="col-sm-8">
+					<select name="${column.attrname}" class="form-control m-b" th:with="type=${@dict.getType('${column.configInfo.value}')}">
+						<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+					</select>
+				</div>
+			</div>
+#elseif(${column.configInfo.type} == "date")
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">${column.columnComment}：</label>
+				<div class="col-sm-8">
+					<input id="${column.attrname}" name="${column.attrname}" class="form-control time-input" type="text">
+				</div>
+			</div>
+#elseif(${column.configInfo.type} == "fk")
+#end
+#end
+#end
+#end
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "${moduleName}/${classname}"
+		$("#form-${classname}-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-${classname}-add').serialize());
+	        }
+	    }
+	</script>
 </body>
 </html>

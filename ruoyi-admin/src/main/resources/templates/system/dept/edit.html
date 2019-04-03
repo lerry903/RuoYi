@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
-<meta charset="utf-8">
-<head th:include="include :: header"></head>
+<head>
+	<th:block th:include="include :: header('修改部门')" />
+</head>
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 		<form class="form-horizontal m" id="form-dept-edit" th:object="${dept}">
@@ -10,19 +11,22 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label ">上级部门：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" id="treeName" onclick="selectDeptTree()" readonly="true" th:field="*{parentName}"/>
+				    <div class="input-group">
+						<input class="form-control" type="text" id="treeName" onclick="selectDeptTree()" readonly="true" th:field="*{parentName}">
+					    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+				    </div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">部门名称：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="deptName" th:field="*{deptName}" id="deptName">
+					<input class="form-control" type="text" name="deptName" th:field="*{deptName}" id="deptName" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">显示排序：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="orderNum" th:field="*{orderNum}">
+					<input class="form-control" type="text" name="orderNum" th:field="*{orderNum}" required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -54,14 +58,14 @@
 			</div>
 		</form>
 	</div>
-	<div th:include="include::footer"></div>
+	<th:block th:include="include :: footer" />
 	<script type="text/javascript">
 		var prefix = ctx + "system/dept";
 		
 		$("#form-dept-edit").validate({
+			onkeyup: false,
 			rules:{
 				deptName:{
-					required:true,
 					remote: {
 		                url: prefix + "/checkDeptNameUnique",
 		                type: "post",
@@ -83,7 +87,6 @@
 		            }
 				},
 				orderNum:{
-					required:true,
 					digits:true
 				},
 				email:{
@@ -97,7 +100,8 @@
 		        "deptName": {
 		            remote: "部门已经存在"
 		        }
-		    }
+		    },
+		    focusCleanup: true
 		});
 		
 		function submitHandler() {

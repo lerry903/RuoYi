@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.system;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
+import com.ruoyi.common.base.AjaxResult.Type;
+import com.ruoyi.common.base.Ztree;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.framework.web.base.BaseController;
@@ -16,7 +18,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 部门信息
@@ -99,14 +100,14 @@ public class SysDeptController extends BaseController {
      */
     @Log(title = "部门管理", businessType = BusinessType.DELETE)
     @RequiresPermissions("system:dept:remove")
-    @PostMapping("/remove/{deptId}")
+    @GetMapping("/remove/{deptId}")
     @ResponseBody
     public AjaxResult remove(@PathVariable("deptId") Long deptId) {
         if (deptService.selectDeptCount(deptId) > 0) {
-            return error(1, "存在下级部门,不允许删除");
+            return AjaxResult.warn("存在下级部门,不允许删除");
         }
         if (deptService.checkDeptExistUser(deptId)) {
-            return error(1, "部门存在用户,不允许删除");
+            return AjaxResult.warn("部门存在用户,不允许删除");
         }
         return toAjax(deptService.deleteDeptById(deptId));
     }
@@ -134,7 +135,7 @@ public class SysDeptController extends BaseController {
      */
     @GetMapping("/treeData")
     @ResponseBody
-    public List<Map<String, Object>> treeData() {
+    public List<Ztree> treeData() {
         return deptService.selectDeptTree(new SysDept());
     }
 
@@ -143,7 +144,7 @@ public class SysDeptController extends BaseController {
      */
     @GetMapping("/roleDeptTreeData")
     @ResponseBody
-    public List<Map<String, Object>> deptTreeData(SysRole role) {
+    public List<Ztree> deptTreeData(SysRole role) {
         return deptService.roleDeptTreeData(role);
     }
 }

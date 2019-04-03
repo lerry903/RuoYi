@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
-<meta charset="utf-8">
-<head th:include="include :: header"></head>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('菜单列表')" />
+</head>
 <body class="gray-bg">
-
     <div class="container-div">
 		<div class="row">
 			<div class="col-sm-12 search-collapse">
@@ -28,11 +28,11 @@
 				</form>
 			</div>
                 
-            <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+            <div class="btn-group-sm" id="toolbar" role="group">
 		        <a class="btn btn-success" onclick="$.operate.add(0)" shiro:hasPermission="system:menu:add">
                     <i class="fa fa-plus"></i> 新增
                 </a>
-                <a class="btn btn-primary" onclick="$.operate.editTree()" shiro:hasPermission="system:menu:edit">
+                <a class="btn btn-primary" onclick="$.operate.edit()" shiro:hasPermission="system:menu:edit">
 		            <i class="fa fa-edit"></i> 修改
 		        </a>
                 <a class="btn btn-info" id="expandAllBtn">
@@ -45,7 +45,7 @@
 	    </div>
 	</div>
 	
-	<div th:include="include :: footer"></div>
+	<th:block th:include="include :: footer" />
 	<script th:inline="javascript">
 		var addFlag = [[${@permission.hasPermi('system:menu:add')}]];
 		var editFlag = [[${@permission.hasPermi('system:menu:edit')}]];
@@ -59,7 +59,7 @@
 		        parentCode: "parentId",
 		        uniqueId: "menuId",
 		        expandAll: false,
-		        expandFirst: true,
+		        expandFirst: false,
 		        url: prefix + "/list",
 		        createUrl: prefix + "/add/{id}",
 		        updateUrl: prefix + "/edit/{id}",
@@ -131,32 +131,15 @@
 		            align: "left",
 		            formatter: function(value, row, index) {
 		                var actions = [];
-		                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.menuId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-		                actions.push('<a class="btn btn-info btn-xs ' + addFlag + '" href="#" onclick="$.operate.add(\'' + row.menuId + '\')"><i class="fa fa-plus"></i>新增</a> ');
-		                actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="remove(\'' + row.menuId + '\')"><i class="fa fa-remove"></i>删除</a>');
-		                return actions.join('');
+		                actions.push('<a class="' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.menuId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+		                actions.push('<a class="' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.menuId + '\')"><i class="fa fa-trash"></i>删除</a>');
+		                actions.push('<a class="' + addFlag + '" href="#" onclick="$.operate.add(\'' + row.menuId + '\')"><i class="fa fa-plus"></i>添加下级菜单</a> ');
+		                return $.table.dropdownToggle(actions.join(''));
 		            }
 		        }]
 		    };
 		    $.treeTable.init(options);
 		});
-		
-		function remove(id) {
-			$.modal.confirm("确定删除该条" + $.table._option.modalName + "信息吗？", function() {
-				$.ajax({
-					type : 'post',
-					url: prefix + "/remove/" + id,
-					success : function(result) {
-						if (result.code == web_status.SUCCESS) {
-		                	$.modal.msgSuccess(result.msg);
-		                	$.treeTable.refresh();
-		                } else {
-		                	$.modal.msgError(result.msg);
-		                }
-					}
-				});
-			});
-		}
 	</script>
 </body>
 </html>

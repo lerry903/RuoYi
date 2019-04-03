@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
-<meta charset="utf-8">
-<head th:include="include :: header"></head>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增字典类型')" />
+</head>
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 		<form class="form-horizontal m" id="form-dict-add">
 			<div class="form-group">
 				<label class="col-sm-3 control-label ">字典名称：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="dictName" id="dictName"/>
+					<input class="form-control" type="text" name="dictName" id="dictName" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">字典类型：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="dictType" id="dictType">
+					<input class="form-control" type="text" name="dictType" id="dictType" required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -34,17 +35,14 @@
 			</div>
 		</form>
 	</div>
-	<div th:include="include::footer"></div>
+	<th:block th:include="include :: footer" />
 	<script type="text/javascript">
 		var prefix = ctx + "system/dict";
 	
 		$("#form-dict-add").validate({
+			onkeyup: false,
 			rules:{
-				dictName:{
-					required:true,
-				},
 				dictType:{
-					required:true,
 					minlength: 5,
 					remote: {
 		                url: prefix + "/checkDictTypeUnique",
@@ -65,7 +63,8 @@
 		        "dictType": {
 		            remote: "该字典类型已经存在"
 		        }
-		    }
+		    },
+		    focusCleanup: true
 		});
 		
 		function submitHandler() {

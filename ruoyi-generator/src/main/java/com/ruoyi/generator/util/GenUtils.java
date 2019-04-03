@@ -198,7 +198,7 @@ public class GenUtils {
     }
 
     private static String replaceKeyword(String keyword) {
-        return keyword.replaceAll("(?:表|信息)" , "");
+        return keyword.replaceAll("(?:表|信息|管理)", "");
     }
 
     static {

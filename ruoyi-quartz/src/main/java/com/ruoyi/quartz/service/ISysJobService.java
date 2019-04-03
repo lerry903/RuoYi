@@ -2,7 +2,9 @@ package com.ruoyi.quartz.service;
 
 import java.util.List;
 
+import com.ruoyi.common.exception.job.TaskException;
 import com.ruoyi.quartz.domain.SysJob;
+import org.quartz.SchedulerException;
 
 /**
  * 定时任务调度信息信息 服务层
@@ -32,7 +34,7 @@ public interface ISysJobService {
      * @param job 调度信息
      * @return 结果
      */
-    int pauseJob(SysJob job);
+    int pauseJob(SysJob job)throws SchedulerException;
 
     /**
      * 恢复任务
@@ -40,7 +42,7 @@ public interface ISysJobService {
      * @param job 调度信息
      * @return 结果
      */
-    int resumeJob(SysJob job);
+    int resumeJob(SysJob job)throws SchedulerException;
 
     /**
      * 删除任务后，所对应的trigger也将被删除
@@ -48,7 +50,7 @@ public interface ISysJobService {
      * @param job 调度信息
      * @return 结果
      */
-    int deleteJob(SysJob job);
+    int deleteJob(SysJob job)throws SchedulerException;
 
     /**
      * 批量删除调度信息
@@ -56,7 +58,7 @@ public interface ISysJobService {
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    void deleteJobByIds(String ids);
+    void deleteJobByIds(String ids)throws SchedulerException;
 
     /**
      * 任务调度状态修改
@@ -64,7 +66,7 @@ public interface ISysJobService {
      * @param job 调度信息
      * @return 结果
      */
-    int changeStatus(SysJob job);
+    int changeStatus(SysJob job)throws SchedulerException;
 
     /**
      * 立即运行任务
@@ -72,7 +74,7 @@ public interface ISysJobService {
      * @param job 调度信息
      * @return 结果
      */
-    int run(SysJob job);
+    void run(SysJob job)throws SchedulerException;
 
     /**
      * 新增任务表达式
@@ -80,7 +82,7 @@ public interface ISysJobService {
      * @param job 调度信息
      * @return 结果
      */
-    int insertJobCron(SysJob job);
+    int insertJobCron(SysJob job)throws SchedulerException, TaskException;
 
     /**
      * 更新任务的时间表达式
@@ -88,7 +90,7 @@ public interface ISysJobService {
      * @param job 调度信息
      * @return 结果
      */
-    int updateJobCron(SysJob job);
+    int updateJobCron(SysJob job)throws SchedulerException, TaskException;
 
     /**
      * 校验cron表达式是否有效
