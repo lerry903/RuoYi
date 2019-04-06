@@ -1,6 +1,6 @@
 package com.ruoyi.framework.util;
 
-import com.ruoyi.common.utils.bean.BeanUtils;
+import cn.hutool.core.bean.BeanUtil;
 import com.ruoyi.framework.shiro.realm.UserRealm;
 import com.ruoyi.system.domain.SysUser;
 import org.apache.commons.lang3.ObjectUtils;
@@ -40,7 +40,7 @@ public class ShiroUtils {
         Object obj = getSubject().getPrincipal();
         if (ObjectUtils.allNotNull(obj)) {
             user = new SysUser();
-            BeanUtils.copyBeanProp(user, obj);
+            BeanUtil.copyProperties(obj, user);
         }
         return user;
     }
