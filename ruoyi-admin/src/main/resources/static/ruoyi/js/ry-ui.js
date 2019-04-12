@@ -98,6 +98,12 @@
                     if ($.common.isNotEmpty($.table._option.sidePagination) && $.table._option.sidePagination == 'client') {
                     	return res.rows;
                     } else {
+                    	if ($.common.isNotEmpty($.table._option.rememberSelected) && $.table._option.rememberSelected) {
+                    		var column = $.common.isEmpty($.table._option.uniqueId) ? $.table._option.columns[1].field : $.table._option.uniqueId;
+                    		$.each(res.rows, function(i, row) {
+                                row.state = $.inArray(row[column], selectionIds) !== -1;
+                            })
+                    	}
                         return { rows: res.rows, total: res.total };
                     }
                 } else {
@@ -309,7 +315,8 @@
             	var actions = [];
                 $.each(datas, function(index, dict) {
                     if (dict.dictValue == ('' + value)) {
-                    	actions.push("<span class='badge badge-" + dict.listClass + "'>" + dict.dictLabel + "</span>");
+                    	var listClass = $.common.equals("default", dict.listClass) ? "" : "badge badge-" + dict.listClass;
+                    	actions.push($.common.sprintf("<span class='%s'>%s</span>", listClass, dict.dictLabel));
                         return false;
                     }
                 });
@@ -1078,7 +1085,7 @@
         	notAllowLastLevel: function(_tree) {
     		    var nodes = _tree.getSelectedNodes();
     		    for (var i = 0; i < nodes.length; i++) {
-    		    	if (nodes[i].level == nodes.length + 1) {
+                    if (!nodes[i].isParent) {
     		    		$.modal.msgError("不能选择最后层级节点（" + nodes[i].name + "）");
     		            return false;
     		        }
@@ -1134,6 +1141,22 @@
                     return "";
                 }
                 return value.toString().replace(/(^\s*)|(\s*$)|\r|\n/g, "");
+            },
+            // 比较两个字符串（大小写敏感）
+            equals: function (str, that) {
+            	return str == that;
+            },
+            // 比较两个字符串（大小写不敏感）
+            equalsIgnoreCase: function (str, that) {
+            	return String(str).toUpperCase() === String(that).toUpperCase();
+            },
+            // 将字符串按指定字符分割
+            split: function (str, sep, maxLen) {
+            	if ($.common.isEmpty(str)) {
+            	    return null;
+            	}
+            	var value = String(str).split(sep);
+            	return maxLen ? value.slice(0, maxLen - 1) : value;
             },
             // 字符串格式化(%s )
             sprintf: function (str) {
