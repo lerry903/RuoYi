@@ -1,8 +1,11 @@
 package com.ruoyi.common.utils.file;
 
+import com.ruoyi.common.support.CharsetKit;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -81,5 +84,25 @@ public class FileUtils {
      */
     public static boolean isValidFilename(String filename){
         return filename.matches(FILENAME_PATTERN);
+    }
+
+    public static String setFileDownloadHeader(HttpServletRequest request, String fileName) throws UnsupportedEncodingException {
+        final String agent = request.getHeader("USER-AGENT");
+        String filename = fileName;
+        if (agent.contains("MSIE")) {
+            // IE浏览器
+            filename = URLEncoder.encode(filename, CharsetKit.UTF8);
+            filename = filename.replace("+", " ");
+        } else if (agent.contains("Firefox")) {
+            // 火狐浏览器
+            filename = new String(fileName.getBytes(), "ISO8859-1");
+        } else if (agent.contains("Chrome")) {
+            // google浏览器
+            filename = URLEncoder.encode(filename, CharsetKit.UTF8);
+        } else {
+            // 其它浏览器
+            filename = URLEncoder.encode(filename, CharsetKit.UTF8);
+        }
+        return filename;
     }
 }
