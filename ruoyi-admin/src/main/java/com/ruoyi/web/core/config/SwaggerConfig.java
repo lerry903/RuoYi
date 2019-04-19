@@ -1,5 +1,6 @@
 package com.ruoyi.web.core.config;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.ruoyi.common.config.Global;
@@ -31,7 +32,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 // 指定当前包路径
-                .apis(RequestHandlerSelectors.basePackage("com.ruoyi.web.controller"))
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 // 扫描所有
                 //.apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
@@ -46,7 +47,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("标题：若依管理系统_接口文档")
                 .description("更多内容请关注：https://github.com/lerry903/RuoYi")
-                .contact(new Contact(Global.getName(), null, null))
+                .contact(new Contact(Global.getName(), "https://github.com/lerry903/RuoYi", "lerry903@163.com"))
                 .version("版本号:" + Global.getVersion())
                 .build();
     }
