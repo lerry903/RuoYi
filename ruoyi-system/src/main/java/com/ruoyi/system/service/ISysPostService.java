@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.system.domain.SysPost;
 
 /**
@@ -48,7 +49,7 @@ public interface ISysPostService {
      * @return 结果
      * @throws Exception 异常
      */
-    int deletePostByIds(String ids) throws Exception;
+    int deletePostByIds(String ids) throws BusinessException;
 
     /**
      * 新增保存岗位信息

@@ -33,8 +33,7 @@ public class DruidConfig {
     @ConfigurationProperties("spring.datasource.druid.slave")
     @ConditionalOnProperty(prefix = "spring.datasource.druid.slave" , name = "enabled" , havingValue = "true")
     public DataSource slaveDataSource(DruidProperties druidProperties) {
-        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
-        return druidProperties.dataSource(dataSource);
+        return druidProperties.dataSource(DruidDataSourceBuilder.create().build());
     }
 
     @Bean(name = "dynamicDataSource")

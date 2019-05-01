@@ -10,6 +10,11 @@ import com.ruoyi.common.utils.ServletUtils;
  * @author ruoyi
  */
 public class TableSupport {
+
+    private TableSupport() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * 封装分页对象
      */

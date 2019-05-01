@@ -1,7 +1,5 @@
 package com.ruoyi.common.exception.user;
 
-import com.ruoyi.common.exception.base.BaseException;
-
 /**
  * 角色锁定异常类
  *

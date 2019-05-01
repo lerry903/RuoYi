@@ -1,7 +1,7 @@
 package com.ruoyi.common.exception.base;
 
 import com.ruoyi.common.utils.MessageUtils;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 
 /**
  * 基础异常
@@ -14,22 +14,22 @@ public class BaseException extends RuntimeException {
     /**
      * 所属模块
      */
-    private String module;
+    private final String module;
 
     /**
      * 错误码
      */
-    private String code;
+    private final String code;
 
     /**
      * 错误码对应的参数
      */
-    private Object[] args;
+    private final transient Object[] args;
 
     /**
      * 错误消息
      */
-    private String defaultMessage;
+    private final String defaultMessage;
 
     public BaseException(String module, String code, Object[] args, String defaultMessage) {
         this.module = module;
@@ -57,7 +57,7 @@ public class BaseException extends RuntimeException {
     @Override
     public String getMessage() {
         String message = null;
-        if (!StringUtils.isEmpty(code)) {
+        if (!StringUtil.isEmpty(code)) {
             message = MessageUtils.message(code, args);
         }
         if (message == null) {

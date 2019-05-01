@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import com.google.code.kaptcha.Constants;
 import com.ruoyi.common.constant.ShiroConstants;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 
 /**
@@ -54,7 +54,7 @@ public class CaptchaValidateFilter extends AccessControlFilter {
     private boolean validateResponse(String validateCode) {
         Object obj = ShiroUtils.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
         String code = String.valueOf(obj != null ? obj : "");
-        return !StringUtils.isEmpty(validateCode) && validateCode.equalsIgnoreCase(code);
+        return !StringUtil.isEmpty(validateCode) && validateCode.equalsIgnoreCase(code);
     }
 
     @Override

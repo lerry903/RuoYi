@@ -1,8 +1,10 @@
 package com.ruoyi.generator.domain;
 
 import com.ruoyi.common.json.JSON;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import lombok.Data;
+
+import java.io.IOException;
 
 /**
  * ry数据库表列信息
@@ -67,9 +69,9 @@ public class ColumnInfo {
         this.attrname = attrname;
     }
 
-    public void setColumnComment(String columnComment) throws Exception {
+    public void setColumnComment(String columnComment) throws IOException {
         // 根据列描述解析列的配置信息
-        if (StringUtils.isNotEmpty(columnComment) && columnComment.startsWith("{")) {
+        if (StringUtil.isNotEmpty(columnComment) && columnComment.startsWith("{")) {
             this.configInfo = JSON.unmarshal(columnComment, ColumnConfigInfo.class);
             this.columnComment = configInfo.getTitle();
         } else {

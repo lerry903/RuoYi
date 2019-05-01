@@ -35,6 +35,6 @@ public class ExceptionUtil {
         if (msg == null) {
             return "null";
         }
-        return StringUtils.defaultString(msg);
+        return StringUtil.defaultString(msg);
     }
 }

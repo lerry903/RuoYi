@@ -2,7 +2,7 @@ package com.ruoyi.generator.service.impl;
 
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.support.CharsetKit;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.generator.domain.ColumnInfo;
 import com.ruoyi.generator.domain.TableInfo;
 import com.ruoyi.generator.mapper.GenMapper;
@@ -14,8 +14,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -103,7 +101,7 @@ public class GenServiceImpl implements IGenService {
         // 表名转换成Java属性名
         String className = GenUtils.tableToJava(table.getTableName());
         table.setClassName(className);
-        table.setClassname(StringUtils.uncapitalize(className));
+        table.setClassname(StringUtil.uncapitalize(className));
         // 列信息
         table.setColumns(GenUtils.transColums(columns));
         // 设置主键

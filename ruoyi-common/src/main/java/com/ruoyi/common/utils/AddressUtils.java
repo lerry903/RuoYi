@@ -29,7 +29,7 @@ public class AddressUtils {
         }
         if (Global.isAddressEnabled()) {
             String rspStr = HttpUtils.sendPost(IP_URL, "ip=" + ip);
-            if (StringUtils.isEmpty(rspStr)) {
+            if (StringUtil.isEmpty(rspStr)) {
                 log.error("获取地理位置异常 {}" , ip);
                 return address;
             }

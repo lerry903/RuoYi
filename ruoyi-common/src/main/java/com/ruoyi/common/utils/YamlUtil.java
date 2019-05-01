@@ -18,13 +18,13 @@ public class YamlUtil {
 
     public static Map loadYaml(String fileName){
         InputStream in = YamlUtil.class.getClassLoader().getResourceAsStream(fileName);
-        return StringUtils.isNotEmpty(fileName) ? new Yaml().load(in) : null;
+        return StringUtil.isNotEmpty(fileName) ? new Yaml().load(in) : null;
     }
 
     public static Object getProperty(Map<?, ?> map, Object qualifiedKey) {
         if (map != null && !map.isEmpty() && qualifiedKey != null) {
             String input = String.valueOf(qualifiedKey);
-            if (StringUtils.isNotEmpty(input)) {
+            if (StringUtil.isNotEmpty(input)) {
                 if (input.contains(".")) {
                     int index = input.indexOf('.');
                     String left = input.substring(0, index);

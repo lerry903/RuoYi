@@ -28,7 +28,7 @@ public class DataSourceAspect {
 
     @Pointcut("@annotation(com.ruoyi.common.annotation.DataSource)")
     public void dsPointCut() {
-
+        //配置织入点
     }
 
     @Around("dsPointCut()")

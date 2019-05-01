@@ -1,6 +1,6 @@
 package com.ruoyi.framework.service;
 
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.framework.shiro.session.OnlineSession;
 import com.ruoyi.system.domain.SysUserOnline;
 import com.ruoyi.system.service.ISysUserOnlineService;
@@ -45,12 +45,12 @@ public class SysShiroService {
      */
     public Session getSession(Serializable sessionId){
         SysUserOnline userOnline = onlineService.selectOnlineById(String.valueOf(sessionId));
-        return StringUtils.isNull(userOnline) ? null : createSession(userOnline);
+        return StringUtil.isNull(userOnline) ? null : createSession(userOnline);
     }
 
     private Session createSession(SysUserOnline userOnline){
         OnlineSession onlineSession = new OnlineSession();
-        if (StringUtils.isNotNull(userOnline)){
+        if (StringUtil.isNotNull(userOnline)){
             onlineSession.setId(userOnline.getSessionId());
             onlineSession.setHost(userOnline.getIpaddr());
             onlineSession.setBrowser(userOnline.getBrowser());

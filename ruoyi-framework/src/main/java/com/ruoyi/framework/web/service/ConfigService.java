@@ -12,11 +12,11 @@ import com.ruoyi.system.service.ISysConfigService;
 @Service("config")
 public class ConfigService {
 
-    private final ISysConfigService configService;
+    private final ISysConfigService sysConfigService;
 
     @Autowired
-    public ConfigService(ISysConfigService configService) {
-        this.configService = configService;
+    public ConfigService(ISysConfigService sysConfigService) {
+        this.sysConfigService = sysConfigService;
     }
 
     /**
@@ -26,6 +26,6 @@ public class ConfigService {
      * @return 参数键值
      */
     public String getKey(String configKey) {
-        return configService.selectConfigByKey(configKey);
+        return sysConfigService.selectConfigByKey(configKey);
     }
 }

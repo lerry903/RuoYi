@@ -36,9 +36,6 @@ public class OnlineSessionDAO extends EnterpriseCacheSessionDAO {
         super();
     }
 
-    public OnlineSessionDAO(long expireTime) {
-        super();
-    }
 
     /**
      * 根据会话ID获取会话
@@ -91,7 +88,7 @@ public class OnlineSessionDAO extends EnterpriseCacheSessionDAO {
         if (null == onlineSession) {
             return;
         }
-        onlineSession.setStatus(OnlineStatus.off_line);
+        onlineSession.setStatus(OnlineStatus.OFF_LINE);
         sysShiroService.deleteSession(onlineSession);
     }
 }

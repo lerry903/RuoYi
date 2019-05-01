@@ -105,7 +105,7 @@ public class FileUploadUtils {
 
         String fileName = extractFilename(file, extension);
 
-        File desc = getAbsoluteFile(baseDir, baseDir + fileName);
+        File desc = getAbsoluteFile(baseDir + fileName);
         file.transferTo(desc);
         return fileName;
     }
@@ -116,14 +116,16 @@ public class FileUploadUtils {
         return filename;
     }
 
-    private static final File getAbsoluteFile(String uploadDir, String filename) throws IOException {
+    private static final File getAbsoluteFile(String filename) throws IOException {
         File desc = new File(File.separator + filename);
 
         if (!desc.getParentFile().exists()) {
             desc.getParentFile().mkdirs();
         }
         if (!desc.exists()) {
-            desc.createNewFile();
+            if(desc.createNewFile()){
+
+            }
         }
         return desc;
     }

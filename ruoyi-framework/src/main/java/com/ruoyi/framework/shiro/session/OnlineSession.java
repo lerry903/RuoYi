@@ -48,7 +48,7 @@ public class OnlineSession extends SimpleSession {
     /**
      * 在线状态
      */
-    private OnlineStatus status = OnlineStatus.on_line;
+    private OnlineStatus status = OnlineStatus.ON_LINE;
 
     /**
      * 属性是否改变 优化session数据同步
@@ -75,15 +75,5 @@ public class OnlineSession extends SimpleSession {
 
     public void markAttributeChanged() {
         this.attributeChanged = true;
-    }
-
-    @Override
-    public void setAttribute(Object key, Object value) {
-        super.setAttribute(key, value);
-    }
-
-    @Override
-    public Object removeAttribute(Object key) {
-        return super.removeAttribute(key);
     }
 }

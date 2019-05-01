@@ -1,6 +1,6 @@
 package com.ruoyi.common.config;
 
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.common.utils.YamlUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,7 +58,7 @@ public class Global {
             try {
                 yamlMap = YamlUtil.loadYaml(NAME);
                 value = String.valueOf(YamlUtil.getProperty(yamlMap, key));
-                map.put(key, value != null ? value : StringUtils.EMPTY);
+                map.put(key, value != null ? value : StringUtil.EMPTY);
             } catch (Exception e) {
                 log.error("获取全局配置异常 {}" , key);
             }
@@ -70,14 +70,14 @@ public class Global {
      * 获取项目名称
      */
     public static String getName() {
-        return StringUtils.nvl(getConfig("ruoyi.name"), "RuoYi");
+        return StringUtil.nvl(getConfig("ruoyi.name"), "RuoYi");
     }
 
     /**
      * 获取项目版本
      */
     public static String getVersion() {
-        return StringUtils.nvl(getConfig("ruoyi.version"), "3.3.0");
+        return StringUtil.nvl(getConfig("ruoyi.version"), "3.3.0");
     }
 
     /**
@@ -127,27 +127,27 @@ public class Global {
      * 获取作者
      */
     public static String getAuthor() {
-        return StringUtils.nvl(getConfig("gen.author"), "ruoyi");
+        return StringUtil.nvl(getConfig("gen.author"), "ruoyi");
     }
 
     /**
      * 生成包路径
      */
     public static String getPackageName() {
-        return StringUtils.nvl(getConfig("gen.packageName"), "com.ruoyi.project.module");
+        return StringUtil.nvl(getConfig("gen.packageName"), "com.ruoyi.project.module");
     }
 
     /**
      * 是否自动去除表前缀
      */
     public static String getAutoRemovePre() {
-        return StringUtils.nvl(getConfig("gen.autoRemovePre"), "true");
+        return StringUtil.nvl(getConfig("gen.autoRemovePre"), "true");
     }
 
     /**
      * 表前缀(类名不会包含表前缀)
      */
     public static String getTablePrefix() {
-        return StringUtils.nvl(getConfig("gen.tablePrefix"), "sys_");
+        return StringUtil.nvl(getConfig("gen.tablePrefix"), "sys_");
     }
 }

@@ -94,7 +94,7 @@ public class ExcelUtil<T> {
      * @return 转换后集合
      */
     public List<T> importExcel(InputStream input) {
-        return importExcel(StringUtils.EMPTY, input);
+        return importExcel(StringUtil.EMPTY, input);
     }
 
     /**
@@ -111,7 +111,7 @@ public class ExcelUtil<T> {
         try (Workbook workbook = WorkbookFactory.create(input)) {
             this.workbook = workbook;
             Sheet sheet;
-            if (StringUtils.isNotEmpty(sheetName)) {
+            if (StringUtil.isNotEmpty(sheetName)) {
                 // 如果指定sheet名,则取指定sheet中的内容.
                 sheet = workbook.getSheet(sheetName);
             } else {
@@ -177,12 +177,12 @@ public class ExcelUtil<T> {
                         }else if (BigDecimal.class == fieldType){
                             field.set(entity, Convert.toBigDecimal(val));
                         }
-                        if (StringUtils.isNotNull(fieldType)){
+                        if (StringUtil.isNotNull(fieldType)){
                             Excel attr = field.getAnnotation(Excel.class);
                             String propertyName = field.getName();
-                            if (StringUtils.isNotEmpty(attr.targetAttr())){
+                            if (StringUtil.isNotEmpty(attr.targetAttr())){
                                 propertyName = field.getName() + "." + attr.targetAttr();
-                            }else if (StringUtils.isNotEmpty(attr.readConverterExp())){
+                            }else if (StringUtil.isNotEmpty(attr.readConverterExp())){
                                 val = reverseByExp(String.valueOf(val), attr.readConverterExp());
                             }
                             ReflectUtils.invokeSetter(entity, propertyName, val);
@@ -347,7 +347,7 @@ public class ExcelUtil<T> {
             cell.setCellValue(attr.name());
 
             // 如果设置了提示信息则鼠标放上去提示.
-            if (StringUtils.isNotEmpty(attr.prompt())) {
+            if (StringUtil.isNotEmpty(attr.prompt())) {
                 // 这里默认设了2-101列提示.
                 setXSSFPrompt(sheet, "", attr.prompt(), 1, 100, i, i);
             }
@@ -465,7 +465,7 @@ public class ExcelUtil<T> {
      */
     private Object getTargetValue(T vo, Field field, Excel excel) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Object o = field.get(vo);
-        if (StringUtils.isNotEmpty(excel.targetAttr())){
+        if (StringUtil.isNotEmpty(excel.targetAttr())){
             String target = excel.targetAttr();
             if (target.contains(".")){
                 String[] targets = target.split("[.]");
@@ -487,7 +487,7 @@ public class ExcelUtil<T> {
      * @return value
      */
     private Object getValue(Object o, String name) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        if (StringUtils.isNotEmpty(name)){
+        if (StringUtil.isNotEmpty(name)){
             String methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
             Method method = o.getClass().getMethod(methodName);
             o = method.invoke(o);

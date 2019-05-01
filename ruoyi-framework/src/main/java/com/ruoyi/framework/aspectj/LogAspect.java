@@ -3,7 +3,7 @@ package com.ruoyi.framework.aspectj;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessStatus;
 import com.ruoyi.common.json.JSON;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.common.utils.ServletUtils;
@@ -40,6 +40,7 @@ public class LogAspect {
      */
     @Pointcut("@annotation(com.ruoyi.common.annotation.Log)")
     public void logPointCut() {
+        //配置织入点
     }
 
     /**
@@ -85,14 +86,14 @@ public class LogAspect {
             if (ObjectUtils.allNotNull(currentUser)) {
                 operLog.setOperName(currentUser.getLoginName());
                 if (ObjectUtils.allNotNull(currentUser.getDept())
-                        && StringUtils.isNotEmpty(currentUser.getDept().getDeptName())) {
+                        && StringUtil.isNotEmpty(currentUser.getDept().getDeptName())) {
                     operLog.setDeptName(currentUser.getDept().getDeptName());
                 }
             }
 
             if (e != null) {
                 operLog.setStatus(BusinessStatus.FAIL.ordinal());
-                operLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
+                operLog.setErrorMsg(StringUtil.substring(e.getMessage(), 0, 2000));
             }
             // 设置方法名称
             String className = joinPoint.getTarget().getClass().getName();

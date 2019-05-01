@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 
 /**
  * 通用消息对象，基于Map实现的可嵌套数据结构。 支持JSON数据结构。
@@ -109,7 +109,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
      * @return 返回指定的整数值，或者defaultValue。
      */
     public Integer intValue(final String name, final Integer defaultValue) {
-        return StringUtils.nvl(intValue(name), defaultValue);
+        return StringUtil.nvl(intValue(name), defaultValue);
     }
 
     /**
@@ -130,7 +130,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
      * @return 返回指定的长整数值，或者defaultValue。
      */
     public Long longValue(final String name, final Long defaultValue) {
-        return StringUtils.nvl(longValue(name), defaultValue);
+        return StringUtil.nvl(longValue(name), defaultValue);
     }
 
     /**
@@ -151,7 +151,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
      * @return 返回指定的布尔值，或者defaultValue。
      */
     public Boolean boolValue(final String name, final Boolean defaultValue) {
-        return StringUtils.nvl(boolValue(name), defaultValue);
+        return StringUtil.nvl(boolValue(name), defaultValue);
     }
 
     /**
@@ -172,7 +172,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
      * @return 返回指定的字符串值，或者defaultValue。
      */
     public String strValue(final String name, final String defaultValue) {
-        return StringUtils.nvl(strValue(name), defaultValue);
+        return StringUtil.nvl(strValue(name), defaultValue);
     }
 
     /**
@@ -209,12 +209,9 @@ public class JSONObject extends LinkedHashMap<String, Object> {
         } else {
             final Matcher matcher = arrayNamePattern.matcher(name);
             if (matcher.find()) {
-                endArray(matcher.group(1), matcher.group(2), new EndArrayCallback<Void>() {
-                    @Override
-                    public Void callback(JSONArray arr, int index) {
-                        elementAt(arr, index, value);
-                        return null;
-                    }
+                endArray(matcher.group(1), matcher.group(2), (arr, index) ->{
+                    elementAt(arr, index, value);
+                    return null;
                 });
             } else {
                 set(name, value);
@@ -296,7 +293,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
      * @return 返回指定字段整数值。
      */
     public Integer getInt(final String name, Integer defaultValue) {
-        return StringUtils.nvl(getInt(name), defaultValue);
+        return StringUtil.nvl(getInt(name), defaultValue);
     }
 
     /**
@@ -317,7 +314,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
      * @return 返回指定字段长整数值。
      */
     public Long getLong(final String name, Long defaultValue) {
-        return StringUtils.nvl(getLong(name), defaultValue);
+        return StringUtil.nvl(getLong(name), defaultValue);
     }
 
     /**
@@ -338,7 +335,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
      * @return 返回指定字段字符串值。
      */
     public String getStr(final String name, final String defaultValue) {
-        return StringUtils.nvl(getStr(name), defaultValue);
+        return StringUtil.nvl(getStr(name), defaultValue);
     }
 
     /**
@@ -359,7 +356,7 @@ public class JSONObject extends LinkedHashMap<String, Object> {
      * @return 字段值。
      */
     public Boolean getBool(final String name, final Boolean defaultValue) {
-        return StringUtils.nvl(getBool(name), defaultValue);
+        return StringUtil.nvl(getBool(name), defaultValue);
     }
 
     /**

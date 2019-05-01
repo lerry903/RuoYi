@@ -1,7 +1,7 @@
 package com.ruoyi.quartz.util;
 
 import com.ruoyi.common.utils.SpringUtils;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.quartz.domain.SysJob;
 
 import java.lang.reflect.InvocationTargetException;
@@ -41,7 +41,7 @@ class JobInvokeUtil {
     private static void invokeSpringBean(Object bean, String methodName, String methodParams)
             throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException {
-        if (StringUtils.isNotEmpty(methodParams)) {
+        if (StringUtil.isNotEmpty(methodParams)) {
             Method method = bean.getClass().getDeclaredMethod(methodName, String.class);
             method.invoke(bean, methodParams);
         } else {

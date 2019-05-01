@@ -6,16 +6,16 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.ScheduleConstants;
 import com.ruoyi.common.utils.ExceptionUtil;
 import com.ruoyi.common.utils.SpringUtils;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.quartz.domain.SysJob;
 import com.ruoyi.quartz.domain.SysJobLog;
 import com.ruoyi.quartz.service.ISysJobLogService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
 /**
@@ -77,7 +77,7 @@ public abstract class AbstractQuartzJob implements Job {
         sysJobLog.setJobMessage(sysJobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
         if (e != null) {
             sysJobLog.setStatus(Constants.FAIL);
-            String errorMsg = StringUtils.substring(ExceptionUtil.getExceptionMessage(e), 0, 2000);
+            String errorMsg = StringUtil.substring(ExceptionUtil.getExceptionMessage(e), 0, 2000);
             sysJobLog.setExceptionInfo(errorMsg);
         } else {
             sysJobLog.setStatus(Constants.SUCCESS);
@@ -92,7 +92,7 @@ public abstract class AbstractQuartzJob implements Job {
      *
      * @param context 工作执行上下文对象
      * @param sysJob  系统计划任务
-     * @throws Exception 执行过程中的异常
      */
-    protected abstract void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception;
+    protected abstract void doExecute(JobExecutionContext context, SysJob sysJob)throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
+    InvocationTargetException;
 }

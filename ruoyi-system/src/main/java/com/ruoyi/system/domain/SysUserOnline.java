@@ -50,6 +50,6 @@ public class SysUserOnline extends BaseEntity {
     @ApiModelProperty(value="超时时间(分钟)",name="expireTime",example="1800000")
     private Long expireTime;
 
-    @ApiModelProperty(value="在线状态",name="status",example="on_line")
-    private OnlineStatus status = OnlineStatus.on_line;
+    @ApiModelProperty(value="在线状态",name="status",example="ON_LINE")
+    private OnlineStatus status = OnlineStatus.ON_LINE;
 }

@@ -11,7 +11,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.base.BaseEntity;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysUser;
@@ -45,6 +45,7 @@ public class DataScopeAspect {
      */
     @Pointcut("@annotation(com.ruoyi.common.annotation.DataScope)")
     public void dataScopePointCut() {
+        // 配置织入点
     }
 
     @Before("dataScopePointCut()")
@@ -78,13 +79,13 @@ public class DataScopeAspect {
                 sqlString = new StringBuilder();
                 break;
             } else if (DATA_SCOPE_CUSTOM.equals(dataScope)) {
-                sqlString.append(StringUtils.format(
+                sqlString.append(StringUtil.format(
                         " OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) " , alias,
                         role.getRoleId()));
             }
         }
 
-        if (StringUtils.isNotBlank(sqlString.toString())) {
+        if (StringUtil.isNotBlank(sqlString.toString())) {
             BaseEntity baseEntity = (BaseEntity) joinPoint.getArgs()[0];
             baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
         }

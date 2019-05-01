@@ -1,6 +1,6 @@
 package com.ruoyi.common.page;
 
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 
 /**
  * 分页数据
@@ -29,10 +29,10 @@ public class PageDomain {
     private String isAsc;
 
     public String getOrderBy() {
-        if (StringUtils.isEmpty(orderByColumn)) {
+        if (StringUtil.isEmpty(orderByColumn)) {
             return "" ;
         }
-        return StringUtils.toUnderScoreCase(orderByColumn) + " " + isAsc;
+        return StringUtil.toUnderScoreCase(orderByColumn) + " " + isAsc;
     }
 
     public Integer getPageNum() {

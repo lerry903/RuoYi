@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.support.Convert;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.mapper.SysPostMapper;
@@ -87,15 +88,15 @@ public class SysPostServiceImpl implements ISysPostService {
      * 批量删除岗位信息
      *
      * @param ids 需要删除的数据ID
-     * @throws Exception 异常
+     * @throws BusinessException 异常
      */
     @Override
-    public int deletePostByIds(String ids) throws Exception {
+    public int deletePostByIds(String ids) throws BusinessException {
         Long[] postIds = Convert.toLongArray(ids);
         for (Long postId : postIds) {
             SysPost post = selectPostById(postId);
             if (countUserPostById(postId) > 0) {
-                throw new Exception(String.format("%1$s已分配,不能删除", post.getPostName()));
+                throw new BusinessException(String.format("%1$s已分配,不能删除", post.getPostName()));
             }
         }
         return postMapper.deletePostByIds(postIds);

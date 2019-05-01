@@ -1,8 +1,6 @@
 package com.ruoyi.common.base;
 
 import cn.hutool.core.util.ObjectUtil;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -51,7 +49,7 @@ public class AjaxResult extends HashMap<String, Object> {
     /**
      * 状态类型
      */
-    private Type type;
+    private transient Type type;
 
     /**
      * 状态码
@@ -66,7 +64,7 @@ public class AjaxResult extends HashMap<String, Object> {
     /**
      * 数据对象
      */
-    private Object data;
+    private transient Object data;
 
 
     /**
@@ -164,7 +162,7 @@ public class AjaxResult extends HashMap<String, Object> {
     /**
      * 返回错误消息
      *
-     * @return
+     * @return 默认错误信息
      */
     public static AjaxResult error() {
         return AjaxResult.error("操作失败");
@@ -192,9 +190,13 @@ public class AjaxResult extends HashMap<String, Object> {
     }
 
     @Override
-    public String toString(){
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("code", code)
-                .append("msg", msg).append("data", data).toString();
+    public String toString() {
+        return "AjaxResult{" +
+                "type=" + type +
+                ", code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
     }
 
     @Override
@@ -210,12 +212,13 @@ public class AjaxResult extends HashMap<String, Object> {
         }
         AjaxResult that = (AjaxResult) o;
         return code == that.code &&
+                type == that.type &&
                 Objects.equals(msg, that.msg) &&
                 Objects.equals(data, that.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), code, msg, data);
+        return Objects.hash(super.hashCode(), type, code, msg, data);
     }
 }

@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.utils.DateUtil;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.common.utils.sql.SqlUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.common.page.PageDomain;
@@ -124,7 +124,7 @@ public class BaseController {
      * 页面跳转
      */
     public String redirect(String url) {
-        return StringUtils.format("redirect:{}" , url);
+        return StringUtil.format("redirect:{}" , url);
     }
 
     public SysUser getSysUser() {

@@ -33,7 +33,6 @@ public class LogUtils {
      */
     public static void logAccess(HttpServletRequest request) throws Exception {
         String username = getUsername();
-        String jsessionId = request.getRequestedSessionId();
         String ip = IpUtils.getIpAddr(request);
         String accept = request.getHeader("accept");
         String userAgent = request.getHeader("User-Agent");
@@ -41,7 +40,7 @@ public class LogUtils {
         String params = getParams(request);
 
         String s = getBlock(username) +
-                getBlock(jsessionId) +
+                getBlock(request.getRequestedSessionId()) +
                 getBlock(ip) +
                 getBlock(accept) +
                 getBlock(userAgent) +

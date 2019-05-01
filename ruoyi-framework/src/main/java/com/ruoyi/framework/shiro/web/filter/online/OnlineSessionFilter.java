@@ -57,7 +57,7 @@ public class OnlineSessionFilter extends AccessControlFilter {
                 }
             }
 
-            return onlineSession.getStatus() != OnlineStatus.off_line;
+            return onlineSession.getStatus() != OnlineStatus.OFF_LINE;
         }
         return true;
     }

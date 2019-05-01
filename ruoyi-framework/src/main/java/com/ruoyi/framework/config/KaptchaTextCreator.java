@@ -16,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 public class KaptchaTextCreator extends DefaultTextCreator {
     private static final String[] CNUMBERS = "0,1,2,3,4,5,6,7,8,9,10".split(",");
 
-    private Random random;
+    private static Random random;
 
-    {
+    static {
         try {
             random = SecureRandom.getInstanceStrong();
         } catch (NoSuchAlgorithmException e) {
@@ -32,7 +32,7 @@ public class KaptchaTextCreator extends DefaultTextCreator {
         int x = random.nextInt(10);
         int y = random.nextInt(10);
         StringBuilder suChinese = new StringBuilder();
-        int randomoperands = (int) Math.round(Math.random() * 2);
+        int randomoperands = new Random().nextInt(2);
         if (randomoperands == 0) {
             result = x * y;
             suChinese.append(CNUMBERS[x]);

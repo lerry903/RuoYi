@@ -70,17 +70,9 @@ public class IpUtils {
             case section1:
                 return true;
             case section2:
-                if (b1 >= section3 && b1 <= section4) {
-                    return true;
-                }else {
-                    return false;
-                }
+                return b1 >= section3 && b1 <= section4;
             case section5:
-                if(b1 == section6){
-                    return true;
-                }else {
-                    return false;
-                }
+                return b1 == section6;
             default:
                 return false;
         }

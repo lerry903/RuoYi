@@ -3,7 +3,7 @@ package com.ruoyi.quartz.domain;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.BaseEntity;
 import com.ruoyi.common.constant.ScheduleConstants;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.quartz.util.CronUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -67,7 +66,7 @@ public class SysJob extends BaseEntity{
      */
     @ApiIgnore(value = "下次执行时间")
     public Date getNextValidTime(){
-        if (StringUtils.isNotEmpty(cronExpression)){
+        if (StringUtil.isNotEmpty(cronExpression)){
             return CronUtils.getNextExecution(cronExpression);
         }
         return null;
