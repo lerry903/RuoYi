@@ -1,6 +1,7 @@
 package com.ruoyi.common.utils;
 
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  * 获取i18n资源文件
@@ -13,10 +14,10 @@ public class MessageUtils {
      *
      * @param code 消息键
      * @param args 参数
-     * @return
+     * @return 国际化翻译值
      */
     public static String message(String code, Object... args) {
         MessageSource messageSource = SpringUtils.getBean(MessageSource.class);
-        return messageSource.getMessage(code, args, null);
+        return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
     }
 }
