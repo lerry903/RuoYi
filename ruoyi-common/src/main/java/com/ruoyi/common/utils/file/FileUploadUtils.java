@@ -3,7 +3,7 @@ package com.ruoyi.common.utils.file;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.exception.file.FileNameLengthLimitExceededException;
 import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
-import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.DateUtil;
 import com.ruoyi.common.utils.security.Md5Utils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -112,7 +112,7 @@ public class FileUploadUtils {
 
     public static final String extractFilename(MultipartFile file, String extension) {
         String filename = file.getOriginalFilename();
-        filename = DateUtils.datePath() + "/" + encodingFilename(filename) + extension;
+        filename = DateUtil.datePath() + "/" + encodingFilename(filename) + extension;
         return filename;
     }
 

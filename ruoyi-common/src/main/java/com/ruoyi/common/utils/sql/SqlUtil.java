@@ -8,6 +8,11 @@ import com.ruoyi.common.utils.StringUtils;
  * @author ruoyi
  */
 public class SqlUtil {
+
+    private SqlUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * 仅支持字母、数字、下划线、空格、逗号（支持多个字段排序）
      */

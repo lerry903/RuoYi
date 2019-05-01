@@ -9,6 +9,11 @@ import org.springframework.context.i18n.LocaleContextHolder;
  * @author ruoyi
  */
 public class MessageUtils {
+
+    private MessageUtils(){
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * 根据消息键和参数 获取消息 委托给spring messageSource
      *

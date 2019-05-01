@@ -19,6 +19,7 @@ public class IpUtils {
     private IpUtils(){
         throw new IllegalStateException("Utility class");
     }
+
     public static String getIpAddr(HttpServletRequest request) {
         String unknown = "unknown";
         if (request == null) {

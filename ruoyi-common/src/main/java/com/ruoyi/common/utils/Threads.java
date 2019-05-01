@@ -13,6 +13,10 @@ import java.util.concurrent.*;
 public class Threads {
     private static final Logger logger = LoggerFactory.getLogger(Threads.class);
 
+    private Threads(){
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * sleep等待,单位为毫秒
      */
@@ -20,7 +24,8 @@ public class Threads {
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
-            return;
+            logger.error("线程等待失败",e);
+            Thread.currentThread().interrupt();
         }
     }
 

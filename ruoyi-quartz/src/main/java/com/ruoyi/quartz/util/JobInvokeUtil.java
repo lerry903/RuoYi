@@ -12,13 +12,18 @@ import java.lang.reflect.Method;
  *
  * @author ruoyi
  */
-public class JobInvokeUtil {
+class JobInvokeUtil {
+
+    private JobInvokeUtil(){
+        throw new IllegalStateException("Utility class");
+    }
     /**
      * 执行方法
      *
      * @param sysJob 系统任务
      */
-    public static void invokeMethod(SysJob sysJob) throws Exception {
+    public static void invokeMethod(SysJob sysJob) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException {
         Object bean = SpringUtils.getBean(sysJob.getJobName());
         String methodName = sysJob.getMethodName();
         String methodParams = sysJob.getMethodParams();

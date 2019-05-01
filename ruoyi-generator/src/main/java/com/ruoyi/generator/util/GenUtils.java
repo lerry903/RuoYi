@@ -2,7 +2,7 @@ package com.ruoyi.generator.util;
 
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.DateUtil;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.generator.domain.ColumnInfo;
 import com.ruoyi.generator.domain.TableInfo;
@@ -83,7 +83,7 @@ public class GenUtils {
         velocityContext.put("basePackage" , getBasePackage(packageName));
         velocityContext.put("package" , packageName);
         velocityContext.put("author" , Global.getAuthor());
-        velocityContext.put("datetime" , DateUtils.getDate());
+        velocityContext.put("datetime" , DateUtil.getDate());
         return velocityContext;
     }
 
@@ -112,7 +112,7 @@ public class GenUtils {
      */
     public static String tableToJava(String tableName) {
         if (Constants.AUTO_REOMVE_PRE.equals(Global.getAutoRemovePre())) {
-            tableName = tableName.substring(tableName.indexOf("_") + 1);
+            tableName = tableName.substring(tableName.indexOf('_') + 1);
         }
         if (StringUtils.isNotEmpty(Global.getTablePrefix())) {
             tableName = tableName.replace(Global.getTablePrefix(), "");

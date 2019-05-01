@@ -3,7 +3,7 @@ package com.ruoyi.framework.web.domain.server;
 import java.lang.management.ManagementFactory;
 
 import com.ruoyi.common.utils.Arith;
-import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.DateUtil;
 
 /**
  * JVM相关信息
@@ -95,13 +95,13 @@ public class Jvm {
      * JDK启动时间
      */
     public String getStartTime() {
-        return DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD_HH_MM_SS, DateUtils.getServerStartDate());
+        return DateUtil.parseDateToStr(DateUtil.YYYY_MM_DD_HH_MM_SS, DateUtil.getServerStartDate());
     }
 
     /**
      * JDK运行时间
      */
     public String getRunTime() {
-        return DateUtils.getDatePoor(DateUtils.getNowDate(), DateUtils.getServerStartDate());
+        return DateUtil.getDatePoor(DateUtil.getNowDate(), DateUtil.getServerStartDate());
     }
 }

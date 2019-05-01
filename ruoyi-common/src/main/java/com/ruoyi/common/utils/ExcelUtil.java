@@ -168,10 +168,10 @@ public class ExcelUtil<T> {
                             field.set(entity, Convert.toDouble(val));
                         }else if (java.util.Date.class == fieldType) {
                             if (val instanceof String){
-                                val = DateUtils.parseDate(val);
+                                val = DateUtil.parseDate(val);
                                 field.set(entity, val);
                             }else if (val instanceof Double){
-                                val = DateUtil.getJavaDate((Double) val);
+                                val = org.apache.poi.ss.usermodel.DateUtil.getJavaDate((Double) val);
                                 field.set(entity, val);
                             }
                         }else if (BigDecimal.class == fieldType){
@@ -298,7 +298,7 @@ public class ExcelUtil<T> {
                 String dateFormat = attr.dateFormat();
                 String readConverterExp = attr.readConverterExp();
                 if (StrUtil.isNotEmpty(dateFormat) && ObjectUtil.isNotNull(value)) {
-                    cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value));
+                    cell.setCellValue(DateUtil.parseDateToStr(dateFormat, (Date) value));
                 } else if (StrUtil.isNotEmpty(readConverterExp) && ObjectUtil.isNotNull(value)) {
                     cell.setCellValue(convertByExp(String.valueOf(value), readConverterExp));
                 } else {
@@ -566,7 +566,7 @@ public class ExcelUtil<T> {
                     val = cell.getNumericCellValue();
                     if (HSSFDateUtil.isCellDateFormatted(cell)) {
                         // POI Excel 日期格式转换
-                        val = DateUtil.getJavaDate((Double) val);
+                        val = org.apache.poi.ss.usermodel.DateUtil.getJavaDate((Double) val);
                     } else {
                         if ((Double) val % 1 > 0) {
                             val = new DecimalFormat("0.00").format(val);

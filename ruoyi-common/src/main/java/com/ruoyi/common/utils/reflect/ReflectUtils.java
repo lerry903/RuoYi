@@ -1,14 +1,11 @@
 package com.ruoyi.common.utils.reflect;
 
+import cn.hutool.core.convert.Convert;
 import com.ruoyi.common.exception.BusinessException;
-import com.ruoyi.common.support.Convert;
-import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.*;
 import java.util.Arrays;
@@ -72,7 +69,7 @@ public class ReflectUtils {
     public static <E> E getFieldValue(final Object obj, final String fieldName) {
         Field field = getAccessibleField(obj, fieldName);
         if (field == null) {
-            log.info("在 [" + obj.getClass() + "] 中，没有找到 [" + fieldName + "] 字段 ");
+            log.info(String.format("在 [%s] 中，没有找到 [%s] 字段 ", obj.getClass() ,fieldName));
             return null;
         }
         E result = null;
@@ -90,7 +87,7 @@ public class ReflectUtils {
     public static <E> void setFieldValue(final Object obj, final String fieldName, final E value) {
         Field field = getAccessibleField(obj, fieldName);
         if (field == null) {
-            log.info("在 [" + obj.getClass() + "] 中，没有找到 [" + fieldName + "] 字段 ");
+            log.info(String.format("在 [%s] 中，没有找到 [%s] 字段 ", obj.getClass() ,fieldName));
             return;
         }
         try {
@@ -113,7 +110,7 @@ public class ReflectUtils {
         }
         Method method = getAccessibleMethod(obj, methodName, parameterTypes);
         if (method == null) {
-            log.info("在 [" + obj.getClass() + "] 中，没有找到 [" + methodName + "] 方法 ");
+            log.info(String.format("在 [%s] 中，没有找到 [%s] 方法 ", obj.getClass() ,methodName));
             return null;
         }
         try {
@@ -134,32 +131,27 @@ public class ReflectUtils {
         Method method = getAccessibleMethodByName(obj, methodName, args.length);
         if (method == null) {
             // 如果为空不报错，直接返回空。
-            log.info("在 [" + obj.getClass() + "] 中，没有找到 [" + methodName + "] 方法 ");
+            log.info(String.format("在 [%s] 中，没有找到 [%s] 方法 ", obj.getClass() ,methodName));
             return null;
         }
         try {
             // 类型转换（将参数数据类型转换为目标方法参数类型）
-            Class<?>[] cs = method.getParameterTypes();
-            for (int i = 0; i < cs.length; i++) {
-                if (args[i] != null && !args[i].getClass().equals(cs[i])) {
-                    if (cs[i] == String.class) {
+            Class<?>[] classes = method.getParameterTypes();
+            for (int i = 0; i < classes.length; i++) {
+                Class<?> cs = classes[i];
+                if (args[i] != null && !args[i].getClass().equals(cs)) {
+                    if (cs == String.class) {
                         args[i] = Convert.toStr(args[i]);
                         if (StringUtils.endsWith((String) args[i], ".0")) {
                             args[i] = StringUtils.substringBefore((String) args[i], ".0");
                         }
-                    } else if (cs[i] == Integer.class) {
-                        args[i] = Convert.toInt(args[i]);
-                    } else if (cs[i] == Long.class) {
-                        args[i] = Convert.toLong(args[i]);
-                    } else if (cs[i] == Double.class) {
-                        args[i] = Convert.toDouble(args[i]);
-                    } else if (cs[i] == Float.class) {
-                        args[i] = Convert.toFloat(args[i]);
-                    } else if (cs[i] == Date.class) {
+                    } else if (Arrays.asList(Integer.class,Long.class,Double.class,Float.class).contains(cs)) {
+                        args[i] = Convert.convert(cs, args[i]);
+                    } else if (cs == Date.class) {
                         if (args[i] instanceof String) {
-                            args[i] = DateUtils.parseDate(args[i]);
+                            args[i] = DateUtil.parseDate(args[i]);
                         } else {
-                            args[i] = DateUtil.getJavaDate((Double) args[i]);
+                            args[i] = org.apache.poi.ss.usermodel.DateUtil.getJavaDate((Double) args[i]);
                         }
                     }
                 }

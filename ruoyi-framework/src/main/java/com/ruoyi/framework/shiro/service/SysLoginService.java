@@ -7,7 +7,7 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.ShiroConstants;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.enums.UserStatus;
-import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.DateUtil;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.common.utils.MessageUtils;
@@ -109,7 +109,7 @@ public class SysLoginService {
      */
     private void recordLoginInfo(SysUser user) {
         user.setLoginIp(ShiroUtils.getIp());
-        user.setLoginDate(DateUtils.getNowDate());
+        user.setLoginDate(DateUtil.getNowDate());
         userService.updateUserInfo(user);
     }
 }
