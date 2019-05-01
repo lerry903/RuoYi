@@ -38,6 +38,7 @@
         		    rightFixedColumns: false,
         		    rightFixedNumber: 0,
         		    queryParams: $.table.queryParams,
+        		    rowStyle: {},
         		};
             	var options = $.extend(defaults, options);
                 $.table._option = options;
@@ -76,6 +77,7 @@
                     rightFixedColumns: options.rightFixedColumns,       // 是否启用冻结列（右侧）
                     rightFixedNumber: options.rightFixedNumber,         // 列冻结的个数（右侧）
                     queryParams: options.queryParams,                   // 传递参数（*）
+                    rowStyle: options.rowStyle,                         // 通过自定义函数设置行样式
                     columns: options.columns,                           // 显示列信息（*）
                     responseHandler: $.table.responseHandler,           // 在加载服务器发送来的数据之前处理函数
                     onLoadSuccess: $.table.onLoadSuccess,               // 当所有数据被加载时触发处理函数
@@ -384,6 +386,13 @@
             // 刷新
             refresh: function() {
             	$._treeTable.bootstrapTreeTable('refresh');
+            },
+            // 查询表格树指定列值
+            selectColumns: function(column) {
+            	var rows = $.map($('#' + $.table._option.id).bootstrapTreeTable('getSelections'), function (row) {
+        	        return row[column];
+        	    });
+            	return $.common.uniqueFn(rows);
             },
         },
         // 表单封装处理
