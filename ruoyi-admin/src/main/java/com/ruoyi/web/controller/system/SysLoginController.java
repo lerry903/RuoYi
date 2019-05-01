@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.common.base.AjaxResult;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.base.BaseController;
 
@@ -44,7 +44,7 @@ public class SysLoginController extends BaseController {
             return success();
         } catch (AuthenticationException e) {
             String msg = "用户或密码错误";
-            if (StringUtils.isNotEmpty(e.getMessage())) {
+            if (StringUtil.isNotEmpty(e.getMessage())) {
                 msg = e.getMessage();
             }
             return error(msg);

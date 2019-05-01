@@ -5,7 +5,7 @@ import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.enums.OnlineStatus;
 import com.ruoyi.common.page.TableDataInfo;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.framework.shiro.session.OnlineSession;
 import com.ruoyi.framework.shiro.session.OnlineSessionDAO;
 import com.ruoyi.framework.util.ShiroUtils;
@@ -61,7 +61,7 @@ public class SysUserOnlineController extends BaseController {
     public AjaxResult batchForceLogout(@RequestParam("ids[]") String[] ids) {
         for (String sessionId : ids) {
             String message = logout(sessionId);
-            if (StringUtils.isNotEmpty(message)) {
+            if (StringUtil.isNotEmpty(message)) {
                 return error(message);
             }
         }
@@ -74,7 +74,7 @@ public class SysUserOnlineController extends BaseController {
     @ResponseBody
     public AjaxResult forceLogout(String sessionId) {
         String message = logout(sessionId);
-        if (StringUtils.isNotEmpty(message)) {
+        if (StringUtil.isNotEmpty(message)) {
             return error(message);
         }
         return success();
@@ -92,8 +92,8 @@ public class SysUserOnlineController extends BaseController {
         if (onlineSession == null) {
             return "用户已下线";
         }
-        onlineSession.setStatus(OnlineStatus.off_line);
-        online.setStatus(OnlineStatus.off_line);
+        onlineSession.setStatus(OnlineStatus.OFF_LINE);
+        online.setStatus(OnlineStatus.OFF_LINE);
         userOnlineService.saveOnline(online);
         return null;
     }

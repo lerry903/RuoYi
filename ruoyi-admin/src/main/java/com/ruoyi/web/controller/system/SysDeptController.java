@@ -2,7 +2,6 @@ package com.ruoyi.web.controller.system;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
-import com.ruoyi.common.base.AjaxResult.Type;
 import com.ruoyi.common.base.Ztree;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.framework.util.ShiroUtils;
