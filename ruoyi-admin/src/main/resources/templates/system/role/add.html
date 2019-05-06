@@ -28,13 +28,10 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">状态：</label>
 				<div class="col-sm-8">
-					<div class="onoffswitch">
-                         <input type="checkbox" th:checked="true" class="onoffswitch-checkbox" id="status" name="status">
-                         <label class="onoffswitch-label" for="status">
-                             <span class="onoffswitch-inner"></span>
-                             <span class="onoffswitch-switch"></span>
-                         </label>
-                     </div>
+					<label class="toggle-switch switch-solid">
+						<input type="checkbox" id="status" checked>
+						<span></span>
+					</label>
 				</div>
 			</div>
 			<div class="form-group">
@@ -123,7 +120,7 @@
 			var roleName = $("input[name='roleName']").val();
 			var roleKey = $("input[name='roleKey']").val();
 			var roleSort = $("input[name='roleSort']").val();
-			var status = $("input[name='status']").is(':checked') == true ? 0 : 1;
+			var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
 			var remark = $("input[name='remark']").val();
 			var menuIds = $.tree.getCheckedNodes();
 			$.ajax({
