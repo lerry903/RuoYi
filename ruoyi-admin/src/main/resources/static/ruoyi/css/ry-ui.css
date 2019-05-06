@@ -49,7 +49,22 @@
 .ml20 {
 	margin-left: 20px;
 }
-
+.img-xs {
+  width: 32px;
+  height: 32px;
+}
+.img-sm {
+  width: 64px;
+  height: 64px;
+}
+.img-md {
+  width: 96px;
+  height: 96px;
+}
+.img-lg {
+  width: 120px;
+  height: 120px;
+}
 .section-content {
     min-height: 250px;
     margin-right: auto;
@@ -398,6 +413,79 @@ label.error {
 	background-position: -180px 0
 }
 
+/* 切换开关 */
+.toggle-switch {
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	margin-bottom: 0;
+	padding-top: 8px;
+}
+.toggle-switch input {
+    height: 0;
+    width: 0;
+    position: absolute;
+    opacity: 0;
+}
+.toggle-switch span {
+	display: inline-block;
+	position: relative;
+	width: 40px;
+	height: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	background-color: #ebebeb;
+	border: 2px solid #ebebeb;
+	cursor: pointer;
+	-webkit-transition: all .1s ease;
+	-o-transition: all .1s ease;
+	transition: all .1s ease
+}
+.toggle-switch span:after {
+	content: '';
+	height: 20px;
+	width: 20px;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	position: absolute;
+	left: 1px;
+	top: -7px;
+	color: #aaa;
+	-webkit-transition: all .1s ease;
+	-o-transition: all .1s ease;
+	transition: all .1s ease;
+	text-align: center;
+	font-size: 13px;
+	background-color: #fff;
+	-webkit-box-shadow: rgba(0,0,0,.12) 0 1px 6px,rgba(0,0,0,.12) 0 1px 4px;
+	box-shadow: rgba(0,0,0,.12) 0 1px 6px,rgba(0,0,0,.12) 0 1px 4px
+}
+.toggle-switch input:checked~span:after {
+	left: -webkit-calc(100% - 20px);
+	left: calc(100% - 20px);
+	background-color: #33cabb
+}
+ 
+.toggle-switch.switch-solid span  {
+    height: 20px;
+}
+.toggle-switch.switch-solid span:after {
+    top: -2px;
+}
+.switch-solid input:checked~span {
+	background-color: #33cabb;
+	border-color: #33cabb
+}
+.switch-solid input:checked~span:after {
+	background-color: #fff;
+	color: #33cabb
+}
+
 /** 遮罩层 **/
 .loaderbox {
 	display: inline-block;
@@ -639,20 +727,20 @@ label {
 }
 
 /** 表格冻结列样式 **/
-.left-fixed-table-columns{
-	position: absolute;
-	background-color: #fff;
-	display: none;
-	border-right:1px solid #ddd;
-	overflow: hidden;
+.left-fixed-table-columns{ 
+    position: absolute;
+    background-color: #fff;
+    display: none;
+    border-right:1px solid #ddd;
+    overflow: hidden;
 }
 
-.right-fixed-table-columns{
-	position: absolute;
-	right:63px;
-	border-left:1px solid #ddd;
-	display: none;
-	z-index:100;
+.right-fixed-table-columns{ 
+    position: absolute;
+    right:63px;
+    border-left:1px solid #ddd;
+    display: none;
+    z-index:100;
 }
 
 /** 表格树样式 **/
