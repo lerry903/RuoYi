@@ -164,4 +164,11 @@
         </set>
         where dept_id in (${ancestors})
     </update>
+
+    <select id="selectChildrenDeptById" parameterType="Long" resultMap="SysDeptResult">
+        <include refid="selectDeptVo"/>
+        <where>
+            FIND_IN_SET(#{id},ancestors)
+        </where>
+    </select>
 </mapper> 
