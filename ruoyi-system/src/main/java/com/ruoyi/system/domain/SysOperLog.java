@@ -32,6 +32,9 @@ public class SysOperLog extends BaseEntity {
     @ApiModelProperty(value="业务类型",name="businessType",example="0",allowableValues = "range[0,9]",reference="0=其它,1=新增,2=修改,3=删除,4=授权,5=导出,6=导入,7=强退,8=生成代码,9=清空数据")
     private Integer businessType;
 
+    @ApiModelProperty(value="业务类型数组",name="businessTypes",example="[1,2,3]")
+    private Integer[] businessTypes;
+
     @Excel(name = "请求方法")
     @ApiModelProperty(value="请求方法",name="method",example="com.ruoyi.web.controller.monitor.SysUserOnlineController.forceLogout()")
     private String method;

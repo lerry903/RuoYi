@@ -139,7 +139,7 @@
     			    	layer.open({
         			        title: false,
         			        type: 1,
-        			        closeBtn: false,
+        			        closeBtn: true,
         			        shadeClose: true,
         			        area: ['auto', 'auto'],
         			        content: "<img src='" + src + "' />"
@@ -203,7 +203,7 @@
 				}
 			},
             // 搜索-默认第一个form
-            search: function(formId) {
+            search: function(formId, data) {
             	var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
     		    var params = $("#" + $.table._option.id).bootstrapTable('getOptions');
     		    params.queryParams = function(params) {
@@ -211,6 +211,11 @@
                     $.each($("#" + currentId).serializeArray(), function(i, field) {
                         search[field.name] = field.value;
                     });
+                    if($.common.isNotEmpty(data)){
+	                    $.each(data, function(key) {
+	                        search[key] = data[key];
+	                    });
+                    }
                     search.pageSize = params.limit;
                     search.pageNum = params.offset / params.limit + 1;
                     search.searchValue = params.search;
@@ -537,8 +542,7 @@
             	layer.confirm(content, {
         	        icon: 3,
         	        title: "系统提示",
-        	        btn: ['确认', '取消'],
-        	        btnclass: ['btn btn-primary', 'btn btn-danger'],
+        	        btn: ['确认', '取消']
         	    }, function (index) {
         	    	layer.close(index);
         	        callBack(true);
@@ -593,6 +597,7 @@
             	var _title = $.common.isEmpty(options.title) ? "系统窗口" : options.title; 
                 var _width = $.common.isEmpty(options.width) ? "800" : options.width; 
                 var _height = $.common.isEmpty(options.height) ? ($(window).height() - 50) : options.height;
+                var _btn = ['<i class="fa fa-check"></i> 确认', '<i class="fa fa-close"></i> 关闭'];
                 layer.open({
                     type: 2,
             		maxmin: true,
@@ -602,7 +607,7 @@
                     area: [_width + 'px', _height + 'px'],
                     content: _url,
                     shadeClose: true,
-                    btn: ['<i class="fa fa-check"></i> 确认', '<i class="fa fa-close"></i> 关闭'],
+                    btn: $.common.isEmpty(options.btn) ? _btn : options.btn,
                     yes: function (index, layero) {
                         options.callBack(index, layero)
                     }, cancel: function () {
@@ -683,7 +688,7 @@
         // 操作封装处理
         operate: {
         	// 提交数据
-        	submit: function(url, type, dataType, data) {
+        	submit: function(url, type, dataType, data, callback) {
             	var config = {
         	        url: url,
         	        type: type,
@@ -693,18 +698,21 @@
         	        	$.modal.loading("正在处理中，请稍后...");
         	        },
         	        success: function(result) {
+        	        	if (typeof callback == "function") {
+        	        	    callback(result);
+        	        	}
         	        	$.operate.ajaxSuccess(result);
         	        }
         	    };
         	    $.ajax(config)
             },
             // post请求传输
-            post: function(url, data) {
-            	$.operate.submit(url, "post", "json", data);
+            post: function(url, data, callback) {
+            	$.operate.submit(url, "post", "json", data, callback);
             },
             // get请求传输
-            get: function(url) {
-            	$.operate.submit(url, "get", "json", "");
+            get: function(url, callback) {
+            	$.operate.submit(url, "get", "json", "", callback);
             },
             // 详细信息
             detail: function(id, width, height) {
@@ -829,7 +837,7 @@
                 return url;
             },
             // 保存信息 刷新表格
-            save: function(url, data) {
+            save: function(url, data, callback) {
             	var config = {
         	        url: url,
         	        type: "post",
@@ -840,13 +848,16 @@
         	        	$.modal.disable();
         	        },
         	        success: function(result) {
+        	        	if (typeof callback == "function") {
+        	        	    callback(result);
+        	        	}
         	        	$.operate.successCallback(result);
         	        }
         	    };
         	    $.ajax(config)
             },
             // 保存信息 弹出提示框
-            saveModal: function(url, data) {
+            saveModal: function(url, data, callback) {
             	var config = {
         	        url: url,
         	        type: "post",
@@ -856,6 +867,9 @@
         	        	$.modal.loading("正在处理中，请稍后...");
         	        },
         	        success: function(result) {
+        	        	if (typeof callback == "function") {
+        	        	    callback(result);
+        	        	}
         	        	if (result.code == web_status.SUCCESS) {
 	                        $.modal.alertSuccess(result.msg)
 	                    } else if (result.code == web_status.WARNING) {
@@ -869,7 +883,7 @@
         	    $.ajax(config)
             },
             // 保存选项卡信息
-            saveTab: function(url, data) {
+            saveTab: function(url, data, callback) {
             	var config = {
         	        url: url,
         	        type: "post",
@@ -879,6 +893,9 @@
         	        	$.modal.loading("正在处理中，请稍后...");
         	        },
         	        success: function(result) {
+        	        	if (typeof callback == "function") {
+        	        	    callback(result);
+        	        	}
         	        	$.operate.successTabCallback(result);
         	        }
         	    };
@@ -1234,6 +1251,13 @@
                     }
                 }
                 return result;
+            },
+            // 数组中的所有元素放入一个字符串
+            join: function(array, separator) {
+            	if ($.common.isEmpty(array)) {
+            	    return null;
+            	}
+                return array.join(separator);
             }
         }
     });
