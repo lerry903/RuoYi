@@ -1,5 +1,6 @@
 package com.ruoyi.common.utils;
 
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
@@ -83,5 +84,16 @@ public final class SpringUtils implements BeanFactoryPostProcessor {
      */
     public static String[] getAliases(String name){
         return beanFactory.getAliases(name);
+    }
+
+    /**
+     * 获取aop代理对象
+     *
+     * @param invoker
+     * @return 代理对象
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getAopProxy(T invoker){
+        return (T) AopContext.currentProxy();
     }
 }

@@ -1,6 +1,5 @@
 package com.ruoyi;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +16,6 @@ import java.time.Instant;
  * @author ruoyi
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@MapperScan("com.ruoyi.*.mapper")
 public class RuoYiApplication {
 
     private static final Logger log = LoggerFactory.getLogger(RuoYiApplication.class);
