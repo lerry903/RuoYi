@@ -1,5 +1,6 @@
 package com.ruoyi.common.utils.file;
 
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.exception.file.FileNameLengthLimitExceededException;
 import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
@@ -12,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+
+import static com.ruoyi.common.utils.file.MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION;
 
 /**
  * 文件上传工具类
@@ -38,30 +41,6 @@ public class FileUploadUtils {
      * 默认上传的地址
      */
     private static String defaultBaseDir = Global.getProfile();
-
-    private static final String[] IMAGE_EXTENSION = {
-            "bmp", "gif", "jpg", "jpeg", "png"
-    };
-
-    private static final String[] FLASH_EXTENSION = {
-            "swf", "flv"
-    };
-
-    private static final String[] MEDIA_EXTENSION = {
-            "swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg", "asf", "rm", "rmvb"
-    };
-
-    private static final String[] DEFAULT_ALLOWED_EXTENSION = {
-            //图片
-            "bmp", "gif", "jpg", "jpeg", "png",
-            //word excel powerpoint
-            "doc", "docx", "xls", "xlsx", "ppt", "pptx",
-            "html", "htm", "txt",
-            //压缩文件
-            "rar", "zip", "gz", "bz2",
-            //pdf
-            "pdf"
-    };
 
     private static int counter = 0;
 
@@ -133,7 +112,7 @@ public class FileUploadUtils {
 
     private static String extractFilename(MultipartFile file) {
         String filename = file.getOriginalFilename();
-        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        String extension = getExtension(file);
         filename = DateUtil.datePath() + File.separator + encodingFilename(filename) + "." + extension;
         return filename;
     }
@@ -174,13 +153,13 @@ public class FileUploadUtils {
             throw new FileSizeLimitExceededException(DEFAULT_MAX_SIZE / 1024 / 1024);
         }
         String filename = file.getOriginalFilename();
-        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        String extension = getExtension(file);
         if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension)) {
-            if (allowedExtension == IMAGE_EXTENSION) {
+            if (allowedExtension == MimeTypeUtils.IMAGE_EXTENSION) {
                 throw new InvalidExtensionException.InvalidImageExtensionException(allowedExtension, extension, filename);
-            } else if (allowedExtension == FLASH_EXTENSION) {
+            } else if (allowedExtension == MimeTypeUtils.FLASH_EXTENSION) {
                 throw new InvalidExtensionException.InvalidFlashExtensionException(allowedExtension, extension, filename);
-            } else if (allowedExtension == MEDIA_EXTENSION) {
+            } else if (allowedExtension == MimeTypeUtils.MEDIA_EXTENSION) {
                 throw new InvalidExtensionException.InvalidMediaExtensionException(allowedExtension, extension, filename);
             } else {
                 throw new InvalidExtensionException(allowedExtension, extension, filename);
@@ -202,5 +181,19 @@ public class FileUploadUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 获取文件名的后缀
+     *
+     * @param file 表单文件
+     * @return 后缀名
+     */
+    private static String getExtension(MultipartFile file){
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        if (StrUtil.isEmpty(extension)){
+            extension = MimeTypeUtils.getExtension(Objects.requireNonNull(file.getContentType()));
+        }
+        return extension;
     }
 }
