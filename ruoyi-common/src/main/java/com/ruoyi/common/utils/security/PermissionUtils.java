@@ -1,14 +1,23 @@
 package com.ruoyi.common.utils.security;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.constant.PermissionConstants;
 import com.ruoyi.common.utils.MessageUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 
 /**
  * permission 工具类
  *
  * @author ruoyi
  */
+@Slf4j
 public class PermissionUtils {
 
     private PermissionUtils() {
@@ -67,5 +76,30 @@ public class PermissionUtils {
             msg = MessageUtils.message(VIEW_PERMISSION, permission);
         }
         return msg;
+    }
+
+    /**
+     * 返回用户属性值
+     *
+     * @param property 属性名称
+     * @return 用户属性值
+     */
+    public static Object getPrincipalProperty(String property) {
+        Subject subject = SecurityUtils.getSubject();
+        if (ObjectUtil.isNotNull(subject)) {
+            Object principal = subject.getPrincipal();
+            try {
+                BeanInfo bi = Introspector.getBeanInfo(principal.getClass());
+                for (PropertyDescriptor pd : bi.getPropertyDescriptors()) {
+                    if (pd.getName().equals(property)) {
+                        return pd.getReadMethod().invoke(principal, (Object[]) null);
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Error reading property [{}] from principal of type [{}]", property,
+                        principal.getClass().getName());
+            }
+        }
+        return null;
     }
 }
