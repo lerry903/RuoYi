@@ -8,7 +8,7 @@
 
 寓意：你若不离不弃，我必生死相依
 
-> 阿里云双12活动低至2折 ：[点我购买](https://m.aliyun.com/act/team1212?params=N.aqOewixFpu)
+> 
 
 ## 内置功能
 
