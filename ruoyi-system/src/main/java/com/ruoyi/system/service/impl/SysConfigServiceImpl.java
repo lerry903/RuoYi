@@ -1,7 +1,7 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.support.Convert;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.mapper.SysConfigMapper;
 import com.ruoyi.system.service.ISysConfigService;

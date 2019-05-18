@@ -1,6 +1,6 @@
 package com.ruoyi.common.utils.sql;
 
-import com.ruoyi.common.utils.StringUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * sql操作工具类
@@ -21,11 +21,10 @@ public class SqlUtil {
     /**
      * 检查字符，防止注入绕过
      */
-    public static String escapeOrderBySql(String value)
-    {
-        if (StringUtil.isNotEmpty(value) && !isValidOrderBySql(value))
+    public static String escapeOrderBySql(String value){
+        if (StrUtil.isNotEmpty(value) && !isValidOrderBySql(value))
         {
-            return StringUtil.EMPTY;
+            return StrUtil.EMPTY;
         }
         return value;
     }

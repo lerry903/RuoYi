@@ -1,6 +1,7 @@
 package com.ruoyi.common.utils;
 
-import com.ruoyi.common.support.Convert;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -113,12 +114,12 @@ public class ServletUtils {
         }
 
         String uri = request.getRequestURI();
-        if (StringUtil.inStringIgnoreCase(uri, ".json" , ".xml")) {
+        if (StrUtil.containsAnyIgnoreCase(uri, ".json" , ".xml")) {
             return true;
         }
 
         String ajax = request.getParameter("__ajax");
-        return StringUtil.inStringIgnoreCase(ajax, "json", "xml");
+        return StrUtil.containsAnyIgnoreCase(ajax, "json", "xml");
 
     }
 }

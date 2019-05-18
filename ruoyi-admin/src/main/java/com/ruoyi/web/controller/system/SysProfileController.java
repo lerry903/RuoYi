@@ -1,11 +1,11 @@
 package com.ruoyi.web.controller.system;
 
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.annotation.LoginAuth;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.util.ShiroUtils;
@@ -71,7 +71,7 @@ public class SysProfileController extends BaseController {
     @PostMapping("/resetPwd")
     @ResponseBody
     public AjaxResult resetPwd(String oldPassword, String newPassword, SysUser user) {
-        if(StringUtil.isNotEmpty(newPassword) && passwordService.matches(user, oldPassword)){
+        if(StrUtil.isNotEmpty(newPassword) && passwordService.matches(user, oldPassword)){
             user.setSalt(ShiroUtils.randomSalt());
             user.setPassword(passwordService.encryptPassword(user.getLoginName(), newPassword, user.getSalt()));
             if (userService.resetUserPwd(user) > 0) {

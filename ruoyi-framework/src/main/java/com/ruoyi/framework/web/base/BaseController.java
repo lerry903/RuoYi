@@ -3,12 +3,11 @@ package com.ruoyi.framework.web.base;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.base.AjaxResult;
-import com.ruoyi.common.utils.DateUtil;
-import com.ruoyi.common.utils.StringUtil;
-import com.ruoyi.common.utils.sql.SqlUtil;
-import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.common.page.PageDomain;
 import com.ruoyi.common.page.TableDataInfo;
+import com.ruoyi.common.utils.DateUtil;
+import com.ruoyi.common.utils.sql.SqlUtil;
+import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.framework.web.page.TableSupport;
 import com.ruoyi.system.domain.SysUser;
 import org.apache.commons.lang3.ObjectUtils;
@@ -124,7 +123,7 @@ public class BaseController {
      * 页面跳转
      */
     public String redirect(String url) {
-        return StringUtil.format("redirect:{}" , url);
+        return String.format("redirect:%s" , url);
     }
 
     public SysUser getSysUser() {

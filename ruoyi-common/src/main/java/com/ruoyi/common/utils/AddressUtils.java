@@ -1,9 +1,10 @@
 package com.ruoyi.common.utils;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.json.JSON;
 import com.ruoyi.common.json.JSONObject;
-import com.ruoyi.common.utils.http.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,8 +29,8 @@ public class AddressUtils {
             return "内网IP" ;
         }
         if (Global.isAddressEnabled()) {
-            String rspStr = HttpUtils.sendPost(IP_URL, "ip=" + ip);
-            if (StringUtil.isEmpty(rspStr)) {
+            String rspStr = HttpUtil.post(IP_URL, "ip=" + ip);
+            if (StrUtil.isEmpty(rspStr)) {
                 log.error("获取地理位置异常 {}" , ip);
                 return address;
             }

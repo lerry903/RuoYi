@@ -1,9 +1,9 @@
 package com.ruoyi.generator.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.DateUtil;
-import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.generator.domain.ColumnInfo;
 import com.ruoyi.generator.domain.TableInfo;
 import org.apache.velocity.VelocityContext;
@@ -51,9 +51,9 @@ public class GenUtils {
         List<ColumnInfo> columsList = new ArrayList<>();
         for (ColumnInfo column : columns) {
             // 列名转换成Java属性名
-            String attrName = StringUtil.convertToCamelCase(column.getColumnName());
+            String attrName = StrUtil.upperFirst(StrUtil.toUnderlineCase(column.getColumnName()));
             column.setAttrName(attrName);
-            column.setAttrname(StringUtil.uncapitalize(attrName));
+            column.setAttrname(StrUtil.lowerFirst(attrName));
             column.setExtra(column.getExtra());
             // 列的数据类型，转换成Java类型
             String attrType = javaTypeMap.get(column.getDataType());
@@ -83,7 +83,7 @@ public class GenUtils {
         velocityContext.put("basePackage" , getBasePackage(packageName));
         velocityContext.put("package" , packageName);
         velocityContext.put("author" , Global.getAuthor());
-        velocityContext.put("datetime" , DateUtil.getDate());
+        velocityContext.put("datetime" , DateUtil.today());
         return velocityContext;
     }
 
@@ -114,10 +114,10 @@ public class GenUtils {
         if (Constants.AUTO_REOMVE_PRE.equals(Global.getAutoRemovePre())) {
             tableName = tableName.substring(tableName.indexOf('_') + 1);
         }
-        if (StringUtil.isNotEmpty(Global.getTablePrefix())) {
+        if (StrUtil.isNotEmpty(Global.getTablePrefix())) {
             tableName = tableName.replace(Global.getTablePrefix(), "");
         }
-        return StringUtil.convertToCamelCase(tableName);
+        return StrUtil.upperFirst(StrUtil.toUnderlineCase(tableName));
     }
 
     /**
@@ -181,12 +181,12 @@ public class GenUtils {
     public static String getModuleName(String packageName) {
         int lastIndex = packageName.lastIndexOf('.');
         int nameLength = packageName.length();
-        return StringUtil.substring(packageName, lastIndex + 1, nameLength);
+        return StrUtil.sub(packageName, lastIndex + 1, nameLength);
     }
 
     private static String getBasePackage(String packageName) {
         int lastIndex = packageName.lastIndexOf('.');
-        return StringUtil.substring(packageName, 0, lastIndex);
+        return StrUtil.sub(packageName, 0, lastIndex);
     }
 
     private static String getProjectPath() {

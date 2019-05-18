@@ -1,7 +1,11 @@
 package com.ruoyi.framework.aspectj;
 
-import java.lang.reflect.Method;
-
+import cn.hutool.core.util.StrUtil;
+import com.ruoyi.common.annotation.DataScope;
+import com.ruoyi.common.base.BaseEntity;
+import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.system.domain.SysRole;
+import com.ruoyi.system.domain.SysUser;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
@@ -9,13 +13,9 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import com.ruoyi.common.annotation.DataScope;
-import com.ruoyi.common.base.BaseEntity;
-import com.ruoyi.common.utils.StringUtil;
-import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.system.domain.SysRole;
-import com.ruoyi.system.domain.SysUser;
 import org.springframework.util.ObjectUtils;
+
+import java.lang.reflect.Method;
 
 /**
  * 数据过滤处理
@@ -84,15 +84,15 @@ public class DataScopeAspect {
                 sqlString = new StringBuilder();
                 break;
             } else if (DATA_SCOPE_CUSTOM.equals(dataScope)) {
-                sqlString.append(StringUtil.format(
-                        " OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) " , alias,
+                sqlString.append(String.format(
+                        " OR %s.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = %s ) " , alias,
                         role.getRoleId()));
             }else if (DATA_SCOPE_DEPT.equals(dataScope)){
-                sqlString.append(StringUtil.format(" OR {}.dept_id = {} ", alias, user.getDeptId()));
+                sqlString.append(String.format(" OR %s.dept_id = %s ", alias, user.getDeptId()));
             }
         }
 
-        if (StringUtil.isNotBlank(sqlString.toString())) {
+        if (StrUtil.isNotBlank(sqlString.toString())) {
             BaseEntity baseEntity = (BaseEntity) joinPoint.getArgs()[0];
             baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
         }

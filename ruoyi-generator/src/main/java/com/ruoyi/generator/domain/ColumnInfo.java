@@ -1,7 +1,7 @@
 package com.ruoyi.generator.domain;
 
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.json.JSON;
-import com.ruoyi.common.utils.StringUtil;
 import lombok.Data;
 
 import java.io.IOException;
@@ -71,7 +71,7 @@ public class ColumnInfo {
 
     public void setColumnComment(String columnComment) throws IOException {
         // 根据列描述解析列的配置信息
-        if (StringUtil.isNotEmpty(columnComment) && columnComment.startsWith("{")) {
+        if (StrUtil.isNotEmpty(columnComment) && columnComment.startsWith("{")) {
             this.configInfo = JSON.unmarshal(columnComment, ColumnConfigInfo.class);
             this.columnComment = configInfo.getTitle();
         } else {

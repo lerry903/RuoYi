@@ -1,5 +1,6 @@
 package com.ruoyi.common.utils;
 
+import cn.hutool.core.util.StrUtil;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
@@ -18,13 +19,13 @@ public class YamlUtil {
 
     public static Map loadYaml(String fileName){
         InputStream in = YamlUtil.class.getClassLoader().getResourceAsStream(fileName);
-        return StringUtil.isNotEmpty(fileName) ? new Yaml().load(in) : null;
+        return StrUtil.isNotEmpty(fileName) ? new Yaml().load(in) : null;
     }
 
     public static Object getProperty(Map<?, ?> map, Object qualifiedKey) {
         if (map != null && !map.isEmpty() && qualifiedKey != null) {
             String input = String.valueOf(qualifiedKey);
-            if (StringUtil.isNotEmpty(input)) {
+            if (StrUtil.isNotEmpty(input)) {
                 if (input.contains(".")) {
                     int index = input.indexOf('.');
                     String left = input.substring(0, index);

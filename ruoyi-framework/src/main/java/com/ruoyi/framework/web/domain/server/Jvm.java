@@ -1,9 +1,10 @@
 package com.ruoyi.framework.web.domain.server;
 
-import java.lang.management.ManagementFactory;
-
-import com.ruoyi.common.utils.Arith;
+import cn.hutool.core.util.NumberUtil;
 import com.ruoyi.common.utils.DateUtil;
+
+import java.lang.management.ManagementFactory;
+import java.util.Date;
 
 /**
  * JVM相关信息
@@ -37,7 +38,7 @@ public class Jvm {
     private String home;
 
     public double getTotal() {
-        return Arith.div(total, (1024 * 1024), 2);
+        return NumberUtil.div(total, (1024 * 1024), 2);
     }
 
     public void setTotal(double total) {
@@ -45,7 +46,7 @@ public class Jvm {
     }
 
     public double getMax() {
-        return Arith.div(max, (1024 * 1024), 2);
+        return NumberUtil.div(max, (1024 * 1024), 2);
     }
 
     public void setMax(double max) {
@@ -53,7 +54,7 @@ public class Jvm {
     }
 
     public double getFree() {
-        return Arith.div(free, (1024 * 1024), 2);
+        return NumberUtil.div(free, (1024 * 1024), 2);
     }
 
     public void setFree(double free) {
@@ -61,11 +62,11 @@ public class Jvm {
     }
 
     public double getUsed() {
-        return Arith.div(total - free, (1024 * 1024), 2);
+        return NumberUtil.div(total - free, (1024 * 1024), 2);
     }
 
     public double getUsage() {
-        return Arith.mul(Arith.div(total - free, total, 4), 100);
+        return NumberUtil.mul(NumberUtil.div(total - free, total, 4), 100);
     }
 
     /**
@@ -95,13 +96,15 @@ public class Jvm {
      * JDK启动时间
      */
     public String getStartTime() {
-        return DateUtil.parseDateToStr(DateUtil.YYYY_MM_DD_HH_MM_SS, DateUtil.getServerStartDate());
+        Date serverStartDate = new Date(ManagementFactory.getRuntimeMXBean().getStartTime());
+        return DateUtil.formatDateTime(serverStartDate);
     }
 
     /**
      * JDK运行时间
      */
     public String getRunTime() {
-        return DateUtil.getDatePoor(DateUtil.getNowDate(), DateUtil.getServerStartDate());
+        Date serverStartDate = DateUtil.date(ManagementFactory.getRuntimeMXBean().getStartTime());
+        return DateUtil.formatBetween(DateUtil.date(), serverStartDate);
     }
 }

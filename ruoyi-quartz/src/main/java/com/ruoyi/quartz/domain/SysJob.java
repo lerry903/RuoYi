@@ -1,9 +1,9 @@
 package com.ruoyi.quartz.domain;
 
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.BaseEntity;
 import com.ruoyi.common.constant.ScheduleConstants;
-import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.quartz.util.CronUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -66,7 +66,7 @@ public class SysJob extends BaseEntity{
      */
     @ApiIgnore(value = "下次执行时间")
     public Date getNextValidTime(){
-        if (StringUtil.isNotEmpty(cronExpression)){
+        if (StrUtil.isNotEmpty(cronExpression)){
             return CronUtils.getNextExecution(cronExpression);
         }
         return null;

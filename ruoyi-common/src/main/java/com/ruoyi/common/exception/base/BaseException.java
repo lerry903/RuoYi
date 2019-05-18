@@ -1,7 +1,7 @@
 package com.ruoyi.common.exception.base;
 
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.utils.MessageUtils;
-import com.ruoyi.common.utils.StringUtil;
 
 /**
  * 基础异常
@@ -57,7 +57,7 @@ public class BaseException extends RuntimeException {
     @Override
     public String getMessage() {
         String message = null;
-        if (!StringUtil.isEmpty(code)) {
+        if (!StrUtil.isEmpty(code)) {
             message = MessageUtils.message(code, args);
         }
         if (message == null) {

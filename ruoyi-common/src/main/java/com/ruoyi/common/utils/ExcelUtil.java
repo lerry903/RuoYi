@@ -1,13 +1,13 @@
 package com.ruoyi.common.utils;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.exception.BusinessException;
-import com.ruoyi.common.support.Convert;
-import com.ruoyi.common.utils.reflect.ReflectUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
@@ -94,7 +94,7 @@ public class ExcelUtil<T> {
      * @return 转换后集合
      */
     public List<T> importExcel(InputStream input) {
-        return importExcel(StringUtil.EMPTY, input);
+        return importExcel(StrUtil.EMPTY, input);
     }
 
     /**
@@ -104,14 +104,14 @@ public class ExcelUtil<T> {
      * @param input     输入流
      * @return 转换后集合
      */
-    public List<T> importExcel(String sheetName, InputStream input) {
+    private List<T> importExcel(String sheetName, InputStream input) {
         this.type = Excel.Type.IMPORT;
         List<T> list = new ArrayList<>();
 
         try (Workbook workbook = WorkbookFactory.create(input)) {
             this.workbook = workbook;
             Sheet sheet;
-            if (StringUtil.isNotEmpty(sheetName)) {
+            if (StrUtil.isNotEmpty(sheetName)) {
                 // 如果指定sheet名,则取指定sheet中的内容.
                 sheet = workbook.getSheet(sheetName);
             } else {
@@ -168,7 +168,7 @@ public class ExcelUtil<T> {
                             field.set(entity, Convert.toDouble(val));
                         }else if (java.util.Date.class == fieldType) {
                             if (val instanceof String){
-                                val = DateUtil.parseDate(val);
+                                val = DateUtil.parse(Convert.toStr(val));
                                 field.set(entity, val);
                             }else if (val instanceof Double){
                                 val = org.apache.poi.ss.usermodel.DateUtil.getJavaDate((Double) val);
@@ -177,15 +177,15 @@ public class ExcelUtil<T> {
                         }else if (BigDecimal.class == fieldType){
                             field.set(entity, Convert.toBigDecimal(val));
                         }
-                        if (StringUtil.isNotNull(fieldType)){
+                        if (ObjectUtil.isNotNull(fieldType)){
                             Excel attr = field.getAnnotation(Excel.class);
                             String propertyName = field.getName();
-                            if (StringUtil.isNotEmpty(attr.targetAttr())){
+                            if (StrUtil.isNotEmpty(attr.targetAttr())){
                                 propertyName = field.getName() + "." + attr.targetAttr();
-                            }else if (StringUtil.isNotEmpty(attr.readConverterExp())){
+                            }else if (StrUtil.isNotEmpty(attr.readConverterExp())){
                                 val = reverseByExp(String.valueOf(val), attr.readConverterExp());
                             }
-                            ReflectUtils.invokeSetter(entity, propertyName, val);
+                            ReflectUtil.setFieldValue(entity, propertyName, val);
                         }
                     }
                     if (entity != null) {
@@ -258,7 +258,7 @@ public class ExcelUtil<T> {
             workbook.write(out);
             return AjaxResult.success(filename);
         } catch (Exception e) {
-            log.error("导出Excel异常{}", e);
+            log.error("导出Excel异常", e);
             throw new BusinessException("导出Excel失败，请联系网站管理员！");
         } finally {
             if (out != null) {
@@ -298,7 +298,7 @@ public class ExcelUtil<T> {
                 String dateFormat = attr.dateFormat();
                 String readConverterExp = attr.readConverterExp();
                 if (StrUtil.isNotEmpty(dateFormat) && ObjectUtil.isNotNull(value)) {
-                    cell.setCellValue(DateUtil.parseDateToStr(dateFormat, (Date) value));
+                    cell.setCellValue(cn.hutool.core.date.DateUtil.format((Date) value, dateFormat));
                 } else if (StrUtil.isNotEmpty(readConverterExp) && ObjectUtil.isNotNull(value)) {
                     cell.setCellValue(convertByExp(String.valueOf(value), readConverterExp));
                 } else {
@@ -347,34 +347,31 @@ public class ExcelUtil<T> {
             cell.setCellValue(attr.name());
 
             // 如果设置了提示信息则鼠标放上去提示.
-            if (StringUtil.isNotEmpty(attr.prompt())) {
+            if (StrUtil.isNotEmpty(attr.prompt())) {
                 // 这里默认设了2-101列提示.
-                setXSSFPrompt(sheet, "", attr.prompt(), 1, 100, i, i);
+                setXSSFPrompt(sheet, attr.prompt(), i, i);
             }
             // 如果设置了combo属性则本列只能选择不能输入
             if (attr.combo().length > 0) {
                 // 这里默认设了2-101列只能选择不能输入.
-                setXSSFValidation(sheet, attr.combo(), 1, 100, i, i);
+                setXSSFValidation(sheet, attr.combo(), i, i);
             }
         }
     }
 
     /**
      * 设置某些列的值只能输入预制的数据,显示下拉框.
-     *
      * @param sheet    要设置的sheet.
      * @param textlist 下拉框显示的内容
-     * @param firstRow 开始行
-     * @param endRow 结束行
      * @param firstCol 开始列
      * @param endCol   结束列
      */
-    private static void setXSSFValidation(Sheet sheet, String[] textlist, int firstRow, int endRow, int firstCol, int endCol) {
+    private static void setXSSFValidation(Sheet sheet, String[] textlist, int firstCol, int endCol) {
         DataValidationHelper helper = sheet.getDataValidationHelper();
         // 加载下拉列表内容
         DataValidationConstraint constraint = helper.createExplicitListConstraint(textlist);
         // 设置数据有效性加载在哪个单元格上,四个参数分别是：起始行、终止行、起始列、终止列
-        CellRangeAddressList regions = new CellRangeAddressList(firstRow, endRow, firstCol, endCol);
+        CellRangeAddressList regions = new CellRangeAddressList(1, 100, firstCol, endCol);
         // 数据有效性对象
         DataValidation dataValidation = helper.createValidation(constraint, regions);
         // 处理Excel兼容性问题
@@ -450,7 +447,10 @@ public class ExcelUtil<T> {
         String downloadPath = Global.getDownloadPath() + filename;
         File desc = new File(downloadPath);
         if (!desc.getParentFile().exists()) {
-            desc.getParentFile().mkdirs();
+            boolean mkdirs = desc.getParentFile().mkdirs();
+            if(mkdirs){
+                log.error("获取路径失败");
+            }
         }
         return downloadPath;
     }
@@ -465,7 +465,7 @@ public class ExcelUtil<T> {
      */
     private Object getTargetValue(T vo, Field field, Excel excel) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Object o = field.get(vo);
-        if (StringUtil.isNotEmpty(excel.targetAttr())){
+        if (StrUtil.isNotEmpty(excel.targetAttr())){
             String target = excel.targetAttr();
             if (target.contains(".")){
                 String[] targets = target.split("[.]");
@@ -487,7 +487,7 @@ public class ExcelUtil<T> {
      * @return value
      */
     private Object getValue(Object o, String name) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        if (StringUtil.isNotEmpty(name)){
+        if (StrUtil.isNotEmpty(name)){
             String methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
             Method method = o.getClass().getMethod(methodName);
             o = method.invoke(o);
@@ -500,9 +500,8 @@ public class ExcelUtil<T> {
      */
     private void createExcelField() {
         this.fields = new ArrayList<>();
-        List<Field> tempFields = new ArrayList<>();
         Class<?> tempClass = clazz;
-        tempFields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+        List<Field> tempFields = new ArrayList<>(Arrays.asList(clazz.getDeclaredFields()));
         while (tempClass != null){
             tempClass = tempClass.getSuperclass();
             if (tempClass != null) {
@@ -518,7 +517,8 @@ public class ExcelUtil<T> {
     private void putToFields(List<Field> fields){
         for (Field field : fields){
             Excel attr = field.getAnnotation(Excel.class);
-            if (attr != null && (attr.type() == Excel.Type.ALL || attr.type() == type)){
+            boolean flag = attr != null && (attr.type() == Excel.Type.ALL || attr.type() == type);
+            if (flag){
                 this.fields.add(field);
             }
         }
@@ -527,7 +527,7 @@ public class ExcelUtil<T> {
     /**
      * 创建一个工作簿
      */
-    public void createWorkbook() {
+    private void createWorkbook() {
         this.workbook = new SXSSFWorkbook(500);
     }
 
@@ -537,7 +537,7 @@ public class ExcelUtil<T> {
      * @param sheetNo sheet数量
      * @param index   序号
      */
-    public void createSheet(double sheetNo, int index) {
+    private void createSheet(double sheetNo, int index) {
         this.sheet = workbook.createSheet();
         // 设置工作表的名称.
         if (sheetNo == 0) {
@@ -554,9 +554,9 @@ public class ExcelUtil<T> {
      * @param column 获取单元格列号
      * @return 单元格值
      */
-    public Object getCellValue(Row row, int column) {
+    private Object getCellValue(Row row, int column) {
         if (row == null) {
-            return row;
+            return null;
         }
         Object val = "" ;
         try {
@@ -591,19 +591,16 @@ public class ExcelUtil<T> {
     /**
      * 设置 POI XSSFSheet 单元格提示
      * @param sheet 表单
-     * @param promptTitle 提示标题
      * @param promptContent 提示内容
-     * @param firstRow 开始行
-     * @param endRow 结束行
      * @param firstCol 开始列
      * @param endCol 结束列
      */
-    private static void setXSSFPrompt(Sheet sheet, String promptTitle, String promptContent, int firstRow, int endRow, int firstCol, int endCol) {
+    private static void setXSSFPrompt(Sheet sheet, String promptContent, int firstCol, int endCol) {
         DataValidationHelper dvHelper = sheet.getDataValidationHelper();
         DataValidationConstraint constraint = dvHelper.createCustomConstraint("DD1");
-        CellRangeAddressList regions = new CellRangeAddressList(firstRow, endRow, firstCol, endCol);
+        CellRangeAddressList regions = new CellRangeAddressList(1, 100, firstCol, endCol);
         DataValidation dataValidation = dvHelper.createValidation(constraint, regions);
-        dataValidation.createPromptBox(promptTitle, promptContent);
+        dataValidation.createPromptBox("", promptContent);
         dataValidation.setShowPromptBox(true);
         sheet.addValidationData(dataValidation);
     }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ${package}.mapper.${className}Mapper;
 import ${package}.domain.${className};
 import ${package}.service.I${className}Service;
-import com.ruoyi.common.support.Convert;
 
 /**
  * ${tableComment} 服务层实现

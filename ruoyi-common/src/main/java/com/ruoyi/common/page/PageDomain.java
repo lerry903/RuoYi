@@ -1,13 +1,17 @@
 package com.ruoyi.common.page;
 
-import com.ruoyi.common.utils.StringUtil;
+import cn.hutool.core.util.StrUtil;
+import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 分页数据
  *
  * @author ruoyi
  */
-public class PageDomain {
+@Data
+public class PageDomain implements Serializable {
     /**
      * 当前记录起始索引
      */
@@ -29,41 +33,9 @@ public class PageDomain {
     private String isAsc;
 
     public String getOrderBy() {
-        if (StringUtil.isEmpty(orderByColumn)) {
+        if (StrUtil.isEmpty(orderByColumn)) {
             return "" ;
         }
-        return StringUtil.toUnderScoreCase(orderByColumn) + " " + isAsc;
-    }
-
-    public Integer getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(Integer pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public String getOrderByColumn() {
-        return orderByColumn;
-    }
-
-    public void setOrderByColumn(String orderByColumn) {
-        this.orderByColumn = orderByColumn;
-    }
-
-    public String getIsAsc() {
-        return isAsc;
-    }
-
-    public void setIsAsc(String isAsc) {
-        this.isAsc = isAsc;
+        return StrUtil.toUnderlineCase(orderByColumn) + " " + isAsc;
     }
 }

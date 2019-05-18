@@ -1,21 +1,22 @@
 package com.ruoyi.framework.shiro.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.ShiroConstants;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.enums.UserStatus;
+import com.ruoyi.common.exception.user.*;
 import com.ruoyi.common.utils.DateUtil;
-import com.ruoyi.framework.manager.AsyncManager;
-import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.common.utils.MessageUtils;
 import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.framework.manager.AsyncManager;
+import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.common.exception.user.*;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 登录校验方法
@@ -40,12 +41,12 @@ public class SysLoginService {
      */
     public SysUser login(String username, String password) {
         // 验证码校验
-        if (!StringUtils.isEmpty(ServletUtils.getRequest().getAttribute(ShiroConstants.CURRENT_CAPTCHA))) {
+        if (ObjectUtil.isNotEmpty(ServletUtils.getRequest().getAttribute(ShiroConstants.CURRENT_CAPTCHA))) {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.error")));
             throw new CaptchaException();
         }
         // 用户名或密码为空 错误
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+        if (StrUtil.isEmpty(username) || StrUtil.isEmpty(password)) {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("not.null")));
             throw new UserNotExistsException();
         }
@@ -109,7 +110,7 @@ public class SysLoginService {
      */
     private void recordLoginInfo(SysUser user) {
         user.setLoginIp(ShiroUtils.getIp());
-        user.setLoginDate(DateUtil.getNowDate());
+        user.setLoginDate(DateUtil.date());
         userService.updateUserInfo(user);
     }
 }

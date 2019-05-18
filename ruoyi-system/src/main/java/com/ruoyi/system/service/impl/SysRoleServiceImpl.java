@@ -1,9 +1,9 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.BusinessException;
-import com.ruoyi.common.support.Convert;
 import com.ruoyi.common.utils.SpringUtils;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysRoleDept;

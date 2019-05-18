@@ -1,10 +1,10 @@
 package com.ruoyi.framework.shiro.web.filter;
 
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.utils.StringUtil;
+import com.ruoyi.common.utils.MessageUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
-import com.ruoyi.common.utils.MessageUtils;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +61,7 @@ public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter
     @Override
     protected String getRedirectUrl(ServletRequest request, ServletResponse response, Subject subject) {
         String url = getLoginUrl();
-        if (StringUtil.isNotEmpty(url)) {
+        if (StrUtil.isNotEmpty(url)) {
             return url;
         }
         return super.getRedirectUrl(request, response, subject);

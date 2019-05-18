@@ -1,12 +1,16 @@
 package com.ruoyi.framework.config;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.servlet.Filter;
-
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import cn.hutool.core.util.ObjectUtil;
+import com.ruoyi.framework.shiro.realm.UserRealm;
+import com.ruoyi.framework.shiro.session.OnlineSessionDAO;
+import com.ruoyi.framework.shiro.session.OnlineSessionFactory;
+import com.ruoyi.framework.shiro.web.filter.LogoutFilter;
+import com.ruoyi.framework.shiro.web.filter.captcha.CaptchaValidateFilter;
+import com.ruoyi.framework.shiro.web.filter.online.OnlineSessionFilter;
+import com.ruoyi.framework.shiro.web.filter.sync.SyncOnlineSessionFilter;
+import com.ruoyi.framework.shiro.web.session.OnlineWebSessionManager;
+import com.ruoyi.framework.shiro.web.session.SpringSessionValidationScheduler;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -22,17 +26,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.ruoyi.common.utils.StringUtil;
-import com.ruoyi.framework.shiro.realm.UserRealm;
-import com.ruoyi.framework.shiro.session.OnlineSessionDAO;
-import com.ruoyi.framework.shiro.session.OnlineSessionFactory;
-import com.ruoyi.framework.shiro.web.filter.LogoutFilter;
-import com.ruoyi.framework.shiro.web.filter.captcha.CaptchaValidateFilter;
-import com.ruoyi.framework.shiro.web.filter.online.OnlineSessionFilter;
-import com.ruoyi.framework.shiro.web.filter.sync.SyncOnlineSessionFilter;
-import com.ruoyi.framework.shiro.web.session.OnlineWebSessionManager;
-import com.ruoyi.framework.shiro.web.session.SpringSessionValidationScheduler;
-import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+
+import javax.servlet.Filter;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 权限配置加载
@@ -109,7 +109,7 @@ public class ShiroConfig {
     public EhCacheManager getEhCacheManager() {
         net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getCacheManager("ruoyi");
         EhCacheManager em = new EhCacheManager();
-        if (StringUtil.isNull(cacheManager)) {
+        if (ObjectUtil.isNull(cacheManager)) {
             em.setCacheManager(new net.sf.ehcache.CacheManager(getCacheManagerConfigFileInputStream()));
             return em;
         } else {

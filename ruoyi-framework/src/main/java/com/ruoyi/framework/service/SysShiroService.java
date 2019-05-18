@@ -1,6 +1,6 @@
 package com.ruoyi.framework.service;
 
-import com.ruoyi.common.utils.StringUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.framework.shiro.session.OnlineSession;
 import com.ruoyi.system.domain.SysUserOnline;
 import com.ruoyi.system.service.ISysUserOnlineService;
@@ -45,12 +45,12 @@ public class SysShiroService {
      */
     public Session getSession(Serializable sessionId){
         SysUserOnline userOnline = onlineService.selectOnlineById(String.valueOf(sessionId));
-        return StringUtil.isNull(userOnline) ? null : createSession(userOnline);
+        return ObjectUtil.isNull(userOnline) ? null : createSession(userOnline);
     }
 
     private Session createSession(SysUserOnline userOnline){
         OnlineSession onlineSession = new OnlineSession();
-        if (StringUtil.isNotNull(userOnline)){
+        if (ObjectUtil.isNotNull(userOnline)){
             onlineSession.setId(userOnline.getSessionId());
             onlineSession.setHost(userOnline.getIpaddr());
             onlineSession.setBrowser(userOnline.getBrowser());

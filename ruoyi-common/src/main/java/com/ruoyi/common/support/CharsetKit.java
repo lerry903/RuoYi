@@ -1,6 +1,6 @@
 package com.ruoyi.common.support;
 
-import com.ruoyi.common.utils.StringUtil;
+import cn.hutool.core.util.StrUtil;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -51,7 +51,7 @@ public class CharsetKit {
      * @return Charset
      */
     public static Charset charset(String charset) {
-        return StringUtil.isEmpty(charset) ? Charset.defaultCharset() : Charset.forName(charset);
+        return StrUtil.isEmpty(charset) ? Charset.defaultCharset() : Charset.forName(charset);
     }
 
     /**
@@ -83,7 +83,7 @@ public class CharsetKit {
             srcCharset = StandardCharsets.UTF_8;
         }
 
-        if (StringUtil.isEmpty(source) || srcCharset.equals(destCharset)) {
+        if (StrUtil.isEmpty(source) || srcCharset.equals(destCharset)) {
             return source;
         }
         return new String(source.getBytes(srcCharset), destCharset);

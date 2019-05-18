@@ -1,8 +1,8 @@
 package com.ruoyi.generator.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.support.CharsetKit;
-import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.generator.domain.ColumnInfo;
 import com.ruoyi.generator.domain.TableInfo;
 import com.ruoyi.generator.mapper.GenMapper;
@@ -101,7 +101,7 @@ public class GenServiceImpl implements IGenService {
         // 表名转换成Java属性名
         String className = GenUtils.tableToJava(table.getTableName());
         table.setClassName(className);
-        table.setClassname(StringUtil.uncapitalize(className));
+        table.setClassname(StrUtil.lowerFirst(className));
         // 列信息
         table.setColumns(GenUtils.transColums(columns));
         // 设置主键

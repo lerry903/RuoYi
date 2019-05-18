@@ -1,6 +1,8 @@
 package com.ruoyi.framework.web.domain.server;
 
-import com.ruoyi.common.utils.Arith;
+import cn.hutool.core.util.NumberUtil;
+
+import java.math.BigDecimal;
 
 /**
  * CPU相关信息
@@ -46,40 +48,40 @@ public class Cpu {
         this.cpuNum = cpuNum;
     }
 
-    public double getTotal() {
-        return Arith.round(Arith.mul(total, 100), 2);
+    public BigDecimal getTotal() {
+        return NumberUtil.round(NumberUtil.mul(total, 100), 2);
     }
 
     public void setTotal(double total) {
         this.total = total;
     }
 
-    public double getSys() {
-        return Arith.round(Arith.mul(sys / total, 100), 2);
+    public BigDecimal getSys() {
+        return NumberUtil.round(NumberUtil.mul(sys / total, 100), 2);
     }
 
     public void setSys(double sys) {
         this.sys = sys;
     }
 
-    public double getUsed() {
-        return Arith.round(Arith.mul(used / total, 100), 2);
+    public BigDecimal getUsed() {
+        return NumberUtil.round(NumberUtil.mul(used / total, 100), 2);
     }
 
     public void setUsed(double used) {
         this.used = used;
     }
 
-    public double getWait() {
-        return Arith.round(Arith.mul(wait / total, 100), 2);
+    public BigDecimal getWait() {
+        return NumberUtil.round(NumberUtil.mul(wait / total, 100), 2);
     }
 
     public void setWait(double wait) {
         this.wait = wait;
     }
 
-    public double getFree() {
-        return Arith.round(Arith.mul(free / total, 100), 2);
+    public BigDecimal getFree() {
+        return NumberUtil.round(NumberUtil.mul(free / total, 100), 2);
     }
 
     public void setFree(double free) {

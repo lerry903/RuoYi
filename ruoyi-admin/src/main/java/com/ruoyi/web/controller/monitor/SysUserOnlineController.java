@@ -1,11 +1,11 @@
 package com.ruoyi.web.controller.monitor;
 
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.enums.OnlineStatus;
 import com.ruoyi.common.page.TableDataInfo;
-import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.framework.shiro.session.OnlineSession;
 import com.ruoyi.framework.shiro.session.OnlineSessionDAO;
 import com.ruoyi.framework.util.ShiroUtils;
@@ -61,7 +61,7 @@ public class SysUserOnlineController extends BaseController {
     public AjaxResult batchForceLogout(@RequestParam("ids[]") String[] ids) {
         for (String sessionId : ids) {
             String message = logout(sessionId);
-            if (StringUtil.isNotEmpty(message)) {
+            if (StrUtil.isNotEmpty(message)) {
                 return error(message);
             }
         }
@@ -74,7 +74,7 @@ public class SysUserOnlineController extends BaseController {
     @ResponseBody
     public AjaxResult forceLogout(String sessionId) {
         String message = logout(sessionId);
-        if (StringUtil.isNotEmpty(message)) {
+        if (StrUtil.isNotEmpty(message)) {
             return error(message);
         }
         return success();

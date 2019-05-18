@@ -1,5 +1,6 @@
 package com.ruoyi.common.utils;
 
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.io.PrintWriter;
@@ -35,6 +36,6 @@ public class ExceptionUtil {
         if (msg == null) {
             return "null";
         }
-        return StringUtil.defaultString(msg);
+        return StrUtil.emptyToDefault(msg, StrUtil.EMPTY);
     }
 }

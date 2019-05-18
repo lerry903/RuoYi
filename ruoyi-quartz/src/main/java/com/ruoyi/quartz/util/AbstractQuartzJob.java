@@ -2,11 +2,11 @@ package com.ruoyi.quartz.util;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.ScheduleConstants;
 import com.ruoyi.common.utils.ExceptionUtil;
 import com.ruoyi.common.utils.SpringUtils;
-import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.quartz.domain.SysJob;
 import com.ruoyi.quartz.domain.SysJobLog;
 import com.ruoyi.quartz.service.ISysJobLogService;
@@ -77,7 +77,7 @@ public abstract class AbstractQuartzJob implements Job {
         sysJobLog.setJobMessage(sysJobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
         if (e != null) {
             sysJobLog.setStatus(Constants.FAIL);
-            String errorMsg = StringUtil.substring(ExceptionUtil.getExceptionMessage(e), 0, 2000);
+            String errorMsg = StrUtil.sub(ExceptionUtil.getExceptionMessage(e), 0, 2000);
             sysJobLog.setExceptionInfo(errorMsg);
         } else {
             sysJobLog.setStatus(Constants.SUCCESS);

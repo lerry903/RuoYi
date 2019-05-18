@@ -1,14 +1,14 @@
 package com.ruoyi.framework.shiro.web.filter.captcha;
 
+import cn.hutool.core.util.StrUtil;
+import com.google.code.kaptcha.Constants;
+import com.ruoyi.common.constant.ShiroConstants;
+import com.ruoyi.framework.util.ShiroUtils;
+import org.apache.shiro.web.filter.AccessControlFilter;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.shiro.web.filter.AccessControlFilter;
-import com.google.code.kaptcha.Constants;
-import com.ruoyi.common.constant.ShiroConstants;
-import com.ruoyi.common.utils.StringUtil;
-import com.ruoyi.framework.util.ShiroUtils;
 
 /**
  * 验证码过滤器
@@ -54,7 +54,7 @@ public class CaptchaValidateFilter extends AccessControlFilter {
     private boolean validateResponse(String validateCode) {
         Object obj = ShiroUtils.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
         String code = String.valueOf(obj != null ? obj : "");
-        return !StringUtil.isEmpty(validateCode) && validateCode.equalsIgnoreCase(code);
+        return !StrUtil.isEmpty(validateCode) && validateCode.equalsIgnoreCase(code);
     }
 
     @Override

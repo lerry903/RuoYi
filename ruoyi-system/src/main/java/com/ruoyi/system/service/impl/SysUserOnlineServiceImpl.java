@@ -102,7 +102,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
      */
     @Override
     public List<SysUserOnline> selectOnlineByExpired(Date expiredDate) {
-        String lastAccessTime = DateUtil.parseDateToStr(DateUtil.YYYY_MM_DD_HH_MM_SS, expiredDate);
+        String lastAccessTime = DateUtil.formatDateTime(expiredDate);
         return userOnlineDao.selectOnlineByExpired(lastAccessTime);
     }
 }

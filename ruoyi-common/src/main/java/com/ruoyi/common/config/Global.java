@@ -1,6 +1,6 @@
 package com.ruoyi.common.config;
 
-import com.ruoyi.common.utils.StringUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.utils.YamlUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,7 +58,7 @@ public class Global {
             try {
                 yamlMap = YamlUtil.loadYaml(NAME);
                 value = String.valueOf(YamlUtil.getProperty(yamlMap, key));
-                map.put(key, value != null ? value : StringUtil.EMPTY);
+                map.put(key, value != null ? value : StrUtil.EMPTY);
             } catch (Exception e) {
                 log.error("获取全局配置异常 {}" , key);
             }
@@ -70,14 +70,14 @@ public class Global {
      * 获取项目名称
      */
     public static String getName() {
-        return StringUtil.nvl(getConfig("ruoyi.name"), "RuoYi");
+        return StrUtil.emptyToDefault(getConfig("ruoyi.name"), "RuoYi");
     }
 
     /**
      * 获取项目版本
      */
     public static String getVersion() {
-        return StringUtil.nvl(getConfig("ruoyi.version"), "3.3.1");
+        return StrUtil.emptyToDefault(getConfig("ruoyi.version"), "3.3.1");
     }
 
     /**
@@ -127,27 +127,27 @@ public class Global {
      * 获取作者
      */
     public static String getAuthor() {
-        return StringUtil.nvl(getConfig("gen.author"), "ruoyi");
+        return StrUtil.emptyToDefault(getConfig("gen.author"), "ruoyi");
     }
 
     /**
      * 生成包路径
      */
     public static String getPackageName() {
-        return StringUtil.nvl(getConfig("gen.packageName"), "com.ruoyi.project.module");
+        return StrUtil.emptyToDefault(getConfig("gen.packageName"), "com.ruoyi.project.module");
     }
 
     /**
      * 是否自动去除表前缀
      */
     public static String getAutoRemovePre() {
-        return StringUtil.nvl(getConfig("gen.autoRemovePre"), "true");
+        return StrUtil.emptyToDefault(getConfig("gen.autoRemovePre"), "true");
     }
 
     /**
      * 表前缀(类名不会包含表前缀)
      */
     public static String getTablePrefix() {
-        return StringUtil.nvl(getConfig("gen.tablePrefix"), "sys_");
+        return StrUtil.emptyToDefault(getConfig("gen.tablePrefix"), "sys_");
     }
 }

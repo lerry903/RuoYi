@@ -1,9 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.base.Ztree;
 import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.utils.StringUtil;
 import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysUser;
@@ -86,7 +86,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public Set<String> selectPermsByUserId(Long userId) {
         List<String> perms = menuMapper.selectPermsByUserId(userId);
         Set<String> permsSet = new HashSet<>();
-        perms.stream().filter(StringUtil::isNotEmpty).forEach(perm -> permsSet.addAll(Arrays.asList(perm.trim().split(","))));
+        perms.stream().filter(StrUtil::isNotEmpty).forEach(perm -> permsSet.addAll(Arrays.asList(perm.trim().split(","))));
         return permsSet;
     }
 

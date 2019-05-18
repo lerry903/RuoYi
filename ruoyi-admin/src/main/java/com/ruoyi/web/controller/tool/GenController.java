@@ -1,9 +1,9 @@
 package com.ruoyi.web.controller.tool;
 
+import cn.hutool.core.convert.Convert;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.page.TableDataInfo;
-import com.ruoyi.common.support.Convert;
 import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.generator.domain.TableInfo;
 import com.ruoyi.generator.service.IGenService;
