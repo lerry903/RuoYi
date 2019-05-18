@@ -4,6 +4,8 @@ import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.sql.SQLException;
+
 /**
  * druid 配置属性
  * 
@@ -11,8 +13,12 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class DruidProperties {
+
     @Value("${spring.datasource.druid.initialSize}")
     private int initialSize;
+
+    @Value("${spring.datasource.druid.filters}")
+    private String filters;
 
     @Value("${spring.datasource.druid.minIdle}")
     private int minIdle;
@@ -68,6 +74,12 @@ public class DruidProperties {
         datasource.setTestOnBorrow(testOnBorrow);
         // 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
         datasource.setTestOnReturn(testOnReturn);
+        //开启数据源监控
+        try {
+            datasource.addFilters(filters);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return datasource;
     }
 }

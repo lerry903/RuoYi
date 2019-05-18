@@ -75,6 +75,8 @@ spring:
         url:
         username:
         password:
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: config,wall,stat
       # 初始连接数
       initialSize: 5
       # 最小连接池数量
