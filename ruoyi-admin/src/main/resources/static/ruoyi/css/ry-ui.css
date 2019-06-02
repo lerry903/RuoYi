@@ -46,8 +46,11 @@
 .mb20 {
 	margin-bottom: 20px;
 }
-.ml20 {
+.m20 {
 	margin-left: 20px;
+}
+.m50 {
+	margin-left: 50px;
 }
 .img-xs {
   width: 32px;
@@ -618,6 +621,13 @@ label {
 	margin: 5px 15px 5px 0px;
 }
 
+.select-list li p{
+	float: left;
+	width: 80px;
+	margin: 5px 15px 5px 0px;
+	text-align:right;
+}
+
 .select-list li input {
 	border: 1px solid #ddd;
 	border-radius: 4px;
@@ -748,6 +758,13 @@ label {
 	cursor: pointer;
 }
 
+.select-title{
+	color:#3d5266;
+	font-size:15px;
+	padding:10px 0px;
+	font-weight: normal;
+}
+
 /** 表格查询数据 **/
 .table-striped {
 	min-height: 75%;
@@ -806,7 +823,7 @@ label {
 .bootstrap-tree-table .treetable-expander {width:16px; height: 16px; display: inline-block; position: relative; cursor: pointer;}
 .bootstrap-tree-table .treetable-selected{background: #f5f5f5 !important;}
 .bootstrap-tree-table .treetable-table{border:0 !important;margin-bottom:0}
-.bootstrap-tree-table .treetable-table tbody {display:block;height:auto;}
+.bootstrap-tree-table .treetable-table tbody {display:block;height:auto;overflow-y:auto;}
 .bootstrap-tree-table .treetable-table thead, .treetable-table tbody tr {display:table;width:100%;table-layout:fixed;}
 .bootstrap-tree-table .treetable-thead th{line-height:24px;border: 0 !important;border-radius: 4px;border-left:0px solid #e7eaec !important;border-bottom:1px solid #ccc!important;text-align: left;}
 .bootstrap-tree-table .treetable-thead tr :first-child{border-left:0 !important}
