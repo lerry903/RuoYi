@@ -38,6 +38,9 @@ public class SysMenu extends BaseEntity {
     @ApiModelProperty(value="请求地址",name="url",example="/system/user")
     private String url;
 
+    @ApiModelProperty(value="菜单打开方式",name="target",example="menuItem",reference = "menuItem页签 menuBlank新窗口")
+    private String target;
+
     @ApiModelProperty(value="菜单类型",name="menuType",example="C",allowableValues = "M,C,F",reference="M=目录,C=菜单,F=按钮")
     private String menuType;
 
