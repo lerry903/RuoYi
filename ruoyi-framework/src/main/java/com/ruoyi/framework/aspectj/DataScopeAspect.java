@@ -41,6 +41,11 @@ public class DataScopeAspect {
     private static final String DATA_SCOPE_DEPT = "3";
 
     /**
+     * 部门及以下数据权限
+     */
+    public static final String DATA_SCOPE_DEPT_AND_CHILD = "4";
+
+    /**
      * 数据权限过滤关键字
      */
     private static final String DATA_SCOPE = "dataScope" ;
@@ -85,10 +90,12 @@ public class DataScopeAspect {
                 break;
             } else if (DATA_SCOPE_CUSTOM.equals(dataScope)) {
                 sqlString.append(String.format(
-                        " OR %s.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = %s ) " , alias,
+                        " OR %s.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = %d ) " , alias,
                         role.getRoleId()));
             }else if (DATA_SCOPE_DEPT.equals(dataScope)){
-                sqlString.append(String.format(" OR %s.dept_id = %s ", alias, user.getDeptId()));
+                sqlString.append(String.format(" OR %s.dept_id = %d ", alias, user.getDeptId()));
+            }else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope)){
+                sqlString.append(String.format(" OR %s.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = %d or parent_id = %d )", alias, user.getDeptId(), user.getDeptId()));
             }
         }
 
