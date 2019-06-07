@@ -103,7 +103,7 @@ public class KickoutSessionFilter extends AccessControlFilter {
                 try {
                     // 获取被踢出的sessionId的session对象
                     Session kickoutSession = sessionManager.getSession(new DefaultSessionKey(kickoutSessionId));
-                    if (null != kickoutSession) {
+                    if (ObjectUtil.isNotNull(kickoutSession)) {
                         // 设置会话的kickout属性表示踢出了
                         kickoutSession.setAttribute("kickout", true);
                     }

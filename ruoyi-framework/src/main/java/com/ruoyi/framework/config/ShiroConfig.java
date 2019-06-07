@@ -250,6 +250,7 @@ public class ShiroConfig {
      */
     private LogoutFilter logoutFilter() {
         LogoutFilter logoutFilter = new LogoutFilter();
+        logoutFilter.setCacheManager(getEhCacheManager());
         logoutFilter.setLoginUrl(loginUrl);
         return logoutFilter;
     }

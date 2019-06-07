@@ -3,6 +3,7 @@ package com.ruoyi.framework.shiro.service;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.PostConstruct;
 
+import com.ruoyi.common.constant.ShiroConstants;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -39,7 +40,7 @@ public class SysPasswordService {
 
     @PostConstruct
     public void init() {
-        loginRecordCache = cacheManager.getCache("loginRecordCache");
+        loginRecordCache = cacheManager.getCache(ShiroConstants.LOGINRECORDCACHE);
     }
 
     public void validate(SysUser user, String password) {
