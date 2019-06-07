@@ -126,6 +126,7 @@
         obj.image.crossOrigin = 'Anonymous';
         obj.image.src = options.imgSrc;
         el.on('remove', function(){$(window).unbind('mouseup', imgMouseUp)});
+
         return obj;
     };
 

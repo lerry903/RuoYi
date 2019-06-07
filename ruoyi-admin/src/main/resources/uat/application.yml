@@ -10,6 +10,8 @@ ruoyi:
   addressEnabled: true
   #演示模式
   demoMode: false
+  # 实例演示开关
+  demoEnabled: true
   # 文件上传路径
   profile: D:/profile/
 

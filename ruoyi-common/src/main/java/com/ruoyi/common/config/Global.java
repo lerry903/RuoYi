@@ -1,5 +1,6 @@
 package com.ruoyi.common.config;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.utils.YamlUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -70,14 +71,14 @@ public class Global {
      * 获取项目名称
      */
     public static String getName() {
-        return StrUtil.emptyToDefault(getConfig("ruoyi.name"), "RuoYi");
+        return Convert.toStr(getConfig("ruoyi.name"), "RuoYi");
     }
 
     /**
      * 获取项目版本
      */
     public static String getVersion() {
-        return StrUtil.emptyToDefault(getConfig("ruoyi.version"), "3.3.1");
+        return Convert.toStr(getConfig("ruoyi.version"), "3.3.1");
     }
 
     /**
@@ -92,7 +93,14 @@ public class Global {
      * 获取ip地址开关
      */
     public static Boolean isAddressEnabled() {
-        return Boolean.valueOf(getConfig("ruoyi.addressEnabled"));
+        return Convert.toBool(getConfig("ruoyi.addressEnabled"));
+    }
+
+    /**
+     * 是否开启演示实例
+     */
+    public static Boolean isDemoEnabled() {
+        return Convert.toBool(getConfig("ruoyi.demoEnabled"), false);
     }
 
     /**
@@ -127,27 +135,27 @@ public class Global {
      * 获取作者
      */
     public static String getAuthor() {
-        return StrUtil.emptyToDefault(getConfig("gen.author"), "ruoyi");
+        return Convert.toStr(getConfig("gen.author"), "ruoyi");
     }
 
     /**
      * 生成包路径
      */
     public static String getPackageName() {
-        return StrUtil.emptyToDefault(getConfig("gen.packageName"), "com.ruoyi.project.module");
+        return Convert.toStr(getConfig("gen.packageName"), "com.ruoyi.project.module");
     }
 
     /**
      * 是否自动去除表前缀
      */
     public static String getAutoRemovePre() {
-        return StrUtil.emptyToDefault(getConfig("gen.autoRemovePre"), "true");
+        return Convert.toStr(getConfig("gen.autoRemovePre"), "true");
     }
 
     /**
      * 表前缀(类名不会包含表前缀)
      */
     public static String getTablePrefix() {
-        return StrUtil.emptyToDefault(getConfig("gen.tablePrefix"), "sys_");
+        return Convert.toStr(getConfig("gen.tablePrefix"), "sys_");
     }
 }
