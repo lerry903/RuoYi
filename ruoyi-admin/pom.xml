@@ -66,15 +66,15 @@
                     <warName>${artifactId}</warName>
                 </configuration>
             </plugin>
-            <!--<plugin>
+            <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
-                &lt;!&ndash;将插件绑定在某个phase执行&ndash;&gt;
+                <!--将插件绑定在某个phase执行-->
                 <executions>
                     <execution>
                         <id>build-image</id>
-                        &lt;!&ndash;将插件绑定在package这个phase上。也就是说，用户只需执行mvn package ，就会自动执行mvn docker:build&ndash;&gt;
+                        <!--将插件绑定在package这个phase上。也就是说，用户只需执行mvn package ，就会自动执行mvn docker:build-->
                         <phase>package</phase>
                         <goals>
                             <goal>build</goal>
@@ -83,35 +83,35 @@
                 </executions>
 
                 <configuration>
-                    &lt;!&ndash;指定生成的镜像名&ndash;&gt;
+                    <!--指定生成的镜像名-->
                     <imageName>lerry/${project.artifactId}</imageName>
-                    &lt;!&ndash;指定标签&ndash;&gt;
+                    <!--指定标签-->
                     <imageTags>
                         <imageTag>latest</imageTag>
                     </imageTags>
 
-                    &lt;!&ndash; 指定 Dockerfile 路径  ${project.basedir}：项目根路径下&ndash;&gt;
+                    <!-- 指定 Dockerfile 路径  ${project.basedir}：项目根路径下-->
                     <dockerDirectory>${project.basedir}</dockerDirectory>
 
-                    &lt;!&ndash;指定远程 docker api地址&ndash;&gt;
+                    <!--指定远程 docker api地址-->
                     <dockerHost>http://123.207.20.136:2375</dockerHost>
 
-                    &lt;!&ndash; 这里是复制 jar 包到 docker 容器指定目录配置 &ndash;&gt;
+                    <!-- 这里是复制 jar 包到 docker 容器指定目录配置 -->
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
-                            &lt;!&ndash;jar 包所在的路径  此处配置的 即对应 target 目录&ndash;&gt;
+                            <!--jar 包所在的路径  此处配置的 即对应 target 目录-->
                             <directory>${project.build.directory}</directory>
-                            &lt;!&ndash; 需要包含的 jar包 ，这里对应的是 Dockerfile中添加的文件名　&ndash;&gt;
+                            <!-- 需要包含的 jar包 ，这里对应的是 Dockerfile中添加的文件名　-->
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
 
-                    &lt;!&ndash; 以下两行是为了docker push到DockerHub使用的。 &ndash;&gt;
+                    <!-- 以下两行是为了docker push到DockerHub使用的。 -->
                     <serverId>docker-hub</serverId>
                     <registryUrl>https://index.docker.io/v1</registryUrl>
                 </configuration>
-            </plugin>-->
+            </plugin>
         </plugins>
         <finalName>${project.artifactId}-${project.version}-${env}</finalName>
         <filters>
