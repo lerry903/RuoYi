@@ -95,7 +95,10 @@ public class DataScopeAspect {
             }else if (DATA_SCOPE_DEPT.equals(dataScope)){
                 sqlString.append(String.format(" OR %s.dept_id = %d ", alias, user.getDeptId()));
             }else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope)){
-                sqlString.append(String.format(" OR %s.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = %d or parent_id = %d )", alias, user.getDeptId(), user.getDeptId()));
+                String deptChild = user.getDept().getParentId() + "," + user.getDeptId();
+                sqlString.append(String.format(
+                        " OR  %s.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id =  %d or ancestors LIKE '%%%s%%' )",
+                        alias, user.getDeptId(), deptChild));
             }
         }
 
