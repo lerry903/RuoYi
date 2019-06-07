@@ -45,4 +45,14 @@ public final class ShiroConstants {
      * 验证码错误
      */
     public static final String CAPTCHA_ERROR = "captchaError" ;
+
+    /**
+     * 登录记录缓存
+     */
+    public static final String LOGINRECORDCACHE = "loginRecordCache";
+
+    /**
+     * 系统活跃用户缓存
+     */
+    public static final String SYS_USERCACHE = "sys-userCache";
 }

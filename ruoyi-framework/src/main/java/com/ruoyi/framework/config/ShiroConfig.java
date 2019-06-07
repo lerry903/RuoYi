@@ -7,6 +7,7 @@ import com.ruoyi.framework.shiro.session.OnlineSessionDAO;
 import com.ruoyi.framework.shiro.session.OnlineSessionFactory;
 import com.ruoyi.framework.shiro.web.filter.LogoutFilter;
 import com.ruoyi.framework.shiro.web.filter.captcha.CaptchaValidateFilter;
+import com.ruoyi.framework.shiro.web.filter.kickout.KickoutSessionFilter;
 import com.ruoyi.framework.shiro.web.filter.online.OnlineSessionFilter;
 import com.ruoyi.framework.shiro.web.filter.sync.SyncOnlineSessionFilter;
 import com.ruoyi.framework.shiro.web.session.OnlineWebSessionManager;
@@ -53,6 +54,18 @@ public class ShiroConfig {
       */
     @Value("${shiro.session.validationInterval}")
     private int validationInterval;
+
+    /**
+     * 同一个用户最大会话数
+      */
+    @Value("${shiro.session.maxSession}")
+    private int maxSession;
+
+    /**
+     * 踢出之前登录的/之后登录的用户，默认踢出之前登录的用户
+     */
+    @Value("${shiro.session.kickoutAfter}")
+    private boolean kickoutAfter;
 
     /**
      * 验证码开关
@@ -276,12 +289,13 @@ public class ShiroConfig {
         filters.put("onlineSession" , onlineSessionFilter());
         filters.put("syncOnlineSession" , syncOnlineSessionFilter());
         filters.put("captchaValidate" , captchaValidateFilter());
+        filters.put("kickout", kickoutSessionFilter());
         // 注销成功，则跳转到指定页面
         filters.put("logout" , logoutFilter());
         shiroFilterFactoryBean.setFilters(filters);
 
         // 所有请求需要认证
-        filterChainDefinitionMap.put("/**" , "user,onlineSession,syncOnlineSession");
+        filterChainDefinitionMap.put("/**" , "user,kickout,onlineSession,syncOnlineSession");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         return shiroFilterFactoryBean;
@@ -355,5 +369,21 @@ public class ShiroConfig {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
+    }
+
+    /**
+     * 同一个用户多设备登录限制
+     */
+    private KickoutSessionFilter kickoutSessionFilter() {
+        KickoutSessionFilter kickoutSessionFilter = new KickoutSessionFilter();
+        kickoutSessionFilter.setCacheManager(getEhCacheManager());
+        kickoutSessionFilter.setSessionManager(sessionManager());
+        // 同一个用户最大的会话数，默认-1无限制；比如2的意思是同一个用户允许最多同时两个人登录
+        kickoutSessionFilter.setMaxSession(maxSession);
+        // 是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户；踢出顺序
+        kickoutSessionFilter.setKickoutAfter(kickoutAfter);
+        // 被踢出后重定向到的地址；
+        kickoutSessionFilter.setKickoutUrl("/login?kickout=1");
+        return kickoutSessionFilter;
     }
 }
