@@ -9,20 +9,18 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
- * Created with IntelliJ IDEA.
- * Description:
- * 已登录权限验证拦截器 备注：通过{@link LoginAuth}配合使用
- * @author LErry.li
- * Date: 2018-12-08
- * Time: 17:47
+ * Created with IntelliJ IDEA. Description: 已登录权限验证拦截器 备注：通过{@link LoginAuth}配合使用
+ *
+ * @author LErry.li Date: 2018-12-08 Time: 17:47
  */
 public class LoginAuthInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (handler instanceof HandlerMethod) {
             final HandlerMethod handlerMethod = (HandlerMethod) handler;
             final Class<?> clazz = handlerMethod.getBeanType();
@@ -30,6 +28,11 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
 
             if (clazz.isAnnotationPresent(LoginAuth.class) || method.isAnnotationPresent(LoginAuth.class)) {
                 SysUser loginUser = ShiroUtils.getSysUser();
+                try {
+                    response.sendRedirect("/login");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return ObjectUtils.allNotNull(loginUser);
             }
         }
