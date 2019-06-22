@@ -1,9 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 import com.ruoyi.system.domain.SysMenu;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 菜单表 数据层
@@ -17,6 +17,14 @@ public interface SysMenuMapper {
      * @return 菜单列表
      */
     List<SysMenu> selectMenuAll();
+
+    /**
+     * 根据用户ID查询菜单
+     *
+     * @param userId 用户ID
+     * @return 菜单列表
+     */
+    List<SysMenu> selectMenuAllByUserId(Long userId);
 
     /**
      * 查询系统正常显示菜单（不含按钮）
@@ -56,6 +64,14 @@ public interface SysMenuMapper {
      * @return 菜单列表
      */
     List<SysMenu> selectMenuList(SysMenu menu);
+
+    /**
+     * 查询系统菜单列表
+     *
+     * @param menu 菜单信息
+     * @return 菜单列表
+     */
+    List<SysMenu> selectMenuListByUserId(SysMenu menu);
 
     /**
      * 删除菜单管理信息

@@ -33,14 +33,14 @@ public class ScheduleUtils {
     /**
      * 获取触发器key
      */
-    public static TriggerKey getTriggerKey(Long jobId) {
+    private static TriggerKey getTriggerKey(Long jobId) {
         return TriggerKey.triggerKey(ScheduleConstants.TASK_CLASS_NAME + jobId);
     }
 
     /**
      * 获取jobKey
      */
-    public static JobKey getJobKey(Long jobId) {
+    private static JobKey getJobKey(Long jobId) {
         return JobKey.jobKey(ScheduleConstants.TASK_CLASS_NAME + jobId);
     }
 
@@ -74,7 +74,11 @@ public class ScheduleUtils {
 
         // 放入参数，运行时的方法可以获取
         jobDetail.getJobDataMap().put(ScheduleConstants.TASK_PROPERTIES, job);
-
+        // 判断是否存在
+        if (scheduler.checkExists(getJobKey(job.getJobId()))){
+            // 防止创建时存在数据问题 先移除，然后在执行创建操作
+            scheduler.deleteJob(getJobKey(job.getJobId()));
+        }
         scheduler.scheduleJob(jobDetail, trigger);
 
         // 暂停任务
@@ -87,18 +91,7 @@ public class ScheduleUtils {
      * 更新定时任务
      */
     public static void updateScheduleJob(Scheduler scheduler, SysJob job) throws SchedulerException, TaskException {
-        JobKey jobKey = getJobKey(job.getJobId());
-
-        // 判断是否存在
-        if (scheduler.checkExists(jobKey)) {
-            // 先移除，然后做更新操作
-            scheduler.deleteJob(jobKey);
-        }
         createScheduleJob(scheduler, job);
-        // 暂停任务
-        if (job.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue())) {
-            pauseJob(scheduler, job.getJobId());
-        }
     }
 
     /**
