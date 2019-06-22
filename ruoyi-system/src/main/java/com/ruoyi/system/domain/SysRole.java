@@ -34,8 +34,8 @@ public class SysRole extends BaseEntity {
     @ApiModelProperty(value="角色排序",name="roleSort",example="1")
     private String roleSort;
 
-    @Excel(name = "数据范围", readConverterExp = "1=所有数据权限,2=自定义数据权限")
-    @ApiModelProperty(value="数据范围",name="dataScope",example="0",allowableValues = "1,2",reference="1=所有数据权限,2=自定义数据权限")
+    @Excel(name = "数据范围", readConverterExp = "1=所有数据权限,2=自定义数据权限,3=本部门数据权限,4=本部门及以下数据权限")
+    @ApiModelProperty(value="数据范围",name="dataScope",example="0",allowableValues = "1,2",reference="1=所有数据权限,2=自定义数据权限,3=本部门数据权限,4=本部门及以下数据权限")
     private String dataScope;
 
     @Excel(name = "角色状态", readConverterExp = "0=正常,1=停用")
