@@ -16,7 +16,7 @@ public @interface Excel {
     /**
      * 导出到Excel中的名字.
      */
-    String name();
+    String name() default "";
 
     /**
      * 日期格式, 如: yyyy-MM-dd

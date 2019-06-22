@@ -1,6 +1,7 @@
 package com.ruoyi.system.domain;
 
 import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.annotation.Excels;
 import com.ruoyi.common.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -80,7 +81,10 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value="最后登陆时间",name="loginDate",example="2018-12-15 18:03:58",dataType="java.util.Date")
     private Date loginDate;
 
-    @Excel(name = "部门名称", targetAttr = "deptName", type = Excel.Type.EXPORT)
+    @Excels({
+            @Excel(name = "部门名称", targetAttr = "deptName", type = Excel.Type.EXPORT),
+            @Excel(name = "部门负责人", targetAttr = "leader", type = Excel.Type.EXPORT)
+    })
     @ApiModelProperty(value = "部门信息",hidden = true)
     private SysDept dept;
 
