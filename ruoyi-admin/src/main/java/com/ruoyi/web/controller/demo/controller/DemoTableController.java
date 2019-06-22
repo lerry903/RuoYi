@@ -162,6 +162,13 @@ public class DemoTableController extends BaseController {
     }
 
     /**
+     * 动态增删改查
+     */
+    @GetMapping("/curd")
+    public String curd() {
+        return prefix + "/curd";
+    }
+    /**
      * 表格其他操作
      */
     @GetMapping("/other")

@@ -92,8 +92,9 @@ public class AsyncFactory {
             @Override
             public void run() {
                 // 打印信息到日志
+                String address = AddressUtils.getRealAddressByIP(ip);
                 String s = LogUtils.getBlock(ip) +
-                        AddressUtils.getRealAddressByIP(ip) +
+                        address +
                         LogUtils.getBlock(username) +
                         LogUtils.getBlock(status) +
                         LogUtils.getBlock(message);
@@ -106,7 +107,7 @@ public class AsyncFactory {
                 SysLogininfor logininfor = new SysLogininfor();
                 logininfor.setLoginName(username);
                 logininfor.setIpaddr(ip);
-                logininfor.setLoginLocation(AddressUtils.getRealAddressByIP(ip));
+                logininfor.setLoginLocation(address);
                 logininfor.setBrowser(browser);
                 logininfor.setOs(os);
                 logininfor.setMsg(message);
