@@ -74,8 +74,8 @@
                 <executions>
                     <execution>
                         <id>build-image</id>
-                        <!--将插件绑定在package这个phase上。也就是说，用户只需执行mvn package ，就会自动执行mvn docker:build-->
-                        <phase>package</phase>
+                        <!--将插件绑定在deploy这个phase上。也就是说，用户只需执行mvn deploy ，就会自动执行mvn docker:build-->
+                        <phase>deploy</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
