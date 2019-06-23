@@ -10,7 +10,7 @@ import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysOperLog;
 import com.ruoyi.system.domain.SysUser;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -83,9 +83,9 @@ public class LogAspect {
             operLog.setOperIp(ip);
 
             operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
-            if (ObjectUtils.allNotNull(currentUser)) {
+            if (ObjectUtil.isNotNull(currentUser)) {
                 operLog.setOperName(currentUser.getLoginName());
-                if (ObjectUtils.allNotNull(currentUser.getDept())
+                if (ObjectUtil.isNotNull(currentUser.getDept())
                         && StrUtil.isNotEmpty(currentUser.getDept().getDeptName())) {
                     operLog.setDeptName(currentUser.getDept().getDeptName());
                 }

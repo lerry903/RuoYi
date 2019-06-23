@@ -3,7 +3,7 @@ package com.ruoyi.generator.domain;
 import com.ruoyi.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class TableInfo extends BaseEntity {
 
     public ColumnInfo getColumnsLast() {
         ColumnInfo columnInfo = null;
-        if (ObjectUtils.allNotNull(columns) && !columns.isEmpty()) {
+        if (ObjectUtil.isNotNull(columns) && !columns.isEmpty()) {
             columnInfo = columns.get(0);
         }
         return columnInfo;

@@ -9,7 +9,7 @@ import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.system.domain.SysDept;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.service.ISysDeptService;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -75,7 +75,7 @@ public class SysDeptController extends BaseController {
     @GetMapping("/edit/{deptId}")
     public String edit(@PathVariable("deptId") Long deptId, ModelMap mmap) {
         SysDept dept = deptService.selectDeptById(deptId);
-        if (ObjectUtils.allNotNull(dept) && 100L == deptId) {
+        if (ObjectUtil.isNotNull(dept) && 100L == deptId) {
             dept.setParentName("无");
         }
         mmap.put("dept", dept);

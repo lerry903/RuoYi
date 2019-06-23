@@ -1,9 +1,9 @@
 package com.ruoyi.web.core.interceptor;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.annotation.LoginAuth;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -30,7 +30,7 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
 
             if (clazz.isAnnotationPresent(LoginAuth.class) || method.isAnnotationPresent(LoginAuth.class)) {
                 SysUser loginUser = ShiroUtils.getSysUser();
-                return ObjectUtils.allNotNull(loginUser);
+                return ObjectUtil.isNotNull(loginUser);
             }
         }
         return true;

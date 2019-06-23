@@ -10,7 +10,7 @@ import com.ruoyi.system.domain.SysDept;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.mapper.SysDeptMapper;
 import com.ruoyi.system.service.ISysDeptService;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +66,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         Long roleId = role.getRoleId();
         List<Ztree> ztrees;
         List<SysDept> deptList = selectDeptList(new SysDept());
-        if (ObjectUtils.allNotNull(roleId)) {
+        if (ObjectUtil.isNotNull(roleId)) {
             List<String> roleDeptList = deptMapper.selectRoleDeptTree(roleId);
             ztrees = initZtree(deptList, roleDeptList);
         } else {
@@ -238,7 +238,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public String checkDeptNameUnique(SysDept dept) {
         SysDept info = deptMapper.checkDeptNameUnique(dept.getDeptName(), dept.getParentId());
-        if (ObjectUtils.allNotNull(info) && !info.getDeptId().equals(dept.getDeptId())) {
+        if (ObjectUtil.isNotNull(info) && !info.getDeptId().equals(dept.getDeptId())) {
             return UserConstants.DEPT_NAME_NOT_UNIQUE;
         }
         return UserConstants.DEPT_NAME_UNIQUE;

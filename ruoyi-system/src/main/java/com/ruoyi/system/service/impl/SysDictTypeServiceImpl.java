@@ -8,7 +8,7 @@ import com.ruoyi.system.mapper.SysDictDataMapper;
 import com.ruoyi.system.mapper.SysDictTypeMapper;
 import com.ruoyi.system.service.ISysDictTypeService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -127,7 +127,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     @Override
     public String checkDictTypeUnique(SysDictType dict) {
         SysDictType dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());
-        if (ObjectUtils.allNotNull(dictType) && !dictType.getDictId().equals(dict.getDictId())) {
+        if (ObjectUtil.isNotNull(dictType) && !dictType.getDictId().equals(dict.getDictId())) {
             return UserConstants.DICT_TYPE_NOT_UNIQUE;
         }
         return UserConstants.DICT_TYPE_UNIQUE;

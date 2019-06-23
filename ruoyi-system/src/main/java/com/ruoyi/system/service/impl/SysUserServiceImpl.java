@@ -12,7 +12,7 @@ import com.ruoyi.system.mapper.*;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -285,7 +285,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public String checkPhoneUnique(SysUser user) {
         SysUser info = userMapper.checkPhoneUnique(user.getPhonenumber());
-        if (ObjectUtils.allNotNull(info) && !info.getUserId().equals(user.getUserId())) {
+        if (ObjectUtil.isNotNull(info) && !info.getUserId().equals(user.getUserId())) {
             return UserConstants.USER_PHONE_NOT_UNIQUE;
         }
         return UserConstants.USER_PHONE_UNIQUE;
@@ -300,7 +300,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public String checkEmailUnique(SysUser user) {
         SysUser info = userMapper.checkEmailUnique(user.getEmail());
-        if (ObjectUtils.allNotNull(info) && !info.getUserId().equals(user.getUserId())) {
+        if (ObjectUtil.isNotNull(info) && !info.getUserId().equals(user.getUserId())) {
             return UserConstants.USER_EMAIL_NOT_UNIQUE;
         }
         return UserConstants.USER_EMAIL_UNIQUE;

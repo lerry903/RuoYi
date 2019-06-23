@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.mapper.SysPostMapper;
 import com.ruoyi.system.mapper.SysUserPostMapper;
 import com.ruoyi.system.service.ISysPostService;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -144,7 +144,7 @@ public class SysPostServiceImpl implements ISysPostService {
     @Override
     public String checkPostNameUnique(SysPost post) {
         SysPost info = postMapper.checkPostNameUnique(post.getPostName());
-        if (ObjectUtils.allNotNull(info) && !info.getPostId().equals(post.getPostId())) {
+        if (ObjectUtil.isNotNull(info) && !info.getPostId().equals(post.getPostId())) {
             return UserConstants.POST_NAME_NOT_UNIQUE;
         }
         return UserConstants.POST_NAME_UNIQUE;
@@ -159,7 +159,7 @@ public class SysPostServiceImpl implements ISysPostService {
     @Override
     public String checkPostCodeUnique(SysPost post) {
         SysPost info = postMapper.checkPostCodeUnique(post.getPostCode());
-        if (ObjectUtils.allNotNull(info) && !info.getPostId().equals(post.getPostId())) {
+        if (ObjectUtil.isNotNull(info) && !info.getPostId().equals(post.getPostId())) {
             return UserConstants.POST_CODE_NOT_UNIQUE;
         }
         return UserConstants.POST_CODE_UNIQUE;

@@ -3,7 +3,7 @@ package com.ruoyi.framework.util;
 import cn.hutool.core.bean.BeanUtil;
 import com.ruoyi.framework.shiro.realm.UserRealm;
 import com.ruoyi.system.domain.SysUser;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.mgt.RealmSecurityManager;
@@ -38,7 +38,7 @@ public class ShiroUtils {
     public static SysUser getSysUser() {
         SysUser user = null;
         Object obj = getSubject().getPrincipal();
-        if (ObjectUtils.allNotNull(obj)) {
+        if (ObjectUtil.isNotNull(obj)) {
             user = new SysUser();
             BeanUtil.copyProperties(obj, user);
         }

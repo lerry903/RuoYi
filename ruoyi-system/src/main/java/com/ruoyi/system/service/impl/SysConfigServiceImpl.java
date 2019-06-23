@@ -5,7 +5,7 @@ import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.mapper.SysConfigMapper;
 import com.ruoyi.system.service.ISysConfigService;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +50,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
         SysConfig retConfig = configMapper.selectConfig(config);
-        return ObjectUtils.allNotNull(retConfig) ? retConfig.getConfigValue() : "" ;
+        return ObjectUtil.isNotNull(retConfig) ? retConfig.getConfigValue() : "" ;
     }
 
     /**
@@ -106,7 +106,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     public String checkConfigKeyUnique(SysConfig config) {
         SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
-        if (ObjectUtils.allNotNull(info) && !info.getConfigId().equals(config.getConfigId())) {
+        if (ObjectUtil.isNotNull(info) && !info.getConfigId().equals(config.getConfigId())) {
             return UserConstants.CONFIG_KEY_NOT_UNIQUE;
         }
         return UserConstants.CONFIG_KEY_UNIQUE;

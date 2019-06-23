@@ -14,7 +14,7 @@ import com.ruoyi.system.mapper.SysRoleMapper;
 import com.ruoyi.system.mapper.SysRoleMenuMapper;
 import com.ruoyi.system.mapper.SysUserRoleMapper;
 import com.ruoyi.system.service.ISysRoleService;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -67,7 +67,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     public Set<String> selectRoleKeys(Long userId) {
         List<SysRole> perms = roleMapper.selectRolesByUserId(userId);
         Set<String> permsSet = new HashSet<>();
-        perms.stream().filter(ObjectUtils::allNotNull).forEach(sysRole -> permsSet.addAll(Arrays.asList(sysRole.getRoleKey().trim().split(","))));
+        perms.stream().filter(ObjectUtil::isNotNull).forEach(sysRole -> permsSet.addAll(Arrays.asList(sysRole.getRoleKey().trim().split(","))));
         return permsSet;
     }
 
@@ -237,7 +237,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public String checkRoleNameUnique(SysRole role) {
         SysRole info = roleMapper.checkRoleNameUnique(role.getRoleName());
-        if (ObjectUtils.allNotNull(info) && !info.getRoleId().equals(role.getRoleId())) {
+        if (ObjectUtil.isNotNull(info) && !info.getRoleId().equals(role.getRoleId())) {
             return UserConstants.ROLE_NAME_NOT_UNIQUE;
         }
         return UserConstants.ROLE_NAME_UNIQUE;
@@ -252,7 +252,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public String checkRoleKeyUnique(SysRole role) {
         SysRole info = roleMapper.checkRoleKeyUnique(role.getRoleKey());
-        if (ObjectUtils.allNotNull(info) && !info.getRoleId().equals(role.getRoleId())) {
+        if (ObjectUtil.isNotNull(info) && !info.getRoleId().equals(role.getRoleId())) {
             return UserConstants.ROLE_KEY_NOT_UNIQUE;
         }
         return UserConstants.ROLE_KEY_UNIQUE;
