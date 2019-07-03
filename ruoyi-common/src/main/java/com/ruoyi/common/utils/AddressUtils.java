@@ -21,7 +21,7 @@ public class AddressUtils {
 
     private static final String IP_URL = "http://ip.taobao.com/service/getIpInfo.php" ;
 
-    public static String getRealAddressByIP(String ip) {
+    public static String getRealAddressByIp(String ip) {
         String address = "XX XX" ;
 
         // 内网不查询

@@ -25,17 +25,4 @@ public class ExceptionUtil {
         e.printStackTrace(new PrintWriter(sw, true));
         return sw.toString();
     }
-
-    public static String getRootErrorMseeage(Exception e) {
-        Throwable root = ExceptionUtils.getRootCause(e);
-        root = (root == null ? e : root);
-        if (root == null) {
-            return "";
-        }
-        String msg = root.getMessage();
-        if (msg == null) {
-            return "null";
-        }
-        return StrUtil.emptyToDefault(msg, StrUtil.EMPTY);
-    }
 }

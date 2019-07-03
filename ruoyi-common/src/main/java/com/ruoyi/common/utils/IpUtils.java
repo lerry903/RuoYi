@@ -46,13 +46,13 @@ public class IpUtils {
         return "0:0:0:0:0:0:0:1".equals(ip) ? LOCAL_IP : ip;
     }
 
-    public static boolean internalIp(String ip) {
+    static boolean internalIp(String ip) {
         byte[] addr = textToNumericFormatV4(ip);
         return internalIp(addr) || LOCAL_IP.equals(ip);
     }
 
     private static boolean internalIp(byte[] addr) {
-        if(addr == null || addr.length<1){
+        if(addr == null || addr.length < 2 ){
             return false;
         }
         final byte b0 = addr[0];
@@ -84,7 +84,7 @@ public class IpUtils {
      * @param text IPv4地址
      * @return byte 字节
      */
-    public static byte[] textToNumericFormatV4(String text) {
+    private static byte[] textToNumericFormatV4(String text) {
         byte[] emptyByte = new byte[0];
         if (text.length() == 0) {
             return emptyByte;
