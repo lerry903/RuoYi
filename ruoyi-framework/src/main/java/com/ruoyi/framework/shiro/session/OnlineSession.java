@@ -31,6 +31,11 @@ public class OnlineSession extends SimpleSession {
     private String deptName;
 
     /**
+     *用户头像
+     */
+    private String avatar;
+
+    /**
      * 登录IP地址
      */
     private String host;

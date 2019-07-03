@@ -85,7 +85,7 @@
     </select>
 
     <select id="selectAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
-        select distinct u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.phonenumber, u.status, u.create_time
+        select distinct u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber, u.status, u.create_time
         from sys_user u
         left join sys_dept d on u.dept_id = d.dept_id
         left join sys_user_role ur on u.user_id = ur.user_id
@@ -102,7 +102,7 @@
     </select>
 
     <select id="selectUnallocatedList" parameterType="SysUser" resultMap="SysUserResult">
-        select distinct u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.phonenumber, u.status, u.create_time
+        select distinct u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber, u.status, u.create_time
         from sys_user u
         left join sys_dept d on u.dept_id = d.dept_id
         left join sys_user_role ur on u.user_id = ur.user_id
@@ -169,6 +169,7 @@
             <if test="loginName != null and loginName != ''">login_name = #{loginName},</if>
             <if test="userName != null and userName != ''">user_name = #{userName},</if>
             <if test="email != null and email != ''">email = #{email},</if>
+            <if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
             <if test="phonenumber != null and phonenumber != ''">phonenumber = #{phonenumber},</if>
             <if test="sex != null and sex != ''">sex = #{sex},</if>
             <if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
@@ -191,6 +192,7 @@
         <if test="loginName != null and loginName != ''">login_name,</if>
         <if test="userName != null and userName != ''">user_name,</if>
         <if test="email != null and email != ''">email,</if>
+        <if test="avatar != null and avatar != ''">avatar,</if>
         <if test="phonenumber != null and phonenumber != ''">phonenumber,</if>
         <if test="sex != null and sex != ''">sex,</if>
         <if test="password != null and password != ''">password,</if>
@@ -205,6 +207,7 @@
         <if test="loginName != null and loginName != ''">#{loginName},</if>
         <if test="userName != null and userName != ''">#{userName},</if>
         <if test="email != null and email != ''">#{email},</if>
+        <if test="avatar != null and avatar != ''">#{avatar},</if>
         <if test="phonenumber != null and phonenumber != ''">#{phonenumber},</if>
         <if test="sex != null and sex != ''">#{sex},</if>
         <if test="password != null and password != ''">#{password},</if>
