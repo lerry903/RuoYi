@@ -1,0 +1,43 @@
+UPDATE sys_user
+SET dept_id     = 103,
+    login_name  = 'admin',
+    user_name   = '系统管理员',
+    user_type   = '00',
+    email       = 'ry@163.com',
+    phonenumber = '15888888888',
+    sex         = '1',
+    avatar      = '',
+    password    = '5977be680ee5d52085c9561750143af1',
+    salt        = 'f2a22b',
+    status      = '0',
+    del_flag    = '0',
+    login_ip    = '127.0.0.1',
+    login_date  = '2019-07-04 11:56:28',
+    create_by   = 'admin',
+    create_time = '2019-07-04 11:56:28',
+    update_by   = 'ry',
+    update_time = '2019-07-04 11:56:28',
+    remark      = '管理员'
+WHERE user_id = 1;
+UPDATE sys_user
+SET dept_id     = 105,
+    login_name  = 'LERRY',
+    user_name   = 'LERRY',
+    user_type   = '00',
+    email       = 'ry@qq.com',
+    phonenumber = '15666666666',
+    sex         = '1',
+    avatar      = '',
+    password    = 'bbdb47b9c029da10959ab27cdf01eab5',
+    salt        = '8828cf',
+    status      = '0',
+    del_flag    = '0',
+    login_ip    = '127.0.0.1',
+    login_date  = '2018-03-16 11:33:00',
+    create_by   = 'admin',
+    create_time = '2019-07-04 11:59:45',
+    update_by   = 'ry',
+    update_time = '2019-07-04 11:59:45',
+    remark      = '测试员'
+WHERE user_id = 2;
+COMMIT ;

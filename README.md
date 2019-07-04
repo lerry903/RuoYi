@@ -34,7 +34,7 @@
 > **[Github](https://github.com/lerry903/RuoYi)** | **[Gitee](https://gitee.com/lerry903/RuoYi)**
   
 ## 在线体验
-> admin/admin123
+> admin/admin
 
 演示地址：http://ruoyi.vip  
 
