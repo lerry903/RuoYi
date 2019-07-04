@@ -626,3 +626,4 @@ insert into sys_notice values('3', '温馨提醒：2019-03-20 若依3.2.1版本�
 insert into sys_notice values('4', '温馨提醒：2019-03-20 若依3.3.0版本发布啦', '2', '<p>温馨提醒：2019-03-31 若依3.3.0版本发布啦</p><p>本次更新内容见<a href=\'https://github.com/lerry903/RuoYi/releases/tag/V3.3.0\'>gitHub</a></p>', '0', 'admin', '2019-03-31 17-20-00', 'LERRY', '2019-03-31 17-20-00', '管理员');
 insert into sys_notice values('5', '温馨提醒：2019-05-18 若依3.3.1版本发布啦', '2', '<p>温馨提醒：2019-05-18 若依3.3.1版本发布啦</p><p>本次更新内容见<a href=\'https://github.com/lerry903/RuoYi/releases/tag/V3.3.1\'>gitHub</a></p>', '0', 'admin', '2019-05-18 17-45-00', 'LERRY', '2019-05-18 17-45-00', '管理员');
 insert into sys_notice values('6', '温馨提醒：2019-06-07 若依3.4.0版本发布啦', '2', '<p>温馨提醒：2019-06-07 若依3.4.0版本发布啦</p><p>本次更新内容见<a href=\'https://github.com/lerry903/RuoYi/releases/tag/V3.4.0\'>gitHub</a></p>', '0', 'admin', '2019-06-07 17-25-00', 'LERRY', '2019-06-07 17-25-00', '管理员');
+COMMIT ;
