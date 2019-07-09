@@ -19,12 +19,12 @@ public class CaptchaValidateFilter extends AccessControlFilter {
     /**
      * 是否开启验证码
      */
-    private boolean captchaEnabled = true;
+    private boolean captchaEnabled;
 
     /**
      * 验证码类型
      */
-    private String captchaType = "math" ;
+    private String captchaType;
 
     public void setCaptchaEnabled(boolean captchaEnabled) {
         this.captchaEnabled = captchaEnabled;
